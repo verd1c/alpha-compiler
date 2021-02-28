@@ -22,7 +22,7 @@ enum category category;
 keyword             if|else|while|for|function|return|break|continue|and|not|or|local|true|false|nil
 operator            (\=)|(\+)|(\-)|(\*)|(\/)|(\%)|(\=\=)|(\!\=)|(\+\+)|(\-\-)|(\>)|(\<)|(\>\=)|(\<\=)
 intconst            [0-9]+
-punctuation         (\{)|(\})|(\()|(\))|(\[)|(\])|(\:)|(\,)|(\:\:)|(\.)|(\.\.)|(\;)
+punctuation         (\{)|(\})|(\[)|(\])|(\()|(\))|(\;)|(\,)|(\:)|(\:\:)|(\.)|(\.\.)
 ident               [a-zA-Z][a-zA-Z0-9_]*
 string              \"[^"\n"]+\"
 comment             "//".+|"/*".+"*/"
