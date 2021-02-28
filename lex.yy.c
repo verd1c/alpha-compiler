@@ -527,6 +527,8 @@ char *yytext;
 #include "lex.yy.h"
 #include <string.h>
 
+#define YY_DECL int yylex (struct alpha_token_t* lvalp)
+
 const char* category_names[] = {
     "IDENT",
     "KEYWORD",
@@ -538,12 +540,14 @@ const char* category_names[] = {
     "COMMENT"
 };
 
+struct alpha_token_t *token_head = NULL;
+
 int line_number;
 char name[256];
 int token_count = 0;
 enum category category;
-#line 546 "lex.yy.c"
-#line 547 "lex.yy.c"
+#line 550 "lex.yy.c"
+#line 551 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -760,9 +764,9 @@ YY_DECL
 		}
 
 	{
-#line 32 "lex.l"
+#line 36 "lex.l"
 
-#line 766 "lex.yy.c"
+#line 770 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -831,85 +835,77 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 33 "lex.l"
+#line 37 "lex.l"
 {
-    processToken(KEYWORD);
-    return 100;
+    process_token(lvalp, KEYWORD);
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 37 "lex.l"
+#line 40 "lex.l"
 {
-    processToken(IDENT);
-    return 101;
+    process_token(lvalp, IDENT);
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 41 "lex.l"
+#line 43 "lex.l"
 {
-    processToken(COMMENT);
-    return 102;
+    process_token(lvalp, COMMENT);
 }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 45 "lex.l"
+#line 46 "lex.l"
 {
-    processToken(OPERATOR);
-    return 103;
+    process_token(lvalp, OPERATOR);
 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 49 "lex.l"
 {
-    processToken(INTCONST);
-    return 104;
+    process_token(lvalp, INTCONST);
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 53 "lex.l"
+#line 52 "lex.l"
 {
-    processToken(REALCONST);
-    return 105;
+    process_token(lvalp, REALCONST);
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 57 "lex.l"
+#line 55 "lex.l"
 {
-    processToken(PUNCTUATION);
-    return 106;
+    process_token(lvalp, PUNCTUATION);
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 61 "lex.l"
+#line 58 "lex.l"
 {
-    processToken(STRING);
-    return 107;
+    process_token(lvalp, STRING);
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 65 "lex.l"
+#line 61 "lex.l"
 { }
 	YY_BREAK
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 66 "lex.l"
+#line 62 "lex.l"
 { }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 67 "lex.l"
+#line 63 "lex.l"
 ECHO;
 	YY_BREAK
-#line 913 "lex.yy.c"
+#line 909 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1926,25 +1922,43 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 67 "lex.l"
+#line 63 "lex.l"
 
 
-void processToken(enum category cat){
-    category = cat;
-    token_count++;
-    line_number = yylineno;
-    strcpy(name, yytext);
+void process_token(struct alpha_token_t* lvalp, enum category cat){
+    struct alpha_token_t *token_iter = token_head, *new_token;
+
+    if(!lvalp){
+        printf("Null list head given, exiting\n");
+        exit(0);
+    }
+
+    if(!token_head){
+        token_head = lvalp;
+
+        token_head->line_number = yylineno;
+        token_head->token_no = token_count++;
+        token_head->category = cat;
+        strcpy(token_head->text, yytext);
+        token_head->next = NULL;
+
+        return;
+    }
+
+    while(token_iter->next != NULL)
+        token_iter = token_iter->next;
+
+    new_token = (struct alpha_token_t*)malloc(sizeof(struct alpha_token_t));
+    new_token->line_number = yylineno;
+    new_token->token_no = token_count++;
+    new_token->category = cat;
+    strcpy(new_token->text, yytext);
+    new_token->next = NULL;
+
+    token_iter->next = new_token;
+    return;
 }
 
 int yywrap(){
     return 1;
-}
-
-int alpha_yylex(void *ylval){
-    int r = yylex();
-    ((struct alpha_token_t*)ylval)->line_number = line_number;
-    ((struct alpha_token_t*)ylval)->token_no = token_count;
-    ((struct alpha_token_t*)ylval)->category = category;
-    strcpy(((struct alpha_token_t*)ylval)->text, name);
-    return r;
 }
