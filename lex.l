@@ -60,6 +60,7 @@ comment             "//".+|"/*".+"*/"
 }
 {string} {
     processToken(STRING);
+    yytext
     return 107;
 }
 . { }
