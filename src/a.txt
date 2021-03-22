@@ -1,0 +1,61 @@
+1: #1 "1 - 3" COMMENT BLOCK_COMMENT <-enumerated
+5: #2 "// Main" COMMENT "LINE_COMMENT" <-enumerated
+6: #3 "int" IDENT "int" <-char*
+6: #4 "main" IDENT "main" <-char*
+6: #5 "(" PUNCTUATION LEFT_PARENTHESIS <-enumerated
+6: #6 "int" IDENT "int" <-char*
+6: #7 "argc" IDENT "argc" <-char*
+6: #8 "," PUNCTUATION COMMA <-enumerated
+6: #9 "char" IDENT "char" <-char*
+6: #10 "*" OPERATOR MULT <-enumerated
+6: #11 "*" OPERATOR MULT <-enumerated
+6: #12 "argv" IDENT "argv" <-char*
+6: #13 ")" PUNCTUATION RIGHT_PARENTHESIS <-enumerated
+6: #14 "{" PUNCTUATION LEFT_BRACE <-enumerated
+8: #15 "char" IDENT "char" <-char*
+8: #16 "*" OPERATOR MULT <-enumerated
+8: #17 "mystring" IDENT "mystring" <-char*
+8: #18 "=" OPERATOR EQUALS <-enumerated
+8: #19 "hello people owo" STRING "hello people owo" <-char*
+8: #20 ";" PUNCTUATION SEMICOLON <-enumerated
+9: #21 "i" IDENT "i" <-char*
+9: #22 "=" OPERATOR EQUALS <-enumerated
+9: #23 "1" INTCONST 1 <-integer
+9: #24 ";" PUNCTUATION SEMICOLON <-enumerated
+11: #25 "char" IDENT "char" <-char*
+11: #26 "*" OPERATOR MULT <-enumerated
+11: #27 "a_string_with_escape" IDENT "a_string_with_escape" <-char*
+11: #28 "=" OPERATOR EQUALS <-enumerated
+11: #29 "mystring	newlineinc
+ hiii:3" STRING "mystring	newlineinc
+ hiii:3" <-char*
+11: #30 ";" PUNCTUATION SEMICOLON <-enumerated
+15: #31 "15 - 17" COMMENT NESTED_COMMENT <-enumerated
+21: #32 "21 - 23" COMMENT NESTED_COMMENT <-enumerated
+19: #33 "19 - 24" COMMENT NESTED_COMMENT <-enumerated
+12: #34 "12 - 26" COMMENT BLOCK_COMMENT <-enumerated
+27: #35 "while" KEYWORD WHILE <-enumerated
+27: #36 "(" PUNCTUATION LEFT_PARENTHESIS <-enumerated
+27: #37 "i" IDENT "i" <-char*
+27: #38 "!=" OPERATOR NOT_EQUALS <-enumerated
+27: #39 "2" INTCONST 2 <-integer
+27: #40 ")" PUNCTUATION RIGHT_PARENTHESIS <-enumerated
+27: #41 "{" PUNCTUATION LEFT_BRACE <-enumerated
+28: #42 "i" IDENT "i" <-char*
+28: #43 "++" OPERATOR PLUS_PLUS <-enumerated
+28: #44 ";" PUNCTUATION SEMICOLON <-enumerated
+29: #45 "}" PUNCTUATION RIGHT_BRACE <-enumerated
+32: #46 "char" IDENT "char" <-char*
+32: #47 "*" OPERATOR MULT <-enumerated
+32: #48 "another_string" IDENT "another_string" <-char*
+32: #49 "=" OPERATOR EQUALS <-enumerated
+33: #50 "a multiline
+	string?" STRING "a multiline
+	string?" <-char*
+33: #51 ";" PUNCTUATION SEMICOLON <-enumerated
+35: #52 "int" IDENT "int" <-char*
+35: #53 "so" IDENT "so" <-char*
+35: #54 "=" OPERATOR EQUALS <-enumerated
+35: #55 "4" INTCONST 4 <-integer
+35: #56 ";" PUNCTUATION SEMICOLON <-enumerated
+36: #57 "}" PUNCTUATION RIGHT_BRACE <-enumerated

@@ -81,7 +81,7 @@ enum token_category {
 struct alpha_token_t{
     unsigned long token_no;                     // token number
 
-    char text[256];                             // token string representation
+    char text[128];                             // token string representation
 
     unsigned long line_number;                  // token line number
     unsigned long comment_ending_line_no;       // token ending line, used for block comments
