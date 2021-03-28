@@ -79,7 +79,7 @@ extern int yydebug;
     LEFT_PARENTHESIS = 280,        /* LEFT_PARENTHESIS  */
     RIGHT_PARENTHESIS = 281,       /* RIGHT_PARENTHESIS  */
     SEMICOLON = 282,               /* SEMICOLON  */
-    COMMAA = 283,                  /* COMMAA  */
+    COMMA = 283,                   /* COMMA  */
     COLON = 284,                   /* COLON  */
     DOUBLE_COLON = 285,            /* DOUBLE_COLON  */
     DOT = 286,                     /* DOT  */
@@ -97,8 +97,7 @@ extern int yydebug;
     GREATER_THAN = 298,            /* GREATER_THAN  */
     LESS_THAN = 299,               /* LESS_THAN  */
     GREATER_OR_EQUAL = 300,        /* GREATER_OR_EQUAL  */
-    LESS_OR_EQUAL = 301,           /* LESS_OR_EQUAL  */
-    COMMA = 302                    /* COMMA  */
+    LESS_OR_EQUAL = 301            /* LESS_OR_EQUAL  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -132,7 +131,7 @@ extern int yydebug;
 #define LEFT_PARENTHESIS 280
 #define RIGHT_PARENTHESIS 281
 #define SEMICOLON 282
-#define COMMAA 283
+#define COMMA 283
 #define COLON 284
 #define DOUBLE_COLON 285
 #define DOT 286
@@ -151,19 +150,18 @@ extern int yydebug;
 #define LESS_THAN 299
 #define GREATER_OR_EQUAL 300
 #define LESS_OR_EQUAL 301
-#define COMMA 302
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 15 "parser.y"
+#line 17 "parser.y"
 
     char*   strValue;
     int     intValue;
     double  numValue;
 
-#line 167 "parser.h"
+#line 165 "parser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

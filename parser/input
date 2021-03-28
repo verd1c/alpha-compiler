@@ -2,8 +2,15 @@ if (a == 3){
    a = 5;
 }
 
-function a(){
-
+function a(aArg){
+   function b(bArg, bArg2){
+      {
+         {
+            b = 2;
+         }
+      }
+      c = 3;
+   };
 }
 
 a(a, b, c, a, s);
