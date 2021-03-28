@@ -1,9 +1,21 @@
 if (a == 3){
-   a = 5;
+   i = 5;
 }
 
-function a(aArg){
-   function b(bArg, bArg2){
+function input(){
+
+}
+
+globalVar = 5;
+
+function myFunc(aArg){
+   myVar = hey;
+   function myFunc(){
+
+   }
+}
+
+function secondFunc(bArg, bArg2){
       {
          {
             b = 2;
@@ -11,6 +23,7 @@ function a(aArg){
       }
       c = 3;
    };
-}
 
-a(a, b, c, a, s);
+function printHey(a, b, c, a, s){
+
+}

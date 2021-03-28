@@ -97,7 +97,8 @@ extern int yydebug;
     GREATER_THAN = 298,            /* GREATER_THAN  */
     LESS_THAN = 299,               /* LESS_THAN  */
     GREATER_OR_EQUAL = 300,        /* GREATER_OR_EQUAL  */
-    LESS_OR_EQUAL = 301            /* LESS_OR_EQUAL  */
+    LESS_OR_EQUAL = 301,           /* LESS_OR_EQUAL  */
+    UMINUS = 302                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -150,18 +151,19 @@ extern int yydebug;
 #define LESS_THAN 299
 #define GREATER_OR_EQUAL 300
 #define LESS_OR_EQUAL 301
+#define UMINUS 302
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 17 "parser.y"
+#line 26 "parser.y"
 
     char*   strValue;
     int     intValue;
     double  numValue;
 
-#line 165 "parser.h"
+#line 167 "parser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
