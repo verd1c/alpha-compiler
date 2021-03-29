@@ -1,24 +1,43 @@
+l = 3;
+
 if (a == 3){
    i = 5;
 }
 
-function input(){
-
-}
 
 globalVar = 5;
 
 function myFunc(aArg){
    myVar = hey;
-   function myFunc(){
-
+   function myFunca(){
+      xd = 69;
    }
 }
 
 function secondFunc(bArg, bArg2){
       {
+         yo = 1;
          {
             b = 2;
+            {
+               nag = 1;
+               {
+                  nog = 4;
+               }
+            }  
+
+            function scope3Func(){
+               scope4Var = 3;
+               anotherScope4Var = 1;
+
+               {
+                  scope5Var = 1;
+               }
+
+               scope4Var2 = 52;
+            }
+
+            hey = 1;
          }
       }
       c = 3;

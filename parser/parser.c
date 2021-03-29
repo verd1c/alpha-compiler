@@ -1650,6 +1650,38 @@ void printSymTable(SymTable *symTable){
     printf("----------------------------------------------------------------\n");
 }
 
+void printByScope(SymTable *symTable){
+    SymTableEntry *scopeIter, *e;
+    int i;
+
+    printf("----------------------------------------------------------------\n");
+    printf("Symbol Table  [Name                ] [Line] [Scope] [Type      ]\n");
+    printf("----------------------------------------------------------------\n");
+    scopeIter = symTable->scopeChain;
+
+    while(scopeIter != NULL){
+        e = scopeIter;
+
+        while(e != NULL){
+
+            if(e->type == LOCAL_VAR || e->type == GLOBAL_VAR || e->type == ARGUMENT_VAR){
+                printf("SymTableEntry [%-20s] [%-4d] [%-5d] [%-10s]\n", e->value.varValue->name, e->value.varValue->line, e->value.varValue->scope, typeToString[e->type]);
+            }else{
+                printf("SymTableEntry [%-20s] [%-4d] [%-5d] [%-10s]\n", e->value.funcValue->name, e->value.funcValue->line, e->value.funcValue->scope, typeToString[e->type]);
+            }
+            
+            e = e->nextInScope;
+        }
+
+        scopeIter = scopeIter->nextScope;
+    }
+    printf("----------------------------------------------------------------\n");
+
+    //asm __volatile__ (".byte 0xc3");
+
+    return;
+}
+
 int main(int argc, char **argv){
     if(argc > 1){
         if(!(yyin = fopen(argv[1], "r"))){
@@ -1664,6 +1696,10 @@ int main(int argc, char **argv){
     symTable = init_sym_table();
     yyparse();
 
-    //printSymTable(symTable);
+    printSymTable(symTable);
+    printByScope(symTable);
+
+    //asm __volatile__ (".byte 0xc3");
+
     return 0;
 }
