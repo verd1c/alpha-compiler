@@ -1,48 +1,127 @@
 l = 3;
 
+
+
 if (a == 3){
+
    i = 5;
+
 }
+
+
+
 
 
 globalVar = 5;
 
-function myFunc(aArg){
-   myVar = hey;
-   function myFunca(){
-      xd = 69;
-   }
+X = 10;
+
+function Y(){
+
 }
 
+function X(){
+
+   v = 1;
+   function Z(){
+
+
+
+   }
+
+
+   function P(){
+   
+   }
+
+}
+
+
+
+
+x = 1;
+
+function x(){
+   y = 1;
+}
+function myFunc(aArg){
+   x = 2;
+   myVar = hey;
+
+   function myFunca(){
+      myVar = a;
+      xd = 69;
+
+   }
+
+   function Z(){
+
+   }
+
+}
+
+
+
 function secondFunc(bArg, bArg2){
+
       {
+
          yo = 1;
+
          {
+
             b = 2;
+
             {
+
                nag = 1;
+
                {
+
                   nog = 4;
+
                }
+
             }  
 
+
+
             function scope3Func(){
+
                scope4Var = 3;
+
                anotherScope4Var = 1;
 
+
+
                {
+
                   scope5Var = 1;
+
                }
 
+
+
                scope4Var2 = 52;
+
             }
 
+
+
             hey = 1;
+
          }
+
       }
+
       c = 3;
+
    };
 
-function printHey(a, b, c, a, s){
+
+
+function printHey(b, c, s){
+
+
 
 }
