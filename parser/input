@@ -1,127 +1,21 @@
-l = 3;
+x = 4;
 
-
-
-if (a == 3){
-
-   i = 5;
-
-}
-
-
-
-
-
-globalVar = 5;
-
-X = 10;
-
-function Y(){
-
-}
-
-function X(){
-
-   v = 1;
-   function Z(){
-
-
-
-   }
-
-
-   function P(){
-   
-   }
-
-}
-
-
-
-
-x = 1;
-
-function x(){
-   y = 1;
-}
-function myFunc(aArg){
-   x = 2;
-   myVar = hey;
-
-   function myFunca(){
-      myVar = a;
-      xd = 69;
-
-   }
-
-   function Z(){
-
-   }
-
-}
-
-
-
-function secondFunc(bArg, bArg2){
-
-      {
-
-         yo = 1;
-
-         {
-
-            b = 2;
-
-            {
-
-               nag = 1;
-
-               {
-
-                  nog = 4;
-
-               }
-
-            }  
-
-
-
-            function scope3Func(){
-
-               scope4Var = 3;
-
-               anotherScope4Var = 1;
-
-
-
-               {
-
-                  scope5Var = 1;
-
-               }
-
-
-
-               scope4Var2 = 52;
-
-            }
-
-
-
-            hey = 1;
-
-         }
-
+{
+  
+   function A(){
+      function B(){
+         x = 4;
       }
 
-      c = 3;
+   }
+}
 
-   };
-
-
-
-function printHey(b, c, s){
-
-
-
+{
+   x = 5;
+   function V(){
+      x = 3;
+      function Z(){
+         x = 1;
+      }
+   }
 }

@@ -157,13 +157,15 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 26 "parser.y"
+#line 28 "parser.y"
 
     char*   strValue;
     int     intValue;
     double  numValue;
 
-#line 167 "parser.h"
+    struct SymTableEntry* exprValue;
+
+#line 169 "parser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

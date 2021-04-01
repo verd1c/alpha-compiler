@@ -1,4 +1,4 @@
-State 155 conflicts: 1 shift/reduce
+State 152 conflicts: 1 shift/reduce
 
 
 Grammar
@@ -97,14 +97,14 @@ Grammar
    70 blockstmt: statement
    71          | statement blockstmt
 
-   72 funcdef: funcstart argstart idlist argend block
+   72 $@1: %empty
 
-   73 funcstart: FUNCTION ID
-   74          | FUNCTION
+   73 $@2: %empty
 
-   75 argstart: LEFT_PARENTHESIS
+   74 funcdef: funcstart LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS $@2 block
 
-   76 argend: RIGHT_PARENTHESIS
+   75 funcstart: FUNCTION ID
+   76          | FUNCTION
 
    77 const: NUM
    78      | STRING
@@ -134,13 +134,13 @@ Terminals, with rules where they appear
     $end (0) 0
     error (256)
     NUM <numValue> (258) 77
-    ID <strValue> (259) 43 44 45 47 49 57 73 85
+    ID <strValue> (259) 43 44 45 47 49 57 75 85
     STRING <strValue> (260) 78
     IF <strValue> (261) 86 87
     ELSE <strValue> (262) 87
     WHILE <strValue> (263) 88
     FOR <strValue> (264) 89
-    FUNCTION <strValue> (265) 73 74
+    FUNCTION <strValue> (265) 75 76
     RETURN <strValue> (266) 90 91
     BREAK <strValue> (267) 9
     CONTINUE <strValue> (268) 10
@@ -155,8 +155,8 @@ Terminals, with rules where they appear
     RIGHT_BRACE <strValue> (277) 48 50 61 62
     LEFT_BRACKET <strValue> (278) 65 68
     RIGHT_BRACKET <strValue> (279) 65 69
-    LEFT_PARENTHESIS <strValue> (280) 29 41 51 53 56 57 75 86 87 88 89
-    RIGHT_PARENTHESIS <strValue> (281) 29 41 51 53 56 57 76 86 87 88 89
+    LEFT_PARENTHESIS <strValue> (280) 29 41 51 53 56 57 74 86 87 88 89
+    RIGHT_PARENTHESIS <strValue> (281) 29 41 51 53 56 57 74 86 87 88 89
     SEMICOLON <strValue> (282) 4 9 10 13 89 90 91
     COMMA <strValue> (283) 59 64 83
     COLON <strValue> (284) 65
@@ -205,7 +205,7 @@ Nonterminals, with rules where they appear
     primary (55)
         on left: 38 39 40 41 42
         on right: 36
-    lvalue <strValue> (56)
+    lvalue <exprValue> (56)
         on left: 43 44 45 46
         on right: 32 33 34 35 37 38 47 48 52
     member <strValue> (57)
@@ -237,7 +237,7 @@ Nonterminals, with rules where they appear
         on right: 63 64
     block (66)
         on left: 66 67
-        on right: 11 72
+        on right: 11 74
     blockstart (67)
         on left: 68
         on right: 66 67
@@ -248,24 +248,24 @@ Nonterminals, with rules where they appear
         on left: 70 71
         on right: 67 71
     funcdef (70)
-        on left: 72
+        on left: 74
         on right: 12 41 53
-    funcstart (71)
-        on left: 73 74
-        on right: 72
-    argstart (72)
-        on left: 75
-        on right: 72
-    argend (73)
-        on left: 76
-        on right: 72
+    $@1 (71)
+        on left: 72
+        on right: 74
+    $@2 (72)
+        on left: 73
+        on right: 74
+    funcstart <strValue> (73)
+        on left: 75 76
+        on right: 74
     const (74)
         on left: 77 78 79 80 81
         on right: 42
-    idlist (75)
+    idlist <strValue> (75)
         on left: 82 83 84
-        on right: 72 83
-    arg (76)
+        on right: 74 83
+    arg <strValue> (76)
         on left: 85
         on right: 82 83
     ifstmt (77)
@@ -402,12 +402,12 @@ State 9
 
 State 10
 
-   73 funcstart: FUNCTION • ID
-   74          | FUNCTION •
+   75 funcstart: FUNCTION • ID
+   76          | FUNCTION •
 
     ID  shift, and go to state 48
 
-    $default  reduce using rule 74 (funcstart)
+    $default  reduce using rule 76 (funcstart)
 
 
 State 11
@@ -847,11 +847,9 @@ State 38
 
 State 39
 
-   72 funcdef: funcstart • argstart idlist argend block
+   74 funcdef: funcstart • LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS $@2 block
 
     LEFT_PARENTHESIS  shift, and go to state 99
-
-    argstart  go to state 100
 
 
 State 40
@@ -909,7 +907,7 @@ State 45
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 101
+    expression  go to state 100
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -939,7 +937,7 @@ State 46
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 102
+    expression  go to state 101
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -978,16 +976,16 @@ State 47
     lvalue      go to state 32
     member      go to state 33
     call        go to state 34
-    elist       go to state 103
+    elist       go to state 102
     objectdef   go to state 35
     const       go to state 40
 
 
 State 48
 
-   73 funcstart: FUNCTION ID •
+   75 funcstart: FUNCTION ID •
 
-    $default  reduce using rule 73 (funcstart)
+    $default  reduce using rule 75 (funcstart)
 
 
 State 49
@@ -1016,7 +1014,7 @@ State 50
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
-    SEMICOLON         shift, and go to state 104
+    SEMICOLON         shift, and go to state 103
     PLUS              shift, and go to state 71
     MINUS             shift, and go to state 72
     MULT              shift, and go to state 73
@@ -1090,7 +1088,7 @@ State 55
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 105
+    expression  go to state 104
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1121,7 +1119,7 @@ State 56
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
-    COMMA             shift, and go to state 106
+    COMMA             shift, and go to state 105
     PLUS              shift, and go to state 71
     MINUS             shift, and go to state 72
     MULT              shift, and go to state 73
@@ -1141,14 +1139,14 @@ State 57
 
    61 objectdef: LEFT_BRACE elist • RIGHT_BRACE
 
-    RIGHT_BRACE  shift, and go to state 107
+    RIGHT_BRACE  shift, and go to state 106
 
 
 State 58
 
    62 objectdef: LEFT_BRACE indexed • RIGHT_BRACE
 
-    RIGHT_BRACE  shift, and go to state 108
+    RIGHT_BRACE  shift, and go to state 107
 
 
 State 59
@@ -1156,7 +1154,7 @@ State 59
    63 indexed: indexedelem •
    64        | indexedelem • COMMA indexed
 
-    COMMA  shift, and go to state 109
+    COMMA  shift, and go to state 108
 
     $default  reduce using rule 63 (indexed)
 
@@ -1180,7 +1178,7 @@ State 60
 
     AND                shift, and go to state 68
     OR                 shift, and go to state 69
-    RIGHT_PARENTHESIS  shift, and go to state 110
+    RIGHT_PARENTHESIS  shift, and go to state 109
     PLUS               shift, and go to state 71
     MINUS              shift, and go to state 72
     MULT               shift, and go to state 73
@@ -1199,7 +1197,7 @@ State 61
    41 primary: LEFT_PARENTHESIS funcdef • RIGHT_PARENTHESIS
    53 call: LEFT_PARENTHESIS funcdef • RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
-    RIGHT_PARENTHESIS  shift, and go to state 111
+    RIGHT_PARENTHESIS  shift, and go to state 110
 
 
 State 62
@@ -1215,7 +1213,7 @@ State 63
 
     FUNCTION  shift, and go to state 10
 
-    funcdef    go to state 112
+    funcdef    go to state 111
     funcstart  go to state 39
 
 
@@ -1307,7 +1305,7 @@ State 68
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 113
+    expression  go to state 112
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1337,7 +1335,7 @@ State 69
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 114
+    expression  go to state 113
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1374,7 +1372,7 @@ State 71
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 115
+    expression  go to state 114
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1404,7 +1402,7 @@ State 72
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 116
+    expression  go to state 115
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1434,7 +1432,7 @@ State 73
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 117
+    expression  go to state 116
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1464,7 +1462,7 @@ State 74
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 118
+    expression  go to state 117
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1494,7 +1492,7 @@ State 75
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 119
+    expression  go to state 118
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1524,7 +1522,7 @@ State 76
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 120
+    expression  go to state 119
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1554,7 +1552,7 @@ State 77
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 121
+    expression  go to state 120
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1584,7 +1582,7 @@ State 78
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 122
+    expression  go to state 121
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1614,7 +1612,7 @@ State 79
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 123
+    expression  go to state 122
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1644,7 +1642,7 @@ State 80
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 124
+    expression  go to state 123
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1674,7 +1672,7 @@ State 81
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 125
+    expression  go to state 124
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1704,7 +1702,7 @@ State 82
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 126
+    expression  go to state 125
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1743,7 +1741,7 @@ State 83
     lvalue      go to state 32
     member      go to state 33
     call        go to state 34
-    elist       go to state 127
+    elist       go to state 126
     objectdef   go to state 35
     const       go to state 40
 
@@ -1752,14 +1750,14 @@ State 84
 
    47 member: lvalue DOT • ID
 
-    ID  shift, and go to state 128
+    ID  shift, and go to state 127
 
 
 State 85
 
    57 methodcall: DOUBLE_DOT • ID LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
-    ID  shift, and go to state 129
+    ID  shift, and go to state 128
 
 
 State 86
@@ -1781,7 +1779,7 @@ State 86
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 130
+    expression  go to state 129
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1846,7 +1844,7 @@ State 92
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 131
+    expression  go to state 130
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -1885,7 +1883,7 @@ State 93
     lvalue      go to state 32
     member      go to state 33
     call        go to state 34
-    elist       go to state 132
+    elist       go to state 131
     objectdef   go to state 35
     const       go to state 40
 
@@ -1894,7 +1892,7 @@ State 94
 
    49 member: call DOT • ID
 
-    ID  shift, and go to state 133
+    ID  shift, and go to state 132
 
 
 State 95
@@ -1946,7 +1944,7 @@ State 96
     objectdef   go to state 35
     block       go to state 36
     blockstart  go to state 37
-    blockstmt   go to state 134
+    blockstmt   go to state 133
     funcdef     go to state 38
     funcstart   go to state 39
     const       go to state 40
@@ -1969,29 +1967,19 @@ State 98
 
     RIGHT_BRACKET  shift, and go to state 95
 
-    blockend  go to state 135
+    blockend  go to state 134
 
 
 State 99
 
-   75 argstart: LEFT_PARENTHESIS •
+   74 funcdef: funcstart LEFT_PARENTHESIS • $@1 idlist RIGHT_PARENTHESIS $@2 block
 
-    $default  reduce using rule 75 (argstart)
+    $default  reduce using rule 72 ($@1)
+
+    $@1  go to state 135
 
 
 State 100
-
-   72 funcdef: funcstart argstart • idlist argend block
-
-    ID  shift, and go to state 136
-
-    $default  reduce using rule 84 (idlist)
-
-    idlist  go to state 137
-    arg     go to state 138
-
-
-State 101
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2011,7 +1999,7 @@ State 101
 
     AND                shift, and go to state 68
     OR                 shift, and go to state 69
-    RIGHT_PARENTHESIS  shift, and go to state 139
+    RIGHT_PARENTHESIS  shift, and go to state 136
     PLUS               shift, and go to state 71
     MINUS              shift, and go to state 72
     MULT               shift, and go to state 73
@@ -2025,7 +2013,7 @@ State 101
     LESS_OR_EQUAL      shift, and go to state 81
 
 
-State 102
+State 101
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2044,7 +2032,7 @@ State 102
 
     AND                shift, and go to state 68
     OR                 shift, and go to state 69
-    RIGHT_PARENTHESIS  shift, and go to state 140
+    RIGHT_PARENTHESIS  shift, and go to state 137
     PLUS               shift, and go to state 71
     MINUS              shift, and go to state 72
     MULT               shift, and go to state 73
@@ -2058,21 +2046,21 @@ State 102
     LESS_OR_EQUAL      shift, and go to state 81
 
 
-State 103
+State 102
 
    89 forstmt: FOR LEFT_PARENTHESIS elist • SEMICOLON expression SEMICOLON elist RIGHT_PARENTHESIS statement
 
-    SEMICOLON  shift, and go to state 141
+    SEMICOLON  shift, and go to state 138
 
 
-State 104
+State 103
 
    91 returnstmt: RETURN expression SEMICOLON •
 
     $default  reduce using rule 91 (returnstmt)
 
 
-State 105
+State 104
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2091,7 +2079,7 @@ State 105
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
-    COLON             shift, and go to state 142
+    COLON             shift, and go to state 139
     PLUS              shift, and go to state 71
     MINUS             shift, and go to state 72
     MULT              shift, and go to state 73
@@ -2105,7 +2093,7 @@ State 105
     LESS_OR_EQUAL     shift, and go to state 81
 
 
-State 106
+State 105
 
    59 elist: expression COMMA • elist
 
@@ -2133,60 +2121,60 @@ State 106
     lvalue      go to state 32
     member      go to state 33
     call        go to state 34
-    elist       go to state 143
+    elist       go to state 140
     objectdef   go to state 35
     const       go to state 40
 
 
-State 107
+State 106
 
    61 objectdef: LEFT_BRACE elist RIGHT_BRACE •
 
     $default  reduce using rule 61 (objectdef)
 
 
-State 108
+State 107
 
    62 objectdef: LEFT_BRACE indexed RIGHT_BRACE •
 
     $default  reduce using rule 62 (objectdef)
 
 
-State 109
+State 108
 
    64 indexed: indexedelem COMMA • indexed
 
     LEFT_BRACKET  shift, and go to state 55
 
-    indexed      go to state 144
+    indexed      go to state 141
     indexedelem  go to state 59
 
 
-State 110
+State 109
 
    29 term: LEFT_PARENTHESIS expression RIGHT_PARENTHESIS •
 
     $default  reduce using rule 29 (term)
 
 
-State 111
+State 110
 
    41 primary: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS •
    53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS • LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
-    LEFT_PARENTHESIS  shift, and go to state 145
+    LEFT_PARENTHESIS  shift, and go to state 142
 
     $default  reduce using rule 41 (primary)
 
 
-State 112
+State 111
 
    53 call: LEFT_PARENTHESIS funcdef • RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
-    RIGHT_PARENTHESIS  shift, and go to state 146
+    RIGHT_PARENTHESIS  shift, and go to state 143
 
 
-State 113
+State 112
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2218,7 +2206,7 @@ State 113
     $default  reduce using rule 26 (expression)
 
 
-State 114
+State 113
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2251,7 +2239,7 @@ State 114
     $default  reduce using rule 27 (expression)
 
 
-State 115
+State 114
 
    15 expression: expression • PLUS expression
    15           | expression PLUS expression •
@@ -2275,7 +2263,7 @@ State 115
     $default  reduce using rule 15 (expression)
 
 
-State 116
+State 115
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2299,7 +2287,7 @@ State 116
     $default  reduce using rule 16 (expression)
 
 
-State 117
+State 116
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2319,7 +2307,7 @@ State 117
     $default  reduce using rule 17 (expression)
 
 
-State 118
+State 117
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2339,7 +2327,7 @@ State 118
     $default  reduce using rule 18 (expression)
 
 
-State 119
+State 118
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2359,7 +2347,7 @@ State 119
     $default  reduce using rule 19 (expression)
 
 
-State 120
+State 119
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2392,7 +2380,7 @@ State 120
     $default  reduce using rule 24 (expression)
 
 
-State 121
+State 120
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2425,7 +2413,7 @@ State 121
     $default  reduce using rule 25 (expression)
 
 
-State 122
+State 121
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2456,7 +2444,7 @@ State 122
     $default  reduce using rule 20 (expression)
 
 
-State 123
+State 122
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2487,7 +2475,7 @@ State 123
     $default  reduce using rule 22 (expression)
 
 
-State 124
+State 123
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2518,7 +2506,7 @@ State 124
     $default  reduce using rule 21 (expression)
 
 
-State 125
+State 124
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2549,7 +2537,7 @@ State 125
     $default  reduce using rule 23 (expression)
 
 
-State 126
+State 125
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2568,7 +2556,7 @@ State 126
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
-    RIGHT_BRACE       shift, and go to state 147
+    RIGHT_BRACE       shift, and go to state 144
     PLUS              shift, and go to state 71
     MINUS             shift, and go to state 72
     MULT              shift, and go to state 73
@@ -2582,28 +2570,28 @@ State 126
     LESS_OR_EQUAL     shift, and go to state 81
 
 
-State 127
+State 126
 
    56 normcall: LEFT_PARENTHESIS elist • RIGHT_PARENTHESIS
 
-    RIGHT_PARENTHESIS  shift, and go to state 148
+    RIGHT_PARENTHESIS  shift, and go to state 145
 
 
-State 128
+State 127
 
    47 member: lvalue DOT ID •
 
     $default  reduce using rule 47 (member)
 
 
-State 129
+State 128
 
    57 methodcall: DOUBLE_DOT ID • LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
-    LEFT_PARENTHESIS  shift, and go to state 149
+    LEFT_PARENTHESIS  shift, and go to state 146
 
 
-State 130
+State 129
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2637,7 +2625,7 @@ State 130
     $default  reduce using rule 37 (assignexpr)
 
 
-State 131
+State 130
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -2656,7 +2644,7 @@ State 131
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
-    RIGHT_BRACE       shift, and go to state 150
+    RIGHT_BRACE       shift, and go to state 147
     PLUS              shift, and go to state 71
     MINUS             shift, and go to state 72
     MULT              shift, and go to state 73
@@ -2670,61 +2658,47 @@ State 131
     LESS_OR_EQUAL     shift, and go to state 81
 
 
-State 132
+State 131
 
    51 call: call LEFT_PARENTHESIS elist • RIGHT_PARENTHESIS
 
-    RIGHT_PARENTHESIS  shift, and go to state 151
+    RIGHT_PARENTHESIS  shift, and go to state 148
 
 
-State 133
+State 132
 
    49 member: call DOT ID •
 
     $default  reduce using rule 49 (member)
 
 
-State 134
+State 133
 
    71 blockstmt: statement blockstmt •
 
     $default  reduce using rule 71 (blockstmt)
 
 
-State 135
+State 134
 
    67 block: blockstart blockstmt blockend •
 
     $default  reduce using rule 67 (block)
 
 
+State 135
+
+   74 funcdef: funcstart LEFT_PARENTHESIS $@1 • idlist RIGHT_PARENTHESIS $@2 block
+
+    ID  shift, and go to state 149
+
+    $default  reduce using rule 84 (idlist)
+
+    idlist  go to state 150
+    arg     go to state 151
+
+
 State 136
-
-   85 arg: ID •
-
-    $default  reduce using rule 85 (arg)
-
-
-State 137
-
-   72 funcdef: funcstart argstart idlist • argend block
-
-    RIGHT_PARENTHESIS  shift, and go to state 152
-
-    argend  go to state 153
-
-
-State 138
-
-   82 idlist: arg •
-   83       | arg • COMMA idlist
-
-    COMMA  shift, and go to state 154
-
-    $default  reduce using rule 82 (idlist)
-
-
-State 139
 
    86 ifstmt: IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS • statement
    87       | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS • statement ELSE statement
@@ -2753,7 +2727,7 @@ State 139
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    statement   go to state 155
+    statement   go to state 152
     expression  go to state 28
     term        go to state 29
     assignexpr  go to state 30
@@ -2773,7 +2747,7 @@ State 139
     returnstmt  go to state 44
 
 
-State 140
+State 137
 
    88 whilestmt: WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS • statement
 
@@ -2801,7 +2775,7 @@ State 140
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    statement   go to state 156
+    statement   go to state 153
     expression  go to state 28
     term        go to state 29
     assignexpr  go to state 30
@@ -2821,7 +2795,7 @@ State 140
     returnstmt  go to state 44
 
 
-State 141
+State 138
 
    89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON • expression SEMICOLON elist RIGHT_PARENTHESIS statement
 
@@ -2840,7 +2814,7 @@ State 141
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 157
+    expression  go to state 154
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -2851,7 +2825,7 @@ State 141
     const       go to state 40
 
 
-State 142
+State 139
 
    65 indexedelem: LEFT_BRACKET expression COLON • expression RIGHT_BRACKET
 
@@ -2870,7 +2844,7 @@ State 142
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    expression  go to state 158
+    expression  go to state 155
     term        go to state 29
     assignexpr  go to state 30
     primary     go to state 31
@@ -2881,21 +2855,21 @@ State 142
     const       go to state 40
 
 
-State 143
+State 140
 
    59 elist: expression COMMA elist •
 
     $default  reduce using rule 59 (elist)
 
 
-State 144
+State 141
 
    64 indexed: indexedelem COMMA indexed •
 
     $default  reduce using rule 64 (indexed)
 
 
-State 145
+State 142
 
    53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS • elist RIGHT_PARENTHESIS
 
@@ -2923,33 +2897,33 @@ State 145
     lvalue      go to state 32
     member      go to state 33
     call        go to state 34
-    elist       go to state 159
+    elist       go to state 156
     objectdef   go to state 35
     const       go to state 40
 
 
-State 146
+State 143
 
    53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS • LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
-    LEFT_PARENTHESIS  shift, and go to state 145
+    LEFT_PARENTHESIS  shift, and go to state 142
 
 
-State 147
+State 144
 
    48 member: lvalue LEFT_BRACE expression RIGHT_BRACE •
 
     $default  reduce using rule 48 (member)
 
 
-State 148
+State 145
 
    56 normcall: LEFT_PARENTHESIS elist RIGHT_PARENTHESIS •
 
     $default  reduce using rule 56 (normcall)
 
 
-State 149
+State 146
 
    57 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS • elist RIGHT_PARENTHESIS
 
@@ -2977,73 +2951,68 @@ State 149
     lvalue      go to state 32
     member      go to state 33
     call        go to state 34
-    elist       go to state 160
+    elist       go to state 157
     objectdef   go to state 35
     const       go to state 40
 
 
-State 150
+State 147
 
    50 member: call LEFT_BRACE expression RIGHT_BRACE •
 
     $default  reduce using rule 50 (member)
 
 
-State 151
+State 148
 
    51 call: call LEFT_PARENTHESIS elist RIGHT_PARENTHESIS •
 
     $default  reduce using rule 51 (call)
 
 
+State 149
+
+   85 arg: ID •
+
+    $default  reduce using rule 85 (arg)
+
+
+State 150
+
+   74 funcdef: funcstart LEFT_PARENTHESIS $@1 idlist • RIGHT_PARENTHESIS $@2 block
+
+    RIGHT_PARENTHESIS  shift, and go to state 158
+
+
+State 151
+
+   82 idlist: arg •
+   83       | arg • COMMA idlist
+
+    COMMA  shift, and go to state 159
+
+    $default  reduce using rule 82 (idlist)
+
+
 State 152
-
-   76 argend: RIGHT_PARENTHESIS •
-
-    $default  reduce using rule 76 (argend)
-
-
-State 153
-
-   72 funcdef: funcstart argstart idlist argend • block
-
-    LEFT_BRACKET  shift, and go to state 20
-
-    block       go to state 161
-    blockstart  go to state 37
-
-
-State 154
-
-   83 idlist: arg COMMA • idlist
-
-    ID  shift, and go to state 136
-
-    $default  reduce using rule 84 (idlist)
-
-    idlist  go to state 162
-    arg     go to state 138
-
-
-State 155
 
    86 ifstmt: IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement •
    87       | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement • ELSE statement
 
-    ELSE  shift, and go to state 163
+    ELSE  shift, and go to state 160
 
     ELSE      [reduce using rule 86 (ifstmt)]
     $default  reduce using rule 86 (ifstmt)
 
 
-State 156
+State 153
 
    88 whilestmt: WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement •
 
     $default  reduce using rule 88 (whilestmt)
 
 
-State 157
+State 154
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -3062,7 +3031,7 @@ State 157
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
-    SEMICOLON         shift, and go to state 164
+    SEMICOLON         shift, and go to state 161
     PLUS              shift, and go to state 71
     MINUS             shift, and go to state 72
     MULT              shift, and go to state 73
@@ -3076,7 +3045,7 @@ State 157
     LESS_OR_EQUAL     shift, and go to state 81
 
 
-State 158
+State 155
 
    15 expression: expression • PLUS expression
    16           | expression • MINUS expression
@@ -3095,7 +3064,7 @@ State 158
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
-    RIGHT_BRACKET     shift, and go to state 165
+    RIGHT_BRACKET     shift, and go to state 162
     PLUS              shift, and go to state 71
     MINUS             shift, and go to state 72
     MULT              shift, and go to state 73
@@ -3109,35 +3078,42 @@ State 158
     LESS_OR_EQUAL     shift, and go to state 81
 
 
-State 159
+State 156
 
    53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist • RIGHT_PARENTHESIS
 
-    RIGHT_PARENTHESIS  shift, and go to state 166
+    RIGHT_PARENTHESIS  shift, and go to state 163
 
 
-State 160
+State 157
 
    57 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS elist • RIGHT_PARENTHESIS
 
-    RIGHT_PARENTHESIS  shift, and go to state 167
+    RIGHT_PARENTHESIS  shift, and go to state 164
 
 
-State 161
+State 158
 
-   72 funcdef: funcstart argstart idlist argend block •
+   74 funcdef: funcstart LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS • $@2 block
 
-    $default  reduce using rule 72 (funcdef)
+    $default  reduce using rule 73 ($@2)
 
-
-State 162
-
-   83 idlist: arg COMMA idlist •
-
-    $default  reduce using rule 83 (idlist)
+    $@2  go to state 165
 
 
-State 163
+State 159
+
+   83 idlist: arg COMMA • idlist
+
+    ID  shift, and go to state 149
+
+    $default  reduce using rule 84 (idlist)
+
+    idlist  go to state 166
+    arg     go to state 151
+
+
+State 160
 
    87 ifstmt: IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement ELSE • statement
 
@@ -3165,7 +3141,7 @@ State 163
     MINUS_MINUS       shift, and go to state 25
     UMINUS            shift, and go to state 26
 
-    statement   go to state 168
+    statement   go to state 167
     expression  go to state 28
     term        go to state 29
     assignexpr  go to state 30
@@ -3185,7 +3161,7 @@ State 163
     returnstmt  go to state 44
 
 
-State 164
+State 161
 
    89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON expression SEMICOLON • elist RIGHT_PARENTHESIS statement
 
@@ -3213,44 +3189,68 @@ State 164
     lvalue      go to state 32
     member      go to state 33
     call        go to state 34
-    elist       go to state 169
+    elist       go to state 168
     objectdef   go to state 35
     const       go to state 40
 
 
-State 165
+State 162
 
    65 indexedelem: LEFT_BRACKET expression COLON expression RIGHT_BRACKET •
 
     $default  reduce using rule 65 (indexedelem)
 
 
-State 166
+State 163
 
    53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS •
 
     $default  reduce using rule 53 (call)
 
 
-State 167
+State 164
 
    57 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS elist RIGHT_PARENTHESIS •
 
     $default  reduce using rule 57 (methodcall)
 
 
-State 168
+State 165
+
+   74 funcdef: funcstart LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS $@2 • block
+
+    LEFT_BRACKET  shift, and go to state 20
+
+    block       go to state 169
+    blockstart  go to state 37
+
+
+State 166
+
+   83 idlist: arg COMMA idlist •
+
+    $default  reduce using rule 83 (idlist)
+
+
+State 167
 
    87 ifstmt: IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement ELSE statement •
 
     $default  reduce using rule 87 (ifstmt)
 
 
-State 169
+State 168
 
    89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON expression SEMICOLON elist • RIGHT_PARENTHESIS statement
 
     RIGHT_PARENTHESIS  shift, and go to state 170
+
+
+State 169
+
+   74 funcdef: funcstart LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS $@2 block •
+
+    $default  reduce using rule 74 (funcdef)
 
 
 State 170
