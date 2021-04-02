@@ -74,10 +74,6 @@
     int yylex (void);
     int yyerror (char* yaccProvidedMessage);
 
-    extern int yylineno;
-    extern char *yytext;
-    extern FILE *yyin;
-
     char *typeToString[] = {
         "LOCAL_VAR",
         "GLOBAL_VAR",
@@ -87,12 +83,17 @@
         "LIB_FUNC"
     };
 
-    int scope;
     char *_func_name;
-    int _funcCount = 0;
+    int _func_count = 0;
+    int _anon_func_counter = 0;
+
+    int scope;
+    extern int yylineno;
+    extern char *yytext;
+    extern FILE *yyin;
     SymTable *symTable;
 
-#line 96 "parser.c"
+#line 97 "parser.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -583,18 +584,18 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,    60,    60,    62,    63,    66,    67,    68,    69,    70,
-      71,    72,    73,    74,    75,    78,    79,    80,    81,    82,
-      83,    84,    85,    86,    87,    88,    89,    90,    91,    92,
-      95,    96,    97,    98,    99,   100,   101,   102,   105,   107,
-     108,   109,   110,   111,   114,   141,   142,   143,   146,   147,
-     148,   149,   152,   153,   154,   157,   158,   161,   163,   165,
-     166,   167,   170,   171,   174,   175,   178,   181,   182,   185,
-     189,   193,   194,   197,   197,   197,   200,   219,   221,   221,
-     221,   221,   221,   223,   224,   225,   228,   240,   241,   244,
-     246,   248,   249
+       0,    61,    61,    63,    64,    67,    68,    69,    70,    71,
+      72,    73,    74,    75,    76,    79,    80,    81,    82,    83,
+      84,    85,    86,    87,    88,    89,    90,    91,    92,    93,
+      96,    97,    98,    99,   100,   101,   102,   103,   106,   134,
+     135,   136,   137,   138,   141,   158,   177,   188,   191,   192,
+     193,   194,   197,   198,   204,   207,   208,   211,   213,   215,
+     216,   217,   220,   221,   224,   225,   228,   231,   232,   235,
+     239,   243,   244,   247,   247,   247,   250,   269,   271,   271,
+     271,   271,   271,   273,   274,   275,   278,   294,   295,   298,
+     300,   302,   303
 };
 #endif
 
@@ -1382,110 +1383,165 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 44: /* lvalue: ID  */
-#line 114 "parser.y"
+  case 38: /* assignexpr: lvalue EQUALS expression  */
+#line 106 "parser.y"
                                             {
                                                 SymTableEntry *e;
 
-                                                if((e = lookup_variable(symTable, (yyvsp[0].strValue), scope)) == NULL){
-                                                    if(scope == 0)
-                                                        insert(symTable, (yyvsp[0].strValue), scope, yylineno, GLOBAL_VAR);
-                                                    else
-                                                        insert(symTable, (yyvsp[0].strValue), scope, yylineno, LOCAL_VAR);
-                                                }else{
-                                                    if(e->type == LOCAL_VAR || e->type == GLOBAL_VAR || e->type == ARGUMENT_VAR){
-                                                        if(_funcCount == 0 && e->isActive){
-                                                            (yyval.exprValue) = e;
-                                                        }else{
-                                                            if(e->type == GLOBAL_VAR || (e->value.varValue->scope == scope && e->isActive)){
-                                                                (yyval.exprValue) = e;
-                                                            }else{
-                                                                if(scope == 0){
-                                                                    insert(symTable, (yyvsp[0].strValue), scope, yylineno, GLOBAL_VAR);
-                                                                }else
-                                                                    insert(symTable, (yyvsp[0].strValue), scope, yylineno, LOCAL_VAR);
-                                                            }
+                                                // Check wether lvalue is a function
+                                                e = (yyvsp[-2].exprValue);
+                                                if(e->type == LOCAL_VAR || e->type == GLOBAL_VAR || e->type == ARGUMENT_VAR){
+
+                                                    // If it's a variable, check wether we have to create a new one or its referencing an existing one
+                                                    if(_func_count != 0 || !e->isActive){
+                                                        // Variable was either out of function or not active
+
+                                                        // If it's global or in the same scope, we can reference it
+                                                        if(e->type != GLOBAL_VAR && e->value.varValue->scope != scope ){
+
+                                                            // Else, we have to insert a new one
+                                                            if(scope == 0){
+                                                                insert(symTable, e->value.varValue->name, scope, yylineno, GLOBAL_VAR);
+                                                            }else
+                                                                insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR);
                                                         }
-                                                    }else{
-                                                        printf("input:%d: error: function %s, functions cannot be l-values\n", yylineno, (yyvsp[0].strValue));
                                                     }
+                                                }else{
+                                                    
+                                                    // Functions can not be l-values
+                                                    printf("input:%d: error: on function %s, functions cannot be l-values\n", yylineno, e->value.funcValue->name);
                                                 }
                                             }
-#line 1415 "parser.c"
+#line 1416 "parser.c"
+    break;
+
+  case 44: /* lvalue: ID  */
+#line 141 "parser.y"
+                                            {
+                                                SymTableEntry *e;
+                                                
+                                                // Check if active variables exist in any scope from current and down
+                                                if((e = lookup_variable(symTable, (yyvsp[0].strValue), scope)) == NULL){
+                                                    
+                                                    // If not, insert the variable
+                                                    if(scope == 0)
+                                                        (yyval.exprValue) = insert(symTable, (yyvsp[0].strValue), scope, yylineno, GLOBAL_VAR);
+                                                    else
+                                                        (yyval.exprValue) = insert(symTable, (yyvsp[0].strValue), scope, yylineno, LOCAL_VAR);
+                                                }else{
+
+                                                    // If exists, set value for further checks
+                                                    (yyval.exprValue) = e;
+                                                }
+                                            }
+#line 1438 "parser.c"
     break;
 
   case 45: /* lvalue: LOCAL ID  */
-#line 141 "parser.y"
-                                            {}
-#line 1421 "parser.c"
+#line 158 "parser.y"
+                                            {
+                                                SymTableEntry *e;
+                                                
+                                                // Check current scope
+                                                if((e = lookup_no_type(symTable, (yyvsp[0].strValue), scope)) == NULL){
+                                                    if((e = lookup(symTable, (yyvsp[0].strValue), 0, LIB_FUNC)) == NULL){
+                                                        if(scope == 0){
+                                                            insert(symTable, (yyvsp[0].strValue), scope, yylineno, GLOBAL_VAR);
+                                                        }else{
+                                                            insert(symTable, (yyvsp[0].strValue), scope, yylineno, LOCAL_VAR);
+                                                        }
+                                                    }else{
+                                                        printf("input:%d: error: local symbol %s is attempting to shadow a library function\n", yylineno, (yyvsp[0].strValue));
+                                                    }
+                                                }else{
+                                                    // If exists, set reference
+                                                    (yyval.exprValue) = e;
+                                                }
+                                            }
+#line 1462 "parser.c"
     break;
 
   case 46: /* lvalue: DOUBLE_COLON ID  */
-#line 142 "parser.y"
-                                            {}
-#line 1427 "parser.c"
+#line 177 "parser.y"
+                                            {
+                                                SymTableEntry *e;
+                                                
+                                                // Check globals
+                                                if((e = lookup_no_type(symTable, (yyvsp[0].strValue), 0)) == NULL){
+                                                    printf("input:%d: error: global reference %s in line %d not found\n", yylineno, (yyvsp[0].strValue), yylineno);
+                                                }else{
+                                                    // If exists, set reference
+                                                    (yyval.exprValue) = e;
+                                                }
+                                            }
+#line 1478 "parser.c"
     break;
 
   case 47: /* lvalue: member  */
-#line 143 "parser.y"
+#line 188 "parser.y"
                                             {}
-#line 1433 "parser.c"
+#line 1484 "parser.c"
     break;
 
   case 48: /* member: lvalue DOT ID  */
-#line 146 "parser.y"
+#line 191 "parser.y"
                                 {}
-#line 1439 "parser.c"
+#line 1490 "parser.c"
     break;
 
   case 49: /* member: lvalue LEFT_BRACE expression RIGHT_BRACE  */
-#line 147 "parser.y"
+#line 192 "parser.y"
                                                             {}
-#line 1445 "parser.c"
+#line 1496 "parser.c"
     break;
 
   case 53: /* call: lvalue callsuffix  */
-#line 153 "parser.y"
-                                    {}
-#line 1451 "parser.c"
+#line 198 "parser.y"
+                                    {
+                                        SymTableEntry* e;
+
+                                        e = (yyvsp[-1].exprValue);
+                                        printf("Usage of %s as call in %d\n", e->value.funcValue->name, yylineno);
+                                    }
+#line 1507 "parser.c"
     break;
 
   case 69: /* blockstart: LEFT_BRACKET  */
-#line 185 "parser.y"
+#line 235 "parser.y"
                                 {
                                     scope++; // Up scope
                                 }
-#line 1459 "parser.c"
+#line 1515 "parser.c"
     break;
 
   case 70: /* blockend: RIGHT_BRACKET  */
-#line 189 "parser.y"
+#line 239 "parser.y"
                                 {
                                     scope_down(symTable);
                                 }
-#line 1467 "parser.c"
+#line 1523 "parser.c"
     break;
 
   case 73: /* $@1: %empty  */
-#line 197 "parser.y"
+#line 247 "parser.y"
                                            {scope++;}
-#line 1473 "parser.c"
+#line 1529 "parser.c"
     break;
 
   case 74: /* $@2: %empty  */
-#line 197 "parser.y"
-                                                                               {scope--; _funcCount++;}
-#line 1479 "parser.c"
+#line 247 "parser.y"
+                                                                               {scope--; _func_count++;}
+#line 1535 "parser.c"
     break;
 
   case 75: /* funcdef: funcstart LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS $@2 block  */
-#line 197 "parser.y"
-                                                                                                              {_funcCount--;}
-#line 1485 "parser.c"
+#line 247 "parser.y"
+                                                                                                               {_func_count--;}
+#line 1541 "parser.c"
     break;
 
   case 76: /* funcstart: FUNCTION ID  */
-#line 200 "parser.y"
+#line 250 "parser.y"
                             {
                                 SymTableEntry *e;
                                 int entryScope;
@@ -1500,38 +1556,42 @@ yyreduce:
                                     if(e->type == USER_FUNC)
                                         printf("input:%d: error: duplicate user function %s, first defined in line %d\n", yylineno, (yyvsp[0].strValue), e->value.funcValue->line);
                                     else if(e->type == LIB_FUNC)
-                                        printf("input:%d: error: duplicate library function %s, first defined in line %d\n", yylineno, (yyvsp[0].strValue), e->value.funcValue->line);
+                                        printf("input:%d: error: shadowing of library function %s is not permitted\n", yylineno, (yyvsp[0].strValue));
                                     else
                                         printf("input:%d: error: function %s has conflicting type with variable %s first defined in line %d\n", yylineno, (yyvsp[0].strValue), e->value.varValue->name, e->value.varValue->line);
                                 }
                             }
-#line 1509 "parser.c"
+#line 1565 "parser.c"
     break;
 
   case 85: /* idlist: %empty  */
-#line 225 "parser.y"
+#line 275 "parser.y"
                   {}
-#line 1515 "parser.c"
+#line 1571 "parser.c"
     break;
 
   case 86: /* arg: ID  */
-#line 228 "parser.y"
+#line 278 "parser.y"
                      {
                         SymTableEntry *e, *a;
 
-                        if((e = lookup(symTable, _func_name, scope - 1, USER_FUNC)) != NULL){
-                            if((a = lookup_active(symTable, (yyvsp[0].strValue), scope)) == NULL){
-                                insert(symTable, (yyvsp[0].strValue), scope, yylineno, ARGUMENT_VAR);
-                            }else{
-                                printf("input:%d: error: duplicate argument %s in function %s\n", yylineno, (yyvsp[0].strValue), e->value.funcValue->name);
-                            }
-                        }                          
+                        if((e = lookup(symTable, (yyvsp[0].strValue), 0, LIB_FUNC)) != NULL){
+                            printf("input:%d: error: argument %s in function %s attempting to shadow a library function\n", yylineno, (yyvsp[0].strValue), _func_name);
+                        }else{
+                            if((e = lookup(symTable, _func_name, scope - 1, USER_FUNC)) != NULL){
+                                if((a = lookup_active(symTable, (yyvsp[0].strValue), scope)) == NULL){
+                                    insert(symTable, (yyvsp[0].strValue), scope, yylineno, ARGUMENT_VAR);
+                                }else{
+                                    printf("input:%d: error: duplicate argument %s in function %s\n", yylineno, (yyvsp[0].strValue), e->value.funcValue->name);
+                                }
+                            } 
+                        }                         
                     }
-#line 1531 "parser.c"
+#line 1591 "parser.c"
     break;
 
 
-#line 1535 "parser.c"
+#line 1595 "parser.c"
 
       default: break;
     }
@@ -1725,11 +1785,11 @@ yyreturn:
   return yyresult;
 }
 
-#line 254 "parser.y"
+#line 308 "parser.y"
 
 
 int yyerror(char *yaccProvidedMessage){
-    printf("ERORR: %s\n", yaccProvidedMessage);
+    printf("alpha: %s\n", yaccProvidedMessage);
 }
 
 void printSymTable(SymTable *symTable){
@@ -1759,7 +1819,7 @@ void printSymTable(SymTable *symTable){
 
 void printByScope(SymTable *symTable){
     SymTableEntry *scopeIter, *e;
-    int i;
+    int i, scope = 0;
 
     printf("----------------------------------------------------------------\n");
     printf("Symbol Table  [Name                ] [Line] [Scope] [Type      ]\n");
@@ -1768,6 +1828,8 @@ void printByScope(SymTable *symTable){
 
     while(scopeIter != NULL){
         e = scopeIter;
+        printf("|                          SCOPE %d                             |\n", scope);
+        printf("----------------------------------------------------------------\n");
 
         while(e != NULL){
 
@@ -1781,10 +1843,17 @@ void printByScope(SymTable *symTable){
         }
 
         scopeIter = scopeIter->nextScope;
-    }
-    printf("----------------------------------------------------------------\n");
+        if(scopeIter != NULL){
+            if(scopeIter->type == LOCAL_VAR || scopeIter->type == GLOBAL_VAR || scopeIter->type == ARGUMENT_VAR){
+                scope = scopeIter->value.varValue->scope;
+            }else{
+                scope = scopeIter->value.funcValue->scope;
+            }
+        }
 
-    //asm __volatile__ (".byte 0xc3");
+
+        printf("----------------------------------------------------------------\n");
+    }
 
     return;
 }
@@ -1805,8 +1874,6 @@ int main(int argc, char **argv){
 
     //printSymTable(symTable);
     printByScope(symTable);
-
-    //asm __volatile__ (".byte 0xc3");
 
     return 0;
 }

@@ -1,21 +1,13 @@
-x = 4;
+v = 1;
 
-{
-  
-   function A(){
-      function B(){
-         x = 4;
-      }
-
-   }
-}
-
+// Anonymous function
 {
    x = 5;
-   function V(){
-      x = 3;
-      function Z(){
-         x = 1;
-      }
+
+   /*
+   * Random function that does nothing
+   */
+   function g(x){
+      h.i = a;
    }
 }
