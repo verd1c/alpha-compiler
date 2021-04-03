@@ -270,15 +270,13 @@ funcstart   :   FUNCTION ID {
                                 SymTableEntry *e;
                                 int entryScope;
                                 
-                                static char *s, *duck;
-                                s = (char *)malloc(sizeof(char));
-                                duck = (char *)malloc(sizeof(char));
+                                static char *s;
+                                s = (char *)malloc(5*sizeof(char));
 
-                                memcpy(duck, "@", 1);
-                                sprintf(s, "%d", _anon_func_counter);
-                                _func_name = strcat(duck, s);
+                                printf(s, "@%d", _anon_func_counter);
+                              
 
-                                insert(symTable, _func_name, scope, yylineno, USER_FUNC);
+                                insert(symTable, s, scope, yylineno, USER_FUNC);
 
                                 _anon_func_counter++;
                             }

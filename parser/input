@@ -1,5 +1,7 @@
 v = 1;
-
+function(){
+   x=20;
+}
 // Anonymous function
 {
    x = 5;
