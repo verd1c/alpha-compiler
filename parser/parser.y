@@ -266,7 +266,22 @@ funcstart   :   FUNCTION ID {
                                         printf("input:%d: error: function %s has conflicting type with variable %s first defined in line %d\n", yylineno, $2, e->value.varValue->name, e->value.varValue->line);
                                 }
                             }
-                | FUNCTION
+                | FUNCTION  {
+                                SymTableEntry *e;
+                                int entryScope;
+                                
+                                static char *s, *duck;
+                                s = (char *)malloc(sizeof(char));
+                                duck = (char *)malloc(sizeof(char));
+
+                                memcpy(duck, "@", 1);
+                                sprintf(s, "%d", _anon_func_counter);
+                                _func_name = strcat(duck, s);
+
+                                insert(symTable, _func_name, scope, yylineno, USER_FUNC);
+
+                                _anon_func_counter++;
+                            }
 
 const       :   NUM | STRING | NIL | TRUE | FALSE
 
