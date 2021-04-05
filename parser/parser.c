@@ -595,9 +595,9 @@ static const yytype_int16 yyrline[] =
      251,   276,   277,   278,   279,   282,   301,   322,   337,   340,
      341,   342,   343,   346,   347,   375,   378,   379,   382,   384,
      386,   387,   388,   391,   392,   395,   396,   399,   402,   403,
-     406,   410,   414,   415,   418,   418,   418,   421,   439,   450,
-     450,   450,   450,   450,   452,   453,   454,   457,   473,   474,
-     477,   479,   481,   482
+     406,   410,   414,   415,   418,   418,   418,   421,   439,   451,
+     451,   451,   451,   451,   453,   454,   455,   458,   474,   475,
+     478,   480,   482,   483
 };
 #endif
 
@@ -1762,26 +1762,27 @@ yyreduce:
   case 78: /* funcstart: FUNCTION  */
 #line 439 "parser.y"
                             {  
-                                static char *s;
+                                char *s;
                                 s = (char *)malloc(8 * sizeof(char));
-
-                                sprintf(s, "@%d", _anon_func_counter);
+                                _func_name = s;
+     
+                                sprintf(s, "$%d", _anon_func_counter);
 
                                 insert(symTable, s, scope, yylineno, USER_FUNC);
- 
+
                                 _anon_func_counter++;
                             }
-#line 1775 "parser.c"
+#line 1776 "parser.c"
     break;
 
   case 86: /* idlist: %empty  */
-#line 454 "parser.y"
+#line 455 "parser.y"
                   {}
-#line 1781 "parser.c"
+#line 1782 "parser.c"
     break;
 
   case 87: /* arg: ID  */
-#line 457 "parser.y"
+#line 458 "parser.y"
                      {
                         SymTableEntry *e, *a;
 
@@ -1797,11 +1798,11 @@ yyreduce:
                             } 
                         }                         
                     }
-#line 1801 "parser.c"
+#line 1802 "parser.c"
     break;
 
 
-#line 1805 "parser.c"
+#line 1806 "parser.c"
 
       default: break;
     }
@@ -1995,7 +1996,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 487 "parser.y"
+#line 488 "parser.y"
 
 
 int yyerror(char *yaccProvidedMessage){
