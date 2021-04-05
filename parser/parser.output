@@ -284,7 +284,7 @@ Nonterminals, with rules where they appear
 
 State 0
 
-    0 $accept: . program $end
+    0 $accept: • program $end
 
     $default  reduce using rule 3 (statements)
 
@@ -294,15 +294,15 @@ State 0
 
 State 1
 
-    0 $accept: program . $end
+    0 $accept: program • $end
 
     $end  shift, and go to state 3
 
 
 State 2
 
-    1 program: statements .
-    2 statements: statements . statement
+    1 program: statements •
+    2 statements: statements • statement
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -352,58 +352,58 @@ State 2
 
 State 3
 
-    0 $accept: program $end .
+    0 $accept: program $end •
 
     $default  accept
 
 
 State 4
 
-   77 const: NUM .
+   77 const: NUM •
 
     $default  reduce using rule 77 (const)
 
 
 State 5
 
-   43 lvalue: ID .
+   43 lvalue: ID •
 
     $default  reduce using rule 43 (lvalue)
 
 
 State 6
 
-   78 const: STRING .
+   78 const: STRING •
 
     $default  reduce using rule 78 (const)
 
 
 State 7
 
-   86 ifstmt: IF . LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement
-   87       | IF . LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement ELSE statement
+   86 ifstmt: IF • LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement
+   87       | IF • LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement ELSE statement
 
     LEFT_PARENTHESIS  shift, and go to state 45
 
 
 State 8
 
-   88 whilestmt: WHILE . LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement
+   88 whilestmt: WHILE • LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement
 
     LEFT_PARENTHESIS  shift, and go to state 46
 
 
 State 9
 
-   89 forstmt: FOR . LEFT_PARENTHESIS elist SEMICOLON expression SEMICOLON elist RIGHT_PARENTHESIS statement
+   89 forstmt: FOR • LEFT_PARENTHESIS elist SEMICOLON expression SEMICOLON elist RIGHT_PARENTHESIS statement
 
     LEFT_PARENTHESIS  shift, and go to state 47
 
 
 State 10
 
-   75 funcstart: FUNCTION . ID
-   76          | FUNCTION .
+   75 funcstart: FUNCTION • ID
+   76          | FUNCTION •
 
     ID  shift, and go to state 48
 
@@ -412,8 +412,8 @@ State 10
 
 State 11
 
-   90 returnstmt: RETURN . SEMICOLON
-   91           | RETURN . expression SEMICOLON
+   90 returnstmt: RETURN • SEMICOLON
+   91           | RETURN • expression SEMICOLON
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -444,21 +444,21 @@ State 11
 
 State 12
 
-    9 statement: BREAK . SEMICOLON
+    9 statement: BREAK • SEMICOLON
 
     SEMICOLON  shift, and go to state 51
 
 
 State 13
 
-   10 statement: CONTINUE . SEMICOLON
+   10 statement: CONTINUE • SEMICOLON
 
     SEMICOLON  shift, and go to state 52
 
 
 State 14
 
-   31 term: NOT . expression
+   31 term: NOT • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -488,36 +488,36 @@ State 14
 
 State 15
 
-   44 lvalue: LOCAL . ID
+   44 lvalue: LOCAL • ID
 
     ID  shift, and go to state 54
 
 
 State 16
 
-   80 const: TRUE .
+   80 const: TRUE •
 
     $default  reduce using rule 80 (const)
 
 
 State 17
 
-   81 const: FALSE .
+   81 const: FALSE •
 
     $default  reduce using rule 81 (const)
 
 
 State 18
 
-   79 const: NIL .
+   79 const: NIL •
 
     $default  reduce using rule 79 (const)
 
 
 State 19
 
-   61 objectdef: LEFT_BRACE . elist RIGHT_BRACE
-   62          | LEFT_BRACE . indexed RIGHT_BRACE
+   61 objectdef: LEFT_BRACE • elist RIGHT_BRACE
+   62          | LEFT_BRACE • indexed RIGHT_BRACE
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -553,16 +553,16 @@ State 19
 
 State 20
 
-   68 blockstart: LEFT_BRACKET .
+   68 blockstart: LEFT_BRACKET •
 
     $default  reduce using rule 68 (blockstart)
 
 
 State 21
 
-   29 term: LEFT_PARENTHESIS . expression RIGHT_PARENTHESIS
-   41 primary: LEFT_PARENTHESIS . funcdef RIGHT_PARENTHESIS
-   53 call: LEFT_PARENTHESIS . funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   29 term: LEFT_PARENTHESIS • expression RIGHT_PARENTHESIS
+   41 primary: LEFT_PARENTHESIS • funcdef RIGHT_PARENTHESIS
+   53 call: LEFT_PARENTHESIS • funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -595,21 +595,21 @@ State 21
 
 State 22
 
-   13 statement: SEMICOLON .
+   13 statement: SEMICOLON •
 
     $default  reduce using rule 13 (statement)
 
 
 State 23
 
-   45 lvalue: DOUBLE_COLON . ID
+   45 lvalue: DOUBLE_COLON • ID
 
     ID  shift, and go to state 62
 
 
 State 24
 
-   32 term: PLUS_PLUS . lvalue
+   32 term: PLUS_PLUS • lvalue
 
     ID                shift, and go to state 5
     LOCAL             shift, and go to state 15
@@ -623,7 +623,7 @@ State 24
 
 State 25
 
-   34 term: MINUS_MINUS . lvalue
+   34 term: MINUS_MINUS • lvalue
 
     ID                shift, and go to state 5
     LOCAL             shift, and go to state 15
@@ -637,7 +637,7 @@ State 25
 
 State 26
 
-   30 term: UMINUS . expression
+   30 term: UMINUS • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -667,27 +667,27 @@ State 26
 
 State 27
 
-    2 statements: statements statement .
+    2 statements: statements statement •
 
     $default  reduce using rule 2 (statements)
 
 
 State 28
 
-    4 statement: expression . SEMICOLON
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
+    4 statement: expression • SEMICOLON
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
@@ -707,34 +707,34 @@ State 28
 
 State 29
 
-   28 expression: term .
+   28 expression: term •
 
     $default  reduce using rule 28 (expression)
 
 
 State 30
 
-   14 expression: assignexpr .
+   14 expression: assignexpr •
 
     $default  reduce using rule 14 (expression)
 
 
 State 31
 
-   36 term: primary .
+   36 term: primary •
 
     $default  reduce using rule 36 (term)
 
 
 State 32
 
-   33 term: lvalue . PLUS_PLUS
-   35     | lvalue . MINUS_MINUS
-   37 assignexpr: lvalue . EQUALS expression
-   38 primary: lvalue .
-   47 member: lvalue . DOT ID
-   48       | lvalue . LEFT_BRACE expression RIGHT_BRACE
-   52 call: lvalue . callsuffix
+   33 term: lvalue • PLUS_PLUS
+   35     | lvalue • MINUS_MINUS
+   37 assignexpr: lvalue • EQUALS expression
+   38 primary: lvalue •
+   47 member: lvalue • DOT ID
+   48       | lvalue • LEFT_BRACE expression RIGHT_BRACE
+   52 call: lvalue • callsuffix
 
     LEFT_BRACE        shift, and go to state 82
     LEFT_PARENTHESIS  shift, and go to state 83
@@ -753,17 +753,17 @@ State 32
 
 State 33
 
-   46 lvalue: member .
+   46 lvalue: member •
 
     $default  reduce using rule 46 (lvalue)
 
 
 State 34
 
-   39 primary: call .
-   49 member: call . DOT ID
-   50       | call . LEFT_BRACE expression RIGHT_BRACE
-   51 call: call . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   39 primary: call •
+   49 member: call • DOT ID
+   50       | call • LEFT_BRACE expression RIGHT_BRACE
+   51 call: call • LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     LEFT_BRACE        shift, and go to state 92
     LEFT_PARENTHESIS  shift, and go to state 93
@@ -774,22 +774,22 @@ State 34
 
 State 35
 
-   40 primary: objectdef .
+   40 primary: objectdef •
 
     $default  reduce using rule 40 (primary)
 
 
 State 36
 
-   11 statement: block .
+   11 statement: block •
 
     $default  reduce using rule 11 (statement)
 
 
 State 37
 
-   66 block: blockstart . blockend
-   67      | blockstart . blockstmt blockend
+   66 block: blockstart • blockend
+   67      | blockstart • blockstmt blockend
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -840,57 +840,57 @@ State 37
 
 State 38
 
-   12 statement: funcdef .
+   12 statement: funcdef •
 
     $default  reduce using rule 12 (statement)
 
 
 State 39
 
-   74 funcdef: funcstart . LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS $@2 block
+   74 funcdef: funcstart • LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS $@2 block
 
     LEFT_PARENTHESIS  shift, and go to state 99
 
 
 State 40
 
-   42 primary: const .
+   42 primary: const •
 
     $default  reduce using rule 42 (primary)
 
 
 State 41
 
-    5 statement: ifstmt .
+    5 statement: ifstmt •
 
     $default  reduce using rule 5 (statement)
 
 
 State 42
 
-    6 statement: whilestmt .
+    6 statement: whilestmt •
 
     $default  reduce using rule 6 (statement)
 
 
 State 43
 
-    7 statement: forstmt .
+    7 statement: forstmt •
 
     $default  reduce using rule 7 (statement)
 
 
 State 44
 
-    8 statement: returnstmt .
+    8 statement: returnstmt •
 
     $default  reduce using rule 8 (statement)
 
 
 State 45
 
-   86 ifstmt: IF LEFT_PARENTHESIS . expression RIGHT_PARENTHESIS statement
-   87       | IF LEFT_PARENTHESIS . expression RIGHT_PARENTHESIS statement ELSE statement
+   86 ifstmt: IF LEFT_PARENTHESIS • expression RIGHT_PARENTHESIS statement
+   87       | IF LEFT_PARENTHESIS • expression RIGHT_PARENTHESIS statement ELSE statement
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -920,7 +920,7 @@ State 45
 
 State 46
 
-   88 whilestmt: WHILE LEFT_PARENTHESIS . expression RIGHT_PARENTHESIS statement
+   88 whilestmt: WHILE LEFT_PARENTHESIS • expression RIGHT_PARENTHESIS statement
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -950,7 +950,7 @@ State 46
 
 State 47
 
-   89 forstmt: FOR LEFT_PARENTHESIS . elist SEMICOLON expression SEMICOLON elist RIGHT_PARENTHESIS statement
+   89 forstmt: FOR LEFT_PARENTHESIS • elist SEMICOLON expression SEMICOLON elist RIGHT_PARENTHESIS statement
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -983,34 +983,34 @@ State 47
 
 State 48
 
-   75 funcstart: FUNCTION ID .
+   75 funcstart: FUNCTION ID •
 
     $default  reduce using rule 75 (funcstart)
 
 
 State 49
 
-   90 returnstmt: RETURN SEMICOLON .
+   90 returnstmt: RETURN SEMICOLON •
 
     $default  reduce using rule 90 (returnstmt)
 
 
 State 50
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   91 returnstmt: RETURN expression . SEMICOLON
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   91 returnstmt: RETURN expression • SEMICOLON
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
@@ -1030,48 +1030,48 @@ State 50
 
 State 51
 
-    9 statement: BREAK SEMICOLON .
+    9 statement: BREAK SEMICOLON •
 
     $default  reduce using rule 9 (statement)
 
 
 State 52
 
-   10 statement: CONTINUE SEMICOLON .
+   10 statement: CONTINUE SEMICOLON •
 
     $default  reduce using rule 10 (statement)
 
 
 State 53
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   31 term: NOT expression .
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   31 term: NOT expression •
 
     $default  reduce using rule 31 (term)
 
 
 State 54
 
-   44 lvalue: LOCAL ID .
+   44 lvalue: LOCAL ID •
 
     $default  reduce using rule 44 (lvalue)
 
 
 State 55
 
-   65 indexedelem: LEFT_BRACKET . expression COLON expression RIGHT_BRACKET
+   65 indexedelem: LEFT_BRACKET • expression COLON expression RIGHT_BRACKET
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1101,21 +1101,21 @@ State 55
 
 State 56
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   58 elist: expression .
-   59      | expression . COMMA elist
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   58 elist: expression •
+   59      | expression • COMMA elist
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
@@ -1137,22 +1137,22 @@ State 56
 
 State 57
 
-   61 objectdef: LEFT_BRACE elist . RIGHT_BRACE
+   61 objectdef: LEFT_BRACE elist • RIGHT_BRACE
 
     RIGHT_BRACE  shift, and go to state 106
 
 
 State 58
 
-   62 objectdef: LEFT_BRACE indexed . RIGHT_BRACE
+   62 objectdef: LEFT_BRACE indexed • RIGHT_BRACE
 
     RIGHT_BRACE  shift, and go to state 107
 
 
 State 59
 
-   63 indexed: indexedelem .
-   64        | indexedelem . COMMA indexed
+   63 indexed: indexedelem •
+   64        | indexedelem • COMMA indexed
 
     COMMA  shift, and go to state 108
 
@@ -1161,20 +1161,20 @@ State 59
 
 State 60
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   29 term: LEFT_PARENTHESIS expression . RIGHT_PARENTHESIS
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   29 term: LEFT_PARENTHESIS expression • RIGHT_PARENTHESIS
 
     AND                shift, and go to state 68
     OR                 shift, and go to state 69
@@ -1194,22 +1194,22 @@ State 60
 
 State 61
 
-   41 primary: LEFT_PARENTHESIS funcdef . RIGHT_PARENTHESIS
-   53 call: LEFT_PARENTHESIS funcdef . RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   41 primary: LEFT_PARENTHESIS funcdef • RIGHT_PARENTHESIS
+   53 call: LEFT_PARENTHESIS funcdef • RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     RIGHT_PARENTHESIS  shift, and go to state 110
 
 
 State 62
 
-   45 lvalue: DOUBLE_COLON ID .
+   45 lvalue: DOUBLE_COLON ID •
 
     $default  reduce using rule 45 (lvalue)
 
 
 State 63
 
-   53 call: LEFT_PARENTHESIS . funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   53 call: LEFT_PARENTHESIS • funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     FUNCTION  shift, and go to state 10
 
@@ -1219,10 +1219,10 @@ State 63
 
 State 64
 
-   32 term: PLUS_PLUS lvalue .
-   47 member: lvalue . DOT ID
-   48       | lvalue . LEFT_BRACE expression RIGHT_BRACE
-   52 call: lvalue . callsuffix
+   32 term: PLUS_PLUS lvalue •
+   47 member: lvalue • DOT ID
+   48       | lvalue • LEFT_BRACE expression RIGHT_BRACE
+   52 call: lvalue • callsuffix
 
     LEFT_BRACE        shift, and go to state 82
     LEFT_PARENTHESIS  shift, and go to state 83
@@ -1238,9 +1238,9 @@ State 64
 
 State 65
 
-   49 member: call . DOT ID
-   50       | call . LEFT_BRACE expression RIGHT_BRACE
-   51 call: call . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   49 member: call • DOT ID
+   50       | call • LEFT_BRACE expression RIGHT_BRACE
+   51 call: call • LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     LEFT_BRACE        shift, and go to state 92
     LEFT_PARENTHESIS  shift, and go to state 93
@@ -1249,10 +1249,10 @@ State 65
 
 State 66
 
-   34 term: MINUS_MINUS lvalue .
-   47 member: lvalue . DOT ID
-   48       | lvalue . LEFT_BRACE expression RIGHT_BRACE
-   52 call: lvalue . callsuffix
+   34 term: MINUS_MINUS lvalue •
+   47 member: lvalue • DOT ID
+   48       | lvalue • LEFT_BRACE expression RIGHT_BRACE
+   52 call: lvalue • callsuffix
 
     LEFT_BRACE        shift, and go to state 82
     LEFT_PARENTHESIS  shift, and go to state 83
@@ -1268,27 +1268,27 @@ State 66
 
 State 67
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   30 term: UMINUS expression .
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   30 term: UMINUS expression •
 
     $default  reduce using rule 30 (term)
 
 
 State 68
 
-   26 expression: expression AND . expression
+   26 expression: expression AND • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1318,7 +1318,7 @@ State 68
 
 State 69
 
-   27 expression: expression OR . expression
+   27 expression: expression OR • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1348,14 +1348,14 @@ State 69
 
 State 70
 
-    4 statement: expression SEMICOLON .
+    4 statement: expression SEMICOLON •
 
     $default  reduce using rule 4 (statement)
 
 
 State 71
 
-   15 expression: expression PLUS . expression
+   15 expression: expression PLUS • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1385,7 +1385,7 @@ State 71
 
 State 72
 
-   16 expression: expression MINUS . expression
+   16 expression: expression MINUS • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1415,7 +1415,7 @@ State 72
 
 State 73
 
-   17 expression: expression MULT . expression
+   17 expression: expression MULT • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1445,7 +1445,7 @@ State 73
 
 State 74
 
-   18 expression: expression DIV . expression
+   18 expression: expression DIV • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1475,7 +1475,7 @@ State 74
 
 State 75
 
-   19 expression: expression MOD . expression
+   19 expression: expression MOD • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1505,7 +1505,7 @@ State 75
 
 State 76
 
-   24 expression: expression EQUALS_EQUALS . expression
+   24 expression: expression EQUALS_EQUALS • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1535,7 +1535,7 @@ State 76
 
 State 77
 
-   25 expression: expression NOT_EQUALS . expression
+   25 expression: expression NOT_EQUALS • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1565,7 +1565,7 @@ State 77
 
 State 78
 
-   20 expression: expression GREATER_THAN . expression
+   20 expression: expression GREATER_THAN • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1595,7 +1595,7 @@ State 78
 
 State 79
 
-   22 expression: expression LESS_THAN . expression
+   22 expression: expression LESS_THAN • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1625,7 +1625,7 @@ State 79
 
 State 80
 
-   21 expression: expression GREATER_OR_EQUAL . expression
+   21 expression: expression GREATER_OR_EQUAL • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1655,7 +1655,7 @@ State 80
 
 State 81
 
-   23 expression: expression LESS_OR_EQUAL . expression
+   23 expression: expression LESS_OR_EQUAL • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1685,7 +1685,7 @@ State 81
 
 State 82
 
-   48 member: lvalue LEFT_BRACE . expression RIGHT_BRACE
+   48 member: lvalue LEFT_BRACE • expression RIGHT_BRACE
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1715,7 +1715,7 @@ State 82
 
 State 83
 
-   56 normcall: LEFT_PARENTHESIS . elist RIGHT_PARENTHESIS
+   56 normcall: LEFT_PARENTHESIS • elist RIGHT_PARENTHESIS
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1748,21 +1748,21 @@ State 83
 
 State 84
 
-   47 member: lvalue DOT . ID
+   47 member: lvalue DOT • ID
 
     ID  shift, and go to state 127
 
 
 State 85
 
-   57 methodcall: DOUBLE_DOT . ID LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   57 methodcall: DOUBLE_DOT • ID LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     ID  shift, and go to state 128
 
 
 State 86
 
-   37 assignexpr: lvalue EQUALS . expression
+   37 assignexpr: lvalue EQUALS • expression
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1792,42 +1792,42 @@ State 86
 
 State 87
 
-   33 term: lvalue PLUS_PLUS .
+   33 term: lvalue PLUS_PLUS •
 
     $default  reduce using rule 33 (term)
 
 
 State 88
 
-   35 term: lvalue MINUS_MINUS .
+   35 term: lvalue MINUS_MINUS •
 
     $default  reduce using rule 35 (term)
 
 
 State 89
 
-   52 call: lvalue callsuffix .
+   52 call: lvalue callsuffix •
 
     $default  reduce using rule 52 (call)
 
 
 State 90
 
-   54 callsuffix: normcall .
+   54 callsuffix: normcall •
 
     $default  reduce using rule 54 (callsuffix)
 
 
 State 91
 
-   55 callsuffix: methodcall .
+   55 callsuffix: methodcall •
 
     $default  reduce using rule 55 (callsuffix)
 
 
 State 92
 
-   50 member: call LEFT_BRACE . expression RIGHT_BRACE
+   50 member: call LEFT_BRACE • expression RIGHT_BRACE
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1857,7 +1857,7 @@ State 92
 
 State 93
 
-   51 call: call LEFT_PARENTHESIS . elist RIGHT_PARENTHESIS
+   51 call: call LEFT_PARENTHESIS • elist RIGHT_PARENTHESIS
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1890,22 +1890,22 @@ State 93
 
 State 94
 
-   49 member: call DOT . ID
+   49 member: call DOT • ID
 
     ID  shift, and go to state 132
 
 
 State 95
 
-   69 blockend: RIGHT_BRACKET .
+   69 blockend: RIGHT_BRACKET •
 
     $default  reduce using rule 69 (blockend)
 
 
 State 96
 
-   70 blockstmt: statement .
-   71          | statement . blockstmt
+   70 blockstmt: statement •
+   71          | statement • blockstmt
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -1956,14 +1956,14 @@ State 96
 
 State 97
 
-   66 block: blockstart blockend .
+   66 block: blockstart blockend •
 
     $default  reduce using rule 66 (block)
 
 
 State 98
 
-   67 block: blockstart blockstmt . blockend
+   67 block: blockstart blockstmt • blockend
 
     RIGHT_BRACKET  shift, and go to state 95
 
@@ -1972,7 +1972,7 @@ State 98
 
 State 99
 
-   74 funcdef: funcstart LEFT_PARENTHESIS . $@1 idlist RIGHT_PARENTHESIS $@2 block
+   74 funcdef: funcstart LEFT_PARENTHESIS • $@1 idlist RIGHT_PARENTHESIS $@2 block
 
     $default  reduce using rule 72 ($@1)
 
@@ -1981,21 +1981,21 @@ State 99
 
 State 100
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   86 ifstmt: IF LEFT_PARENTHESIS expression . RIGHT_PARENTHESIS statement
-   87       | IF LEFT_PARENTHESIS expression . RIGHT_PARENTHESIS statement ELSE statement
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   86 ifstmt: IF LEFT_PARENTHESIS expression • RIGHT_PARENTHESIS statement
+   87       | IF LEFT_PARENTHESIS expression • RIGHT_PARENTHESIS statement ELSE statement
 
     AND                shift, and go to state 68
     OR                 shift, and go to state 69
@@ -2015,20 +2015,20 @@ State 100
 
 State 101
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   88 whilestmt: WHILE LEFT_PARENTHESIS expression . RIGHT_PARENTHESIS statement
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   88 whilestmt: WHILE LEFT_PARENTHESIS expression • RIGHT_PARENTHESIS statement
 
     AND                shift, and go to state 68
     OR                 shift, and go to state 69
@@ -2048,34 +2048,34 @@ State 101
 
 State 102
 
-   89 forstmt: FOR LEFT_PARENTHESIS elist . SEMICOLON expression SEMICOLON elist RIGHT_PARENTHESIS statement
+   89 forstmt: FOR LEFT_PARENTHESIS elist • SEMICOLON expression SEMICOLON elist RIGHT_PARENTHESIS statement
 
     SEMICOLON  shift, and go to state 138
 
 
 State 103
 
-   91 returnstmt: RETURN expression SEMICOLON .
+   91 returnstmt: RETURN expression SEMICOLON •
 
     $default  reduce using rule 91 (returnstmt)
 
 
 State 104
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   65 indexedelem: LEFT_BRACKET expression . COLON expression RIGHT_BRACKET
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   65 indexedelem: LEFT_BRACKET expression • COLON expression RIGHT_BRACKET
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
@@ -2095,7 +2095,7 @@ State 104
 
 State 105
 
-   59 elist: expression COMMA . elist
+   59 elist: expression COMMA • elist
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -2128,21 +2128,21 @@ State 105
 
 State 106
 
-   61 objectdef: LEFT_BRACE elist RIGHT_BRACE .
+   61 objectdef: LEFT_BRACE elist RIGHT_BRACE •
 
     $default  reduce using rule 61 (objectdef)
 
 
 State 107
 
-   62 objectdef: LEFT_BRACE indexed RIGHT_BRACE .
+   62 objectdef: LEFT_BRACE indexed RIGHT_BRACE •
 
     $default  reduce using rule 62 (objectdef)
 
 
 State 108
 
-   64 indexed: indexedelem COMMA . indexed
+   64 indexed: indexedelem COMMA • indexed
 
     LEFT_BRACKET  shift, and go to state 55
 
@@ -2152,15 +2152,15 @@ State 108
 
 State 109
 
-   29 term: LEFT_PARENTHESIS expression RIGHT_PARENTHESIS .
+   29 term: LEFT_PARENTHESIS expression RIGHT_PARENTHESIS •
 
     $default  reduce using rule 29 (term)
 
 
 State 110
 
-   41 primary: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS .
-   53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   41 primary: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS •
+   53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS • LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     LEFT_PARENTHESIS  shift, and go to state 142
 
@@ -2169,27 +2169,27 @@ State 110
 
 State 111
 
-   53 call: LEFT_PARENTHESIS funcdef . RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   53 call: LEFT_PARENTHESIS funcdef • RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     RIGHT_PARENTHESIS  shift, and go to state 143
 
 
 State 112
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   26           | expression AND expression .
-   27           | expression . OR expression
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   26           | expression AND expression •
+   27           | expression • OR expression
 
     PLUS              shift, and go to state 71
     MINUS             shift, and go to state 72
@@ -2208,20 +2208,20 @@ State 112
 
 State 113
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   27           | expression OR expression .
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   27           | expression OR expression •
 
     AND               shift, and go to state 68
     PLUS              shift, and go to state 71
@@ -2241,20 +2241,20 @@ State 113
 
 State 114
 
-   15 expression: expression . PLUS expression
-   15           | expression PLUS expression .
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
+   15 expression: expression • PLUS expression
+   15           | expression PLUS expression •
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
 
     MULT  shift, and go to state 73
     DIV   shift, and go to state 74
@@ -2265,20 +2265,20 @@ State 114
 
 State 115
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   16           | expression MINUS expression .
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   16           | expression MINUS expression •
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
 
     MULT  shift, and go to state 73
     DIV   shift, and go to state 74
@@ -2289,80 +2289,80 @@ State 115
 
 State 116
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   17           | expression MULT expression .
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   17           | expression MULT expression •
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
 
     $default  reduce using rule 17 (expression)
 
 
 State 117
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   18           | expression DIV expression .
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   18           | expression DIV expression •
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
 
     $default  reduce using rule 18 (expression)
 
 
 State 118
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   19           | expression MOD expression .
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   19           | expression MOD expression •
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
 
     $default  reduce using rule 19 (expression)
 
 
 State 119
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   24           | expression EQUALS_EQUALS expression .
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   24           | expression EQUALS_EQUALS expression •
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
 
     PLUS              shift, and go to state 71
     MINUS             shift, and go to state 72
@@ -2382,20 +2382,20 @@ State 119
 
 State 120
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   25           | expression NOT_EQUALS expression .
-   26           | expression . AND expression
-   27           | expression . OR expression
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   25           | expression NOT_EQUALS expression •
+   26           | expression • AND expression
+   27           | expression • OR expression
 
     PLUS              shift, and go to state 71
     MINUS             shift, and go to state 72
@@ -2415,20 +2415,20 @@ State 120
 
 State 121
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   20           | expression GREATER_THAN expression .
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   20           | expression GREATER_THAN expression •
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
 
     PLUS   shift, and go to state 71
     MINUS  shift, and go to state 72
@@ -2446,20 +2446,20 @@ State 121
 
 State 122
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   22           | expression LESS_THAN expression .
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   22           | expression LESS_THAN expression •
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
 
     PLUS   shift, and go to state 71
     MINUS  shift, and go to state 72
@@ -2477,20 +2477,20 @@ State 122
 
 State 123
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   21           | expression GREATER_OR_EQUAL expression .
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   21           | expression GREATER_OR_EQUAL expression •
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
 
     PLUS   shift, and go to state 71
     MINUS  shift, and go to state 72
@@ -2508,20 +2508,20 @@ State 123
 
 State 124
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   23           | expression LESS_OR_EQUAL expression .
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   23           | expression LESS_OR_EQUAL expression •
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
 
     PLUS   shift, and go to state 71
     MINUS  shift, and go to state 72
@@ -2539,20 +2539,20 @@ State 124
 
 State 125
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   48 member: lvalue LEFT_BRACE expression . RIGHT_BRACE
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   48 member: lvalue LEFT_BRACE expression • RIGHT_BRACE
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
@@ -2572,41 +2572,41 @@ State 125
 
 State 126
 
-   56 normcall: LEFT_PARENTHESIS elist . RIGHT_PARENTHESIS
+   56 normcall: LEFT_PARENTHESIS elist • RIGHT_PARENTHESIS
 
     RIGHT_PARENTHESIS  shift, and go to state 145
 
 
 State 127
 
-   47 member: lvalue DOT ID .
+   47 member: lvalue DOT ID •
 
     $default  reduce using rule 47 (member)
 
 
 State 128
 
-   57 methodcall: DOUBLE_DOT ID . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   57 methodcall: DOUBLE_DOT ID • LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     LEFT_PARENTHESIS  shift, and go to state 146
 
 
 State 129
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   37 assignexpr: lvalue EQUALS expression .
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   37 assignexpr: lvalue EQUALS expression •
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
@@ -2627,20 +2627,20 @@ State 129
 
 State 130
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   50 member: call LEFT_BRACE expression . RIGHT_BRACE
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   50 member: call LEFT_BRACE expression • RIGHT_BRACE
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
@@ -2660,35 +2660,35 @@ State 130
 
 State 131
 
-   51 call: call LEFT_PARENTHESIS elist . RIGHT_PARENTHESIS
+   51 call: call LEFT_PARENTHESIS elist • RIGHT_PARENTHESIS
 
     RIGHT_PARENTHESIS  shift, and go to state 148
 
 
 State 132
 
-   49 member: call DOT ID .
+   49 member: call DOT ID •
 
     $default  reduce using rule 49 (member)
 
 
 State 133
 
-   71 blockstmt: statement blockstmt .
+   71 blockstmt: statement blockstmt •
 
     $default  reduce using rule 71 (blockstmt)
 
 
 State 134
 
-   67 block: blockstart blockstmt blockend .
+   67 block: blockstart blockstmt blockend •
 
     $default  reduce using rule 67 (block)
 
 
 State 135
 
-   74 funcdef: funcstart LEFT_PARENTHESIS $@1 . idlist RIGHT_PARENTHESIS $@2 block
+   74 funcdef: funcstart LEFT_PARENTHESIS $@1 • idlist RIGHT_PARENTHESIS $@2 block
 
     ID  shift, and go to state 149
 
@@ -2700,8 +2700,8 @@ State 135
 
 State 136
 
-   86 ifstmt: IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS . statement
-   87       | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS . statement ELSE statement
+   86 ifstmt: IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS • statement
+   87       | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS • statement ELSE statement
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -2749,7 +2749,7 @@ State 136
 
 State 137
 
-   88 whilestmt: WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS . statement
+   88 whilestmt: WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS • statement
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -2797,7 +2797,7 @@ State 137
 
 State 138
 
-   89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON . expression SEMICOLON elist RIGHT_PARENTHESIS statement
+   89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON • expression SEMICOLON elist RIGHT_PARENTHESIS statement
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -2827,7 +2827,7 @@ State 138
 
 State 139
 
-   65 indexedelem: LEFT_BRACKET expression COLON . expression RIGHT_BRACKET
+   65 indexedelem: LEFT_BRACKET expression COLON • expression RIGHT_BRACKET
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -2857,21 +2857,21 @@ State 139
 
 State 140
 
-   59 elist: expression COMMA elist .
+   59 elist: expression COMMA elist •
 
     $default  reduce using rule 59 (elist)
 
 
 State 141
 
-   64 indexed: indexedelem COMMA indexed .
+   64 indexed: indexedelem COMMA indexed •
 
     $default  reduce using rule 64 (indexed)
 
 
 State 142
 
-   53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS . elist RIGHT_PARENTHESIS
+   53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS • elist RIGHT_PARENTHESIS
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -2904,28 +2904,28 @@ State 142
 
 State 143
 
-   53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS • LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     LEFT_PARENTHESIS  shift, and go to state 142
 
 
 State 144
 
-   48 member: lvalue LEFT_BRACE expression RIGHT_BRACE .
+   48 member: lvalue LEFT_BRACE expression RIGHT_BRACE •
 
     $default  reduce using rule 48 (member)
 
 
 State 145
 
-   56 normcall: LEFT_PARENTHESIS elist RIGHT_PARENTHESIS .
+   56 normcall: LEFT_PARENTHESIS elist RIGHT_PARENTHESIS •
 
     $default  reduce using rule 56 (normcall)
 
 
 State 146
 
-   57 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS . elist RIGHT_PARENTHESIS
+   57 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS • elist RIGHT_PARENTHESIS
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -2958,36 +2958,36 @@ State 146
 
 State 147
 
-   50 member: call LEFT_BRACE expression RIGHT_BRACE .
+   50 member: call LEFT_BRACE expression RIGHT_BRACE •
 
     $default  reduce using rule 50 (member)
 
 
 State 148
 
-   51 call: call LEFT_PARENTHESIS elist RIGHT_PARENTHESIS .
+   51 call: call LEFT_PARENTHESIS elist RIGHT_PARENTHESIS •
 
     $default  reduce using rule 51 (call)
 
 
 State 149
 
-   85 arg: ID .
+   85 arg: ID •
 
     $default  reduce using rule 85 (arg)
 
 
 State 150
 
-   74 funcdef: funcstart LEFT_PARENTHESIS $@1 idlist . RIGHT_PARENTHESIS $@2 block
+   74 funcdef: funcstart LEFT_PARENTHESIS $@1 idlist • RIGHT_PARENTHESIS $@2 block
 
     RIGHT_PARENTHESIS  shift, and go to state 158
 
 
 State 151
 
-   82 idlist: arg .
-   83       | arg . COMMA idlist
+   82 idlist: arg •
+   83       | arg • COMMA idlist
 
     COMMA  shift, and go to state 159
 
@@ -2996,8 +2996,8 @@ State 151
 
 State 152
 
-   86 ifstmt: IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement .
-   87       | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement . ELSE statement
+   86 ifstmt: IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement •
+   87       | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement • ELSE statement
 
     ELSE  shift, and go to state 160
 
@@ -3007,27 +3007,27 @@ State 152
 
 State 153
 
-   88 whilestmt: WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement .
+   88 whilestmt: WHILE LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement •
 
     $default  reduce using rule 88 (whilestmt)
 
 
 State 154
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON expression . SEMICOLON elist RIGHT_PARENTHESIS statement
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON expression • SEMICOLON elist RIGHT_PARENTHESIS statement
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
@@ -3047,20 +3047,20 @@ State 154
 
 State 155
 
-   15 expression: expression . PLUS expression
-   16           | expression . MINUS expression
-   17           | expression . MULT expression
-   18           | expression . DIV expression
-   19           | expression . MOD expression
-   20           | expression . GREATER_THAN expression
-   21           | expression . GREATER_OR_EQUAL expression
-   22           | expression . LESS_THAN expression
-   23           | expression . LESS_OR_EQUAL expression
-   24           | expression . EQUALS_EQUALS expression
-   25           | expression . NOT_EQUALS expression
-   26           | expression . AND expression
-   27           | expression . OR expression
-   65 indexedelem: LEFT_BRACKET expression COLON expression . RIGHT_BRACKET
+   15 expression: expression • PLUS expression
+   16           | expression • MINUS expression
+   17           | expression • MULT expression
+   18           | expression • DIV expression
+   19           | expression • MOD expression
+   20           | expression • GREATER_THAN expression
+   21           | expression • GREATER_OR_EQUAL expression
+   22           | expression • LESS_THAN expression
+   23           | expression • LESS_OR_EQUAL expression
+   24           | expression • EQUALS_EQUALS expression
+   25           | expression • NOT_EQUALS expression
+   26           | expression • AND expression
+   27           | expression • OR expression
+   65 indexedelem: LEFT_BRACKET expression COLON expression • RIGHT_BRACKET
 
     AND               shift, and go to state 68
     OR                shift, and go to state 69
@@ -3080,21 +3080,21 @@ State 155
 
 State 156
 
-   53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist . RIGHT_PARENTHESIS
+   53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist • RIGHT_PARENTHESIS
 
     RIGHT_PARENTHESIS  shift, and go to state 163
 
 
 State 157
 
-   57 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS elist . RIGHT_PARENTHESIS
+   57 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS elist • RIGHT_PARENTHESIS
 
     RIGHT_PARENTHESIS  shift, and go to state 164
 
 
 State 158
 
-   74 funcdef: funcstart LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS . $@2 block
+   74 funcdef: funcstart LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS • $@2 block
 
     $default  reduce using rule 73 ($@2)
 
@@ -3103,7 +3103,7 @@ State 158
 
 State 159
 
-   83 idlist: arg COMMA . idlist
+   83 idlist: arg COMMA • idlist
 
     ID  shift, and go to state 149
 
@@ -3115,7 +3115,7 @@ State 159
 
 State 160
 
-   87 ifstmt: IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement ELSE . statement
+   87 ifstmt: IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement ELSE • statement
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -3163,7 +3163,7 @@ State 160
 
 State 161
 
-   89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON expression SEMICOLON . elist RIGHT_PARENTHESIS statement
+   89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON expression SEMICOLON • elist RIGHT_PARENTHESIS statement
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -3196,28 +3196,28 @@ State 161
 
 State 162
 
-   65 indexedelem: LEFT_BRACKET expression COLON expression RIGHT_BRACKET .
+   65 indexedelem: LEFT_BRACKET expression COLON expression RIGHT_BRACKET •
 
     $default  reduce using rule 65 (indexedelem)
 
 
 State 163
 
-   53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS .
+   53 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS •
 
     $default  reduce using rule 53 (call)
 
 
 State 164
 
-   57 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS elist RIGHT_PARENTHESIS .
+   57 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS elist RIGHT_PARENTHESIS •
 
     $default  reduce using rule 57 (methodcall)
 
 
 State 165
 
-   74 funcdef: funcstart LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS $@2 . block
+   74 funcdef: funcstart LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS $@2 • block
 
     LEFT_BRACKET  shift, and go to state 20
 
@@ -3227,35 +3227,35 @@ State 165
 
 State 166
 
-   83 idlist: arg COMMA idlist .
+   83 idlist: arg COMMA idlist •
 
     $default  reduce using rule 83 (idlist)
 
 
 State 167
 
-   87 ifstmt: IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement ELSE statement .
+   87 ifstmt: IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS statement ELSE statement •
 
     $default  reduce using rule 87 (ifstmt)
 
 
 State 168
 
-   89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON expression SEMICOLON elist . RIGHT_PARENTHESIS statement
+   89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON expression SEMICOLON elist • RIGHT_PARENTHESIS statement
 
     RIGHT_PARENTHESIS  shift, and go to state 170
 
 
 State 169
 
-   74 funcdef: funcstart LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS $@2 block .
+   74 funcdef: funcstart LEFT_PARENTHESIS $@1 idlist RIGHT_PARENTHESIS $@2 block •
 
     $default  reduce using rule 74 (funcdef)
 
 
 State 170
 
-   89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON expression SEMICOLON elist RIGHT_PARENTHESIS . statement
+   89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON expression SEMICOLON elist RIGHT_PARENTHESIS • statement
 
     NUM               shift, and go to state 4
     ID                shift, and go to state 5
@@ -3303,6 +3303,6 @@ State 170
 
 State 171
 
-   89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON expression SEMICOLON elist RIGHT_PARENTHESIS statement .
+   89 forstmt: FOR LEFT_PARENTHESIS elist SEMICOLON expression SEMICOLON elist RIGHT_PARENTHESIS statement •
 
     $default  reduce using rule 89 (forstmt)
