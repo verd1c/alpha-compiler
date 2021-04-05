@@ -273,8 +273,7 @@ funcstart   :   FUNCTION ID {
                                 static char *s;
                                 s = (char *)malloc(5*sizeof(char));
 
-                                printf(s, "@%d", _anon_func_counter);
-                              
+                                sprintf(s, "@%d", _anon_func_counter);
 
                                 insert(symTable, s, scope, yylineno, USER_FUNC);
 
