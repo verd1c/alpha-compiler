@@ -162,9 +162,9 @@ lvalue      :   ID                          {
                                                 if((e = lookup_no_type(symTable, $2, scope)) == NULL){
                                                     if((e = lookup(symTable, $2, 0, LIB_FUNC)) == NULL){
                                                         if(scope == 0){
-                                                            insert(symTable, $2, scope, yylineno, GLOBAL_VAR);
+                                                            $$ = insert(symTable, $2, scope, yylineno, GLOBAL_VAR);
                                                         }else{
-                                                            insert(symTable, $2, scope, yylineno, LOCAL_VAR);
+                                                            $$ = insert(symTable, $2, scope, yylineno, LOCAL_VAR);
                                                         }
                                                     }else{
                                                         printf("input:%d: error: local symbol %s is attempting to shadow a library function\n", yylineno, $2);

@@ -1446,9 +1446,9 @@ yyreduce:
                                                 if((e = lookup_no_type(symTable, (yyvsp[0].strValue), scope)) == NULL){
                                                     if((e = lookup(symTable, (yyvsp[0].strValue), 0, LIB_FUNC)) == NULL){
                                                         if(scope == 0){
-                                                            insert(symTable, (yyvsp[0].strValue), scope, yylineno, GLOBAL_VAR);
+                                                            (yyval.exprValue) = insert(symTable, (yyvsp[0].strValue), scope, yylineno, GLOBAL_VAR);
                                                         }else{
-                                                            insert(symTable, (yyvsp[0].strValue), scope, yylineno, LOCAL_VAR);
+                                                            (yyval.exprValue) = insert(symTable, (yyvsp[0].strValue), scope, yylineno, LOCAL_VAR);
                                                         }
                                                     }else{
                                                         printf("input:%d: error: local symbol %s is attempting to shadow a library function\n", yylineno, (yyvsp[0].strValue));
