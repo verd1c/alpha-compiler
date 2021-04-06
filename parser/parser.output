@@ -261,7 +261,7 @@ Nonterminals, with rules where they appear
     $@3 (73)
         on left: 74
         on right: 75
-    funcstart <strValue> (74)
+    funcstart <exprValue> (74)
         on left: 76 77
         on right: 75
     const (75)
