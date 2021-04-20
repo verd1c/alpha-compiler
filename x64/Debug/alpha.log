@@ -1,0 +1,28 @@
+﻿  Parameter format not correct - "parser.c".
+  Parameter format not correct - "parser.h".
+  Parameter format not correct - "parser.output".
+  parser/parser.y:125.17-26: warning: type clash on default action: <exprValue> != <>
+  parser/parser.y:139.19-22: warning: type clash on default action: <exprValue> != <>
+  conflicts: 1 shift/reduce
+  intermediate.c
+C:\Users\Jason\source\repos\alpha\parser\intermediate.c(68,19): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+  parser.c
+parser/parser.y(648,18): warning C4018: '<=': signed/unsigned mismatch
+parser/parser.y(655,20): warning C4477: 'printf' : format string '%-7d' requires an argument of type 'int', but variadic argument 1 has type 'double'
+parser/parser.y(671,20): warning C4477: 'printf' : format string '%-7d' requires an argument of type 'int', but variadic argument 1 has type 'double'
+parser/parser.y(687,20): warning C4477: 'printf' : format string '%-7d' requires an argument of type 'int', but variadic argument 1 has type 'double'
+parser/parser.y(709,17): warning C4013: 'exit' undefined; assuming extern returning int
+  scanner.c
+parser/lex.l(72,23): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+parser/lex.l(77,23): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+parser/scanner.c(683,10): warning C4102: 'find_rule': unreferenced label
+parser/scanner.c(1226,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+parser/scanner.c(1388,2): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+parser/scanner.c(1577,41): warning C4996: 'fileno': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _fileno. See online help for details.
+  symbol_table.c
+  tools.c
+C:\Users\Jason\source\repos\alpha\parser\tools.c(10,11): warning C4101: 'iter': unreferenced local variable
+C:\Users\Jason\source\repos\alpha\parser\tools.c(10,18): warning C4101: 's': unreferenced local variable
+C:\Users\Jason\source\repos\alpha\parser\tools.c(11,18): warning C4101: 'i': unreferenced local variable
+  Generating Code...
+  alpha.vcxproj -> C:\Users\Jason\source\repos\alpha\x64\Debug\alpha.exe

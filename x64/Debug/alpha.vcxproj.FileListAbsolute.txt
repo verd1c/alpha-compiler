@@ -1,0 +1,2 @@
+C:\Users\Jason\source\repos\alpha\x64\Debug\alpha.exe
+C:\Users\Jason\source\repos\alpha\x64\Debug\alpha.pdb

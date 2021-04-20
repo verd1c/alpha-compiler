@@ -1,0 +1,15 @@
+﻿  parser.c
+parser/parser.c(397,24): warning C4273: 'malloc': inconsistent dll linkage
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\corecrt_malloc.h(97,15): message : see previous definition of 'malloc'
+parser/parser.c(404,19): warning C4273: 'free': inconsistent dll linkage
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\corecrt_malloc.h(85,14): message : see previous definition of 'free'
+parser/parser.y(495,33): error C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+parser/parser.y(622,21): error C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  scanner.c
+parser/lex.l(72,23): error C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+parser/lex.l(77,23): error C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+parser/scanner.c(683,10): warning C4102: 'find_rule': unreferenced label
+parser/scanner.c(1226,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+parser/scanner.c(1388,2): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+parser/scanner.c(1577,41): error C4996: 'fileno': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _fileno. See online help for details.
+  symbol_table.c
