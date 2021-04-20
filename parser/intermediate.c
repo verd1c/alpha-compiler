@@ -6,21 +6,53 @@
 #include <stddef.h>
 #include <string.h>
 
-void init_quads(void) {
-	quads = (Quad*)0;
+int tempcounter=0;
+void init_quads(void)
+{
+	quads = (Quad *)0;
 	total = 0;
 	currQuad = 0;
 
 	return;
 }
 
-void expand(void) {
+void resettemp()
+{
+	tempcounter = 0;
+}
+
+char *newtempname()
+{
+	char *s;
+	s = (char *)malloc(8 * sizeof(char));
+	sprintf(s, "_t%d", tempcounter);
+	tempcounter++;
+	return s;
+}
+
+SymTableEntry newTemp(int scope,SymTable *t){
+
+SymTableEntry *sym;
+char *tempname=newtempname(tempcounter);
+
+sym=lookup_no_type(t,tempname,scope);
+
+if(sym==NULL){
+	sym=insert(t,tempname,scope,yylineno,QUAD);
+}else 
+	return *sym;
+
+}
+
+void expand(void)
+{
 
 	// expand should only be called when full
 	assert(total == currQuad);
 
-	Quad* p = (Quad*)malloc(NEW_SIZE);
-	if (quads) {
+	Quad *p = (Quad *)malloc(NEW_SIZE);
+	if (quads)
+	{
 		memcpy(p, quads, CURR_SIZE);
 		free(quads);
 	}
@@ -31,17 +63,18 @@ void expand(void) {
 }
 
 void emit(
-	enum iopcode_t	op,
-	Expr* result,
-	Expr* arg1,
-	Expr* arg2,
-	unsigned		label,
-	unsigned		line) {
+	enum iopcode_t op,
+	Expr *result,
+	Expr *arg1,
+	Expr *arg2,
+	unsigned label,
+	unsigned line)
+{
 
 	if (currQuad == total)
 		expand();
 
-	Quad* p = quads + currQuad++;
+	Quad *p = quads + currQuad++;
 	p->op = op;
 	p->result = result;
 	p->arg1 = arg1;
@@ -52,12 +85,13 @@ void emit(
 	return;
 }
 
-
 // create string const expr
-Expr* string_expr(char* str) {
-	Expr* expr = (Expr*)malloc(sizeof(Expr));
+Expr *string_expr(char *str)
+{
+	Expr *expr = (Expr *)malloc(sizeof(Expr));
 
-	if (!expr) {
+	if (!expr)
+	{
 		alpha_message(stdout, MEMORY_ERROR, "malloc");
 		exit(0);
 	}
@@ -70,12 +104,14 @@ Expr* string_expr(char* str) {
 	return expr;
 }
 
-Expr* bool_expr(unsigned char bool) {
-	Expr* expr = (Expr*)malloc(sizeof(Expr));
+Expr *bool_expr(unsigned char bool)
+{
+	Expr *expr = (Expr *)malloc(sizeof(Expr));
 
 	assert(bool == 0 || bool == 1);
 
-	if (!expr) {
+	if (!expr)
+	{
 		alpha_message(stdout, MEMORY_ERROR, "malloc");
 		exit(0);
 	}

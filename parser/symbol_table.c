@@ -479,7 +479,8 @@ char *typeToStringA[] = {
         "ARGUMENT",
 
         "USER_FUNC",
-        "LIB_FUNC"
+        "LIB_FUNC",
+        "QUAD"
     };
 
 void printCallStack(CallStack *s, int line){

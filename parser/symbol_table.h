@@ -22,7 +22,8 @@ enum EntryType{
     ARGUMENT_VAR,
 
     USER_FUNC,
-    LIB_FUNC
+    LIB_FUNC,
+    QUAD
 };
 
 typedef struct Variable {

@@ -16,7 +16,8 @@
         "ARGUMENT",
 
         "USER_FUNC",
-        "LIB_FUNC"
+        "LIB_FUNC",
+        "QUAD"
     };
 
     char *opcodeToString[] =  {
@@ -119,11 +120,17 @@ statement   :   expression SEMICOLON
                                         }
                 | block
                 | funcdef
-                | SEMICOLON
+                | SEMICOLON {
+                    resettemp();
+                }
                 ;
 
+
 expression  :   assignexpr 
-                | expression PLUS expression 
+                | expression PLUS expression {
+                                                SymTableEntry sym =newTemp(scope,symTable);
+
+                                             }
                 | expression MINUS expression
                 | expression MULT expression
                 | expression DIV expression

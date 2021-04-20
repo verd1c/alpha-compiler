@@ -69,5 +69,7 @@ struct Quad_t {
 
 void init_quads(void);
 void emit(enum iopcode_t op, Expr* result, Expr* arg1, Expr* arg2, unsigned label, unsigned line);
-
+void resettemp();
+char *newtempname();
+SymTableEntry newTemp(int scope,SymTable *t);
 #endif
