@@ -921,21 +921,26 @@ case 42:
 YY_RULE_SETUP
 #line 61 "lex.l"
 {
-    yylval.numValue = atoi(yytext);
+   // yylval.numValue = atoi(yytext);
+   	int d;
+	sscanf(yytext, "%d", &d);
+	yylval.numValue = d;
     return NUM;
 }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 66 "lex.l"
+#line 69 "lex.l"
 {
-    yylval.numValue = atoi(yytext);
+    int d;
+	sscanf(yytext, "%d", &d);
+	yylval.numValue = d;
     return NUM;
 }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 71 "lex.l"
+#line 76 "lex.l"
 {
     yylval.strValue = strdup(yytext);
     return ID;
@@ -943,7 +948,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 76 "lex.l"
+#line 81 "lex.l"
 {
     yylval.strValue = strdup(process_string());
     return STRING;
@@ -951,31 +956,31 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 81 "lex.l"
+#line 86 "lex.l"
 {
 	
 }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 85 "lex.l"
+#line 90 "lex.l"
 {
 	process_multiline();
 }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 89 "lex.l"
+#line 94 "lex.l"
 { }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 90 "lex.l"
+#line 95 "lex.l"
 ;   // Ignore whitespaces and carriage return
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 91 "lex.l"
+#line 96 "lex.l"
 {
     if(strcmp(yytext, " ") != 0)
         printf("Invalid characted %s encountered, skipping...\n", yytext);
@@ -983,10 +988,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 95 "lex.l"
+#line 100 "lex.l"
 ECHO;
 	YY_BREAK
-#line 989 "scanner.c"
+#line 994 "scanner.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1870,7 +1875,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 95 "lex.l"
+#line 100 "lex.l"
 
 
 

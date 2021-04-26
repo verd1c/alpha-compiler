@@ -155,6 +155,7 @@ bison -y -d --output=parser/parser.c parser/parser.y -v
     <ClCompile Include="parser\scanner.c" />
     <ClCompile Include="parser\symbol_table.c" />
     <ClCompile Include="parser\tools.c" />
+    <ClCompile Include="stack.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="parser\intermediate.h" />
@@ -162,6 +163,7 @@ bison -y -d --output=parser/parser.c parser/parser.y -v
     <ClInclude Include="parser\parser.h" />
     <ClInclude Include="parser\symbol_table.h" />
     <ClInclude Include="parser\tools.h" />
+    <ClInclude Include="stack.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="parser\parser.y" />

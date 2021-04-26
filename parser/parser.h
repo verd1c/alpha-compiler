@@ -141,19 +141,20 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 56 "parser/parser.y"
+#line 58 "parser/parser.y"
 
     char*   strValue;
-    int     intValue;
     double  numValue;
 
-    struct SymTableEntry* symValue;
-    struct Expression* exprValue;
+    struct SymTableEntry   *symValue;
+    struct Expression      *exprValue;
+
+    struct Call            *functionCall;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 157 "parser/parser.h"
+#line 158 "parser/parser.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -78,6 +78,7 @@
     #include "parser.h"
     #include "symbol_table.h"
     #include "intermediate.h"
+    #include "tools.h"
 
     int yylex (void);
     int yyerror (char* yaccProvidedMessage);
@@ -112,7 +113,8 @@
     int _anon_func_counter = 0;
     int _further_checks = 0;
     int _func_lvalue_check = 0;
-    int _in_control=0;
+    int _in_control = 0;
+    long _temp_counter = 0;
 
     int scope;
     extern int yylineno;
@@ -123,7 +125,7 @@
 
 
 /* Line 189 of yacc.c  */
-#line 127 "parser/parser.c"
+#line 129 "parser/parser.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -252,19 +254,20 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 56 "parser/parser.y"
+#line 58 "parser/parser.y"
 
     char*   strValue;
-    int     intValue;
     double  numValue;
 
-    struct SymTableEntry* symValue;
-    struct Expression* exprValue;
+    struct SymTableEntry   *symValue;
+    struct Expression      *exprValue;
+
+    struct Call            *functionCall;
 
 
 
 /* Line 214 of yacc.c  */
-#line 268 "parser/parser.c"
+#line 271 "parser/parser.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -276,7 +279,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 280 "parser/parser.c"
+#line 283 "parser/parser.c"
 
 #ifdef short
 # undef short
@@ -601,16 +604,16 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    89,    89,    91,    92,    95,    96,    97,    98,    99,
-     109,   116,   124,   125,   126,   129,   130,   131,   132,   133,
-     134,   135,   136,   137,   138,   139,   140,   141,   142,   143,
-     146,   147,   148,   149,   179,   209,   239,   269,   273,   272,
-     305,   331,   332,   333,   334,   337,   357,   379,   393,   397,
-     398,   399,   400,   403,   404,   433,   436,   437,   440,   442,
-     444,   445,   446,   449,   450,   453,   454,   457,   460,   461,
-     464,   468,   473,   474,   477,   477,   477,   495,   521,   535,
-     535,   535,   535,   535,   537,   538,   539,   542,   558,   559,
-     562,   564,   566,   568,   570,   572,   573
+       0,    93,    93,    95,    96,    99,   100,   101,   102,   103,
+     113,   120,   128,   129,   130,   133,   136,   140,   144,   148,
+     152,   156,   159,   162,   165,   168,   171,   174,   177,   180,
+     185,   186,   187,   188,   219,   250,   281,   312,   318,   317,
+     353,   380,   381,   382,   383,   388,   408,   430,   444,   448,
+     449,   450,   451,   454,   457,   495,   501,   502,   505,   509,
+     513,   516,   523,   526,   527,   530,   531,   534,   537,   538,
+     541,   545,   550,   551,   554,   554,   554,   575,   601,   615,
+     618,   621,   624,   627,   631,   632,   633,   636,   652,   653,
+     656,   658,   660,   662,   664,   666,   667
 };
 #endif
 
@@ -1719,7 +1722,7 @@ yyreduce:
         case 9:
 
 /* Line 1455 of yacc.c  */
-#line 99 "parser/parser.y"
+#line 103 "parser/parser.y"
     {
                                             if(scope==0 && _in_control==0){
                                                 printf("input:%d: error:  Return outside of scope \n", yylineno);
@@ -1734,7 +1737,7 @@ yyreduce:
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 109 "parser/parser.y"
+#line 113 "parser/parser.y"
     {
                                             if(scope==0 && _in_control==0){
                                                 printf("input:%d: error:  Break outside of scope \n", yylineno);
@@ -1747,7 +1750,7 @@ yyreduce:
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 116 "parser/parser.y"
+#line 120 "parser/parser.y"
     { 
                                             if(scope==0 && _in_control==0){
 
@@ -1758,16 +1761,157 @@ yyreduce:
                                         }
     break;
 
+  case 15:
+
+/* Line 1455 of yacc.c  */
+#line 133 "parser/parser.y"
+    {
+
+                                                }
+    break;
+
+  case 16:
+
+/* Line 1455 of yacc.c  */
+#line 136 "parser/parser.y"
+    {
+                                                    (yyval.exprValue) = sym_expr(new_temp(symTable, scope));
+                                                    emit(ADD_I, (yyval.exprValue), (yyvsp[(1) - (3)].exprValue), (yyvsp[(3) - (3)].exprValue), 0, yylineno);
+                                                }
+    break;
+
+  case 17:
+
+/* Line 1455 of yacc.c  */
+#line 140 "parser/parser.y"
+    {
+                                                    (yyval.exprValue) = sym_expr(new_temp(symTable, scope));
+                                                    emit(SUB_I, (yyval.exprValue), (yyvsp[(1) - (3)].exprValue), (yyvsp[(3) - (3)].exprValue), 0, yylineno);
+                                                }
+    break;
+
+  case 18:
+
+/* Line 1455 of yacc.c  */
+#line 144 "parser/parser.y"
+    {
+                                                    (yyval.exprValue) = sym_expr(new_temp(symTable, scope));
+                                                    emit(MUL_I, (yyval.exprValue), (yyvsp[(1) - (3)].exprValue), (yyvsp[(3) - (3)].exprValue), 0, yylineno);
+                                                }
+    break;
+
+  case 19:
+
+/* Line 1455 of yacc.c  */
+#line 148 "parser/parser.y"
+    {
+                                                    (yyval.exprValue) = sym_expr(new_temp(symTable, scope));
+                                                    emit(DIV_I, (yyval.exprValue), (yyvsp[(1) - (3)].exprValue), (yyvsp[(3) - (3)].exprValue), 0, yylineno);
+                                                }
+    break;
+
+  case 20:
+
+/* Line 1455 of yacc.c  */
+#line 152 "parser/parser.y"
+    {
+                                                    (yyval.exprValue) = sym_expr(new_temp(symTable, scope));
+                                                    emit(MOD_I, (yyval.exprValue), (yyvsp[(1) - (3)].exprValue), (yyvsp[(3) - (3)].exprValue), 0, yylineno);
+                                                }
+    break;
+
+  case 21:
+
+/* Line 1455 of yacc.c  */
+#line 156 "parser/parser.y"
+    {
+
+                                                }
+    break;
+
+  case 22:
+
+/* Line 1455 of yacc.c  */
+#line 159 "parser/parser.y"
+    {
+
+                                                }
+    break;
+
+  case 23:
+
+/* Line 1455 of yacc.c  */
+#line 162 "parser/parser.y"
+    {
+
+                                                }
+    break;
+
+  case 24:
+
+/* Line 1455 of yacc.c  */
+#line 165 "parser/parser.y"
+    {
+
+                                                }
+    break;
+
+  case 25:
+
+/* Line 1455 of yacc.c  */
+#line 168 "parser/parser.y"
+    {
+
+                                                }
+    break;
+
+  case 26:
+
+/* Line 1455 of yacc.c  */
+#line 171 "parser/parser.y"
+    {
+
+                                                }
+    break;
+
+  case 27:
+
+/* Line 1455 of yacc.c  */
+#line 174 "parser/parser.y"
+    {
+
+                                                }
+    break;
+
+  case 28:
+
+/* Line 1455 of yacc.c  */
+#line 177 "parser/parser.y"
+    {
+
+                                                }
+    break;
+
+  case 29:
+
+/* Line 1455 of yacc.c  */
+#line 180 "parser/parser.y"
+    {
+                            (yyval.exprValue) = (yyvsp[(1) - (1)].exprValue);
+                        }
+    break;
+
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 149 "parser/parser.y"
+#line 188 "parser/parser.y"
     {               
                             SymTableEntry *e;
 
                             // Check wether lvalue is a function
 
                             if((yyvsp[(2) - (2)].exprValue) && (yyvsp[(2) - (2)].exprValue)->sym && _further_checks){
+                                (yyval.exprValue) = (yyvsp[(2) - (2)].exprValue);
                                 e = (yyvsp[(2) - (2)].exprValue)->sym;
 
                                 if(e->type == LOCAL_VAR || e->type == GLOBAL_VAR || e->type == ARGUMENT_VAR){
@@ -1776,9 +1920,9 @@ yyreduce:
                                     if(!e->isActive){
                                         //printf("Adding, I found it inactive on line %d %d\n", e->value.varValue->line, yylineno);
                                         if(scope == 0){
-                                            insert(symTable, e->value.varValue->name, scope, yylineno, GLOBAL_VAR);
+                                            (yyval.exprValue) = sym_expr(insert(symTable, e->value.varValue->name, scope, yylineno, GLOBAL_VAR));
                                         }else
-                                            insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR);
+                                            (yyval.exprValue) = sym_expr(insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR));
                                     }else if(!is_valid(stack, e, scope)){
                                         if(e->value.varValue->scope != scope){
                                             printf("input:%d: error: could not access variable %s\n", yylineno, e->value.varValue->name);
@@ -1797,13 +1941,14 @@ yyreduce:
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 179 "parser/parser.y"
+#line 219 "parser/parser.y"
     {               
                             SymTableEntry *e;
 
                             // Check wether lvalue is a function
 
                             if((yyvsp[(1) - (2)].exprValue) && (yyvsp[(1) - (2)].exprValue)->sym && _further_checks){
+                                (yyval.exprValue) = (yyvsp[(1) - (2)].exprValue);
                                 e = (yyvsp[(1) - (2)].exprValue)->sym;
 
                                 if(e->type == LOCAL_VAR || e->type == GLOBAL_VAR || e->type == ARGUMENT_VAR){
@@ -1812,9 +1957,9 @@ yyreduce:
                                     if(!e->isActive){
                                         //printf("Adding, I found it inactive on line %d %d\n", e->value.varValue->line, yylineno);
                                         if(scope == 0){
-                                            insert(symTable, e->value.varValue->name, scope, yylineno, GLOBAL_VAR);
+                                            (yyval.exprValue) = sym_expr(insert(symTable, e->value.varValue->name, scope, yylineno, GLOBAL_VAR));
                                         }else
-                                            insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR);
+                                            (yyval.exprValue) = sym_expr(insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR));
                                     }else if(!is_valid(stack, e, scope)){
                                         if(e->value.varValue->scope != scope){
                                             printf("input:%d: error: could not access variable %s\n", yylineno, e->value.varValue->name);
@@ -1833,13 +1978,14 @@ yyreduce:
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 209 "parser/parser.y"
+#line 250 "parser/parser.y"
     {               
                             SymTableEntry *e;
 
                             // Check wether lvalue is a function
 
                             if((yyvsp[(2) - (2)].exprValue) && (yyvsp[(2) - (2)].exprValue)->sym && _further_checks){
+                                (yyval.exprValue) = (yyvsp[(2) - (2)].exprValue);
                                 e = (yyvsp[(2) - (2)].exprValue)->sym;
 
                                 if(e->type == LOCAL_VAR || e->type == GLOBAL_VAR || e->type == ARGUMENT_VAR){
@@ -1848,9 +1994,9 @@ yyreduce:
                                     if(!e->isActive){
                                         //printf("Adding, I found it inactive on line %d %d\n", e->value.varValue->line, yylineno);
                                         if(scope == 0){
-                                            insert(symTable, e->value.varValue->name, scope, yylineno, GLOBAL_VAR);
+                                            (yyval.exprValue) = sym_expr(insert(symTable, e->value.varValue->name, scope, yylineno, GLOBAL_VAR));
                                         }else
-                                            insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR);
+                                            (yyval.exprValue) = sym_expr(insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR));
                                     }else if(!is_valid(stack, e, scope)){
                                         if(e->value.varValue->scope != scope){
                                             printf("input:%d: error: could not access variable %s\n", yylineno, e->value.varValue->name);
@@ -1869,13 +2015,14 @@ yyreduce:
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 239 "parser/parser.y"
+#line 281 "parser/parser.y"
     {               
                             SymTableEntry *e;
 
                             // Check wether lvalue is a function
 
                             if((yyvsp[(1) - (2)].exprValue) && (yyvsp[(1) - (2)].exprValue)->sym && _further_checks){
+                                (yyval.exprValue) = (yyvsp[(1) - (2)].exprValue);
                                 e = (yyvsp[(1) - (2)].exprValue)->sym;
 
                                 if(e->type == LOCAL_VAR || e->type == GLOBAL_VAR || e->type == ARGUMENT_VAR){
@@ -1884,9 +2031,9 @@ yyreduce:
                                     if(!e->isActive){
                                         //printf("Adding, I found it inactive on line %d %d\n", e->value.varValue->line, yylineno);
                                         if(scope == 0){
-                                            insert(symTable, e->value.varValue->name, scope, yylineno, GLOBAL_VAR);
+                                            (yyval.exprValue) = sym_expr(insert(symTable, e->value.varValue->name, scope, yylineno, GLOBAL_VAR));
                                         }else
-                                            insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR);
+                                            (yyval.exprValue) = sym_expr(insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR));
                                     }else if(!is_valid(stack, e, scope)){
                                         if(e->value.varValue->scope != scope){
                                             printf("input:%d: error: could not access variable %s\n", yylineno, e->value.varValue->name);
@@ -1902,10 +2049,19 @@ yyreduce:
                         }
     break;
 
+  case 37:
+
+/* Line 1455 of yacc.c  */
+#line 312 "parser/parser.y"
+    {
+                                (yyval.exprValue) = (yyvsp[(1) - (1)].exprValue);
+                            }
+    break;
+
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 273 "parser/parser.y"
+#line 318 "parser/parser.y"
     {               
                             SymTableEntry *e;
 
@@ -1920,17 +2076,18 @@ yyreduce:
                                     if(!e->isActive){
                                         //printf("Adding, I found it inactive on line %d %d\n", e->value.varValue->line, yylineno);
                                         if(scope == 0){
-                                            insert(symTable, e->value.varValue->name, scope, yylineno, GLOBAL_VAR);
+                                            (yyvsp[(1) - (1)].exprValue) = sym_expr(insert(symTable, e->value.varValue->name, scope, yylineno, GLOBAL_VAR));
                                         }else
-                                            insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR);
+                                            (yyvsp[(1) - (1)].exprValue) = sym_expr(insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR));
                                     }else if(!is_valid(stack, e, scope)){
                                         if(e->value.varValue->scope != scope && e->type != GLOBAL_VAR){
                                             printf("input:%d: error: could not access variable %s\n", yylineno, e->value.varValue->name);
+                                            (yyvsp[(1) - (1)].exprValue) = NULL;
                                         }
                                     }
 
                                 }else{
-                                    
+                                    (yyvsp[(1) - (1)].exprValue) = NULL;
                                     // Functions can not be l-values
                                     if(_func_lvalue_check) printf("input:%d: error: on function %s, functions cannot be l-values\n", yylineno, e->value.funcValue->name);
                                 }
@@ -1938,16 +2095,26 @@ yyreduce:
                         }
     break;
 
+  case 39:
+
+/* Line 1455 of yacc.c  */
+#line 349 "parser/parser.y"
+    {
+                        emit(ASSIGN_I, (yyvsp[(1) - (4)].exprValue), (yyvsp[(4) - (4)].exprValue), NULL, 0, yylineno);
+                    }
+    break;
+
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 305 "parser/parser.y"
+#line 353 "parser/parser.y"
     {               
                             SymTableEntry *e;
 
                             // Check wether lvalue is a function
 
                             if((yyvsp[(1) - (1)].exprValue) && (yyvsp[(1) - (1)].exprValue)->sym && _further_checks){
+                                (yyval.exprValue) = (yyvsp[(1) - (1)].exprValue);
                                 e = (yyvsp[(1) - (1)].exprValue)->sym;
 
                                 if(e->type == LOCAL_VAR || e->type == GLOBAL_VAR || e->type == ARGUMENT_VAR){
@@ -1956,9 +2123,9 @@ yyreduce:
                                     if(!e->isActive){
                                         //printf("Adding, I found it inactive on line %d %d\n", e->value.varValue->line, yylineno);
                                         if(scope == 0){
-                                            insert(symTable, e->value.varValue->name, scope, yylineno, GLOBAL_VAR);
+                                            (yyval.exprValue) = sym_expr(insert(symTable, e->value.varValue->name, scope, yylineno, GLOBAL_VAR));
                                         }else
-                                            insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR);
+                                            (yyval.exprValue) = sym_expr(insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR));
                                     }else if(!is_valid(stack, e, scope)){
                                         if(e->value.varValue->scope != scope && e->type != GLOBAL_VAR){
                                             printf("input:%d: error: could not access variable %s\n", yylineno, e->value.varValue->name);
@@ -1970,10 +2137,33 @@ yyreduce:
                         }
     break;
 
+  case 41:
+
+/* Line 1455 of yacc.c  */
+#line 380 "parser/parser.y"
+    {(yyval.exprValue) = (yyvsp[(1) - (1)].exprValue);}
+    break;
+
+  case 43:
+
+/* Line 1455 of yacc.c  */
+#line 382 "parser/parser.y"
+    {(yyval.exprValue) = (yyvsp[(2) - (3)].exprValue);}
+    break;
+
+  case 44:
+
+/* Line 1455 of yacc.c  */
+#line 383 "parser/parser.y"
+    {
+                            (yyval.exprValue) = (yyvsp[(1) - (1)].exprValue);
+                        }
+    break;
+
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 337 "parser/parser.y"
+#line 388 "parser/parser.y"
     {
                                                 SymTableEntry *e;
                                                 
@@ -1999,7 +2189,7 @@ yyreduce:
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 357 "parser/parser.y"
+#line 408 "parser/parser.y"
     {
                                                 SymTableEntry *e;
                                                 
@@ -2027,7 +2217,7 @@ yyreduce:
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 379 "parser/parser.y"
+#line 430 "parser/parser.y"
     {
                                                 SymTableEntry *e;
                                                 
@@ -2047,7 +2237,7 @@ yyreduce:
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 393 "parser/parser.y"
+#line 444 "parser/parser.y"
     {
                                             _func_lvalue_check = 0;}
     break;
@@ -2055,30 +2245,39 @@ yyreduce:
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 397 "parser/parser.y"
+#line 448 "parser/parser.y"
     {}
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 398 "parser/parser.y"
+#line 449 "parser/parser.y"
     {}
     break;
 
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 403 "parser/parser.y"
-    {printf("line: %d: Function call\n", yylineno);}
+#line 454 "parser/parser.y"
+    {
+                                                                    (yyval.exprValue) = make_call(symTable, scope, (yyvsp[(1) - (4)].exprValue), reverse_elist(&(yyvsp[(3) - (4)].exprValue)));
+                                                                }
     break;
 
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 404 "parser/parser.y"
+#line 457 "parser/parser.y"
     {
                                         SymTableEntry* e;
+
+                                        Call *c;
+                                        SymTableEntry *e1;
+                                        e1 = (yyvsp[(1) - (2)].exprValue)->sym;
+                                        c = (yyvsp[(2) - (2)].functionCall);
+                                        c->name = strdup(e1->value.funcValue->name);
+                                        print_call(c);
 
                                         //printf("Usage of %s as call in %d\n", e->value.funcValue->name, yylineno);
 
@@ -2105,13 +2304,79 @@ yyreduce:
                                                 
                                             }
                                         }
+
+                                        (yyval.exprValue) = make_call(symTable, scope, (yyvsp[(1) - (2)].exprValue), reverse_elist(&(yyvsp[(2) - (2)].functionCall)->elist));
                                     }
+    break;
+
+  case 55:
+
+/* Line 1455 of yacc.c  */
+#line 495 "parser/parser.y"
+    {
+                                                        Expr *g = (yyvsp[(2) - (6)].exprValue);
+                                                        (yyval.exprValue) = make_call(symTable, scope, g, reverse_elist(&(yyvsp[(5) - (6)].exprValue)));
+                                                                                                        }
+    break;
+
+  case 56:
+
+/* Line 1455 of yacc.c  */
+#line 501 "parser/parser.y"
+    {(yyval.functionCall) = (yyvsp[(1) - (1)].functionCall);}
+    break;
+
+  case 57:
+
+/* Line 1455 of yacc.c  */
+#line 502 "parser/parser.y"
+    {(yyval.functionCall) = (yyvsp[(1) - (1)].functionCall);}
+    break;
+
+  case 58:
+
+/* Line 1455 of yacc.c  */
+#line 505 "parser/parser.y"
+    {
+                                                                (yyval.functionCall) = function_call(FALSE, NULL, scope, (yyvsp[(2) - (3)].exprValue));
+                                                            }
+    break;
+
+  case 59:
+
+/* Line 1455 of yacc.c  */
+#line 509 "parser/parser.y"
+    {
+                                                                            (yyval.functionCall) = function_call(TRUE, (yyvsp[(2) - (5)].strValue), scope, (yyvsp[(4) - (5)].exprValue));
+                                                                        }
+    break;
+
+  case 60:
+
+/* Line 1455 of yacc.c  */
+#line 513 "parser/parser.y"
+    {
+                                                (yyval.exprValue) = (yyvsp[(1) - (1)].exprValue);
+                                            }
+    break;
+
+  case 61:
+
+/* Line 1455 of yacc.c  */
+#line 516 "parser/parser.y"
+    {
+                                                Expr *head = (yyvsp[(1) - (3)].exprValue);
+
+                                                head->next = (yyvsp[(3) - (3)].exprValue);
+
+                                                (yyval.exprValue) = head;
+                                            }
     break;
 
   case 70:
 
 /* Line 1455 of yacc.c  */
-#line 464 "parser/parser.y"
+#line 541 "parser/parser.y"
     {
                                     scope++; // Up scope
                                 }
@@ -2120,7 +2385,7 @@ yyreduce:
   case 71:
 
 /* Line 1455 of yacc.c  */
-#line 468 "parser/parser.y"
+#line 545 "parser/parser.y"
     {
                                     // Scope down and hide old symbols
                                     scope_down(symTable);
@@ -2130,14 +2395,14 @@ yyreduce:
   case 74:
 
 /* Line 1455 of yacc.c  */
-#line 477 "parser/parser.y"
+#line 554 "parser/parser.y"
     {scope++;}
     break;
 
   case 75:
 
 /* Line 1455 of yacc.c  */
-#line 477 "parser/parser.y"
+#line 554 "parser/parser.y"
     {    scope--; 
                                                                                     _func_count++;
 
@@ -2151,20 +2416,23 @@ yyreduce:
   case 76:
 
 /* Line 1455 of yacc.c  */
-#line 486 "parser/parser.y"
+#line 563 "parser/parser.y"
     {
                             _func_count--;
 
                             // Removing function from stack
                             if((yyvsp[(1) - (7)].exprValue) && (yyvsp[(1) - (7)].exprValue)->sym)
                                 pop(stack);
+
+                            emit(FUNCEND_I, 0, 0, 0, 0, yylineno);
+                            (yyval.exprValue) = (yyvsp[(1) - (7)].exprValue);
                         }
     break;
 
   case 77:
 
 /* Line 1455 of yacc.c  */
-#line 495 "parser/parser.y"
+#line 575 "parser/parser.y"
     {
                                 SymTableEntry *e;
 
@@ -2189,14 +2457,14 @@ yyreduce:
                                     (yyval.exprValue) = NULL;
                                 }
 
-                                printf("line: %d: function definition\n", yylineno);
+                                emit(FUNCSTART_I, 0, 0, 0, 0, yylineno);
                             }
     break;
 
   case 78:
 
 /* Line 1455 of yacc.c  */
-#line 521 "parser/parser.y"
+#line 601 "parser/parser.y"
     {  
                                 char *s;
                                 s = (char *)malloc(8 * sizeof(char));
@@ -2208,21 +2476,66 @@ yyreduce:
 
                                 _anon_func_counter++;
 
-                                printf("line: %d: anonymous function definition\n", yylineno);
+                                emit(FUNCSTART_I, 0, 0, 0, 0, yylineno);
+                            }
+    break;
+
+  case 79:
+
+/* Line 1455 of yacc.c  */
+#line 615 "parser/parser.y"
+    {
+                                (yyval.exprValue) = num_expr((yyvsp[(1) - (1)].numValue));
+                            }
+    break;
+
+  case 80:
+
+/* Line 1455 of yacc.c  */
+#line 618 "parser/parser.y"
+    {
+                                (yyval.exprValue) = string_expr((yyvsp[(1) - (1)].strValue));
+                            }
+    break;
+
+  case 81:
+
+/* Line 1455 of yacc.c  */
+#line 621 "parser/parser.y"
+    {
+                                (yyval.exprValue) = nil_expr();
+                            }
+    break;
+
+  case 82:
+
+/* Line 1455 of yacc.c  */
+#line 624 "parser/parser.y"
+    {
+                                (yyval.exprValue) = bool_expr(1);
+                            }
+    break;
+
+  case 83:
+
+/* Line 1455 of yacc.c  */
+#line 627 "parser/parser.y"
+    {
+                                (yyval.exprValue) = bool_expr(0);
                             }
     break;
 
   case 86:
 
 /* Line 1455 of yacc.c  */
-#line 539 "parser/parser.y"
+#line 633 "parser/parser.y"
     {}
     break;
 
   case 87:
 
 /* Line 1455 of yacc.c  */
-#line 542 "parser/parser.y"
+#line 636 "parser/parser.y"
     {
                         SymTableEntry *e, *a;
 
@@ -2243,28 +2556,28 @@ yyreduce:
   case 90:
 
 /* Line 1455 of yacc.c  */
-#line 562 "parser/parser.y"
+#line 656 "parser/parser.y"
     { _in_control++; printf("line: %d: if statement\n", yylineno); }
     break;
 
   case 92:
 
 /* Line 1455 of yacc.c  */
-#line 566 "parser/parser.y"
+#line 660 "parser/parser.y"
     { _in_control++; printf("line: %d: while statement\n", yylineno);}
     break;
 
   case 94:
 
 /* Line 1455 of yacc.c  */
-#line 570 "parser/parser.y"
+#line 664 "parser/parser.y"
     { _in_control++; printf("line: %d: for statement\n", yylineno);}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 2268 "parser/parser.c"
+#line 2581 "parser/parser.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2476,7 +2789,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 578 "parser/parser.y"
+#line 672 "parser/parser.y"
 
 
 int yyerror(char *yaccProvidedMessage){
@@ -2551,64 +2864,72 @@ void printByScope(SymTable *symTable){
 }
 
 void printQuads(void){
-    Quad *q;
+    Quad q;
     Expr *e;
     int i;
 
     printf("-------------------------------\n");
-    printf("Printing Quads");
+    printf("Printing Quads\n");
     printf("-------------------------------\n");
-    for(i = 0; i <= currQuad; i++){
-        q = (Quad*)(quads + i * sizeof(Quad));
-        printf("Quad [%-10s] ", opcodeToString[q->op]);
+    for(i = 0; i < currQuad; i++){
+        q = quads[i];
+        printf("%-10s ", opcodeToString[q.op]);
 
         // print result
-        e = q->result;
-        if(e->type == CONSTNUM_E){
-            printf(" [%-7d] ", e->numConst);
-        }else if(e->type == CONSTBOOL_E){
-            if(e->boolConst == 0)
-                printf(" [%-5s] ", "false");
-            else
-                printf(" [%-5s] ", "true");
-        }else{
-            if(e->sym->type == LOCAL_VAR || e->sym->type == GLOBAL_VAR || e->sym->type == ARGUMENT_VAR)
-                printf(" [%-10s] ", e->sym->value.varValue->name);
-            else
-                printf(" [%-10s] ", e->sym->value.funcValue->name);
+        e = q.result;
+        if(e){
+            if(e->type == CONSTNUM_E){
+                printf(" %-3f ", e->numConst);
+            }else if(e->type == CONSTBOOL_E){
+                if(e->boolConst == 0)
+                    printf(" %-5s ", "false");
+                else
+                    printf(" %-5s ", "true");
+            }else{
+                if(e->sym->type == LOCAL_VAR || e->sym->type == GLOBAL_VAR || e->sym->type == ARGUMENT_VAR)
+                    printf(" %-10s ", e->sym->value.varValue->name);
+                else
+                    printf(" %-10s ", e->sym->value.funcValue->name);
+            }
         }
 
         // print arg1
-        e = q->arg1;
-        if(e->type == CONSTNUM_E){
-            printf(" [%-7d] ", e->numConst);
-        }else if(e->type == CONSTBOOL_E){
-            if(e->boolConst == 0)
-                printf(" [%-5s] ", "false");
-            else
-                printf(" [%-5s] ", "true");
-        }else{
-            if(e->sym->type == LOCAL_VAR || e->sym->type == GLOBAL_VAR || e->sym->type == ARGUMENT_VAR)
-                printf(" [%-10s] ", e->sym->value.varValue->name);
-            else
-                printf(" [%-10s] ", e->sym->value.funcValue->name);
+        e = q.arg1;
+        if(e){
+            if(e->type == CONSTNUM_E){
+                printf(" %-3f ", e->numConst);
+            }else if(e->type == CONSTBOOL_E){
+                if(e->boolConst == 0)
+                    printf(" %-5s ", "false");
+                else
+                    printf(" %-5s ", "true");
+            }else{
+                if(e->sym->type == LOCAL_VAR || e->sym->type == GLOBAL_VAR || e->sym->type == ARGUMENT_VAR)
+                    printf(" %-10s ", e->sym->value.varValue->name);
+                else
+                    printf(" %-10s ", e->sym->value.funcValue->name);
+            }
         }
 
         // print arg2
-        e = q->arg2;
-        if(e->type == CONSTNUM_E){
-            printf(" [%-7d] ", e->numConst);
-        }else if(e->type == CONSTBOOL_E){
-            if(e->boolConst == 0)
-                printf(" [%-5s] ", "false");
-            else
-                printf(" [%-5s] ", "true");
-        }else{
-            if(e->sym->type == LOCAL_VAR || e->sym->type == GLOBAL_VAR || e->sym->type == ARGUMENT_VAR)
-                printf(" [%-10s] ", e->sym->value.varValue->name);
-            else
-                printf(" [%-10s] ", e->sym->value.funcValue->name);
+        e = q.arg2;
+        if(e){
+            if(e->type == CONSTNUM_E){
+                printf(" %-3f ", e->numConst);
+            }else if(e->type == CONSTBOOL_E){
+                if(e->boolConst == 0)
+                    printf(" %-5s ", "false");
+                else
+                    printf(" %-5s ", "true");
+            }else{
+                if(e->sym->type == LOCAL_VAR || e->sym->type == GLOBAL_VAR || e->sym->type == ARGUMENT_VAR)
+                    printf(" %-10s ", e->sym->value.varValue->name);
+                else
+                    printf(" %-10s ", e->sym->value.funcValue->name);
+            }
         }
+
+        printf("\n");
     }
 
 
@@ -2633,6 +2954,7 @@ int main(int argc, char **argv){
 
     //printSymTable(symTable);
     printByScope(symTable);
+    printQuads();
 
     return 0;
 }
