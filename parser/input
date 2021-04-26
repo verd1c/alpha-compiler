@@ -1,7 +1,13 @@
-c = 1;
-a = 2;
+input(x);
+print(typeof(x));
 
-function X(){
-    c = 1 + 4;
-    g=3+5;
+function foo(x,y)  {
+print(x+y);
+local print= y;
+::print(print);
+
+function h(a)  {
+return x+y+a;
+}
+y = h(::x);
 }

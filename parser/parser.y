@@ -120,17 +120,12 @@ statement   :   expression SEMICOLON
                                         }
                 | block
                 | funcdef
-                | SEMICOLON {
-                    resettemp();
-                }
+                | SEMICOLON 
                 ;
 
 
 expression  :   assignexpr 
-                | expression PLUS expression {
-                                                SymTableEntry sym =newTemp(scope,symTable);
-
-                                             }
+                | expression PLUS expression 
                 | expression MINUS expression
                 | expression MULT expression
                 | expression DIV expression
@@ -720,7 +715,6 @@ int main(int argc, char **argv){
 
     }
 
-    init_quads();
     symTable = init_sym_table();
     stack = init_call_stack();
     yyparse();

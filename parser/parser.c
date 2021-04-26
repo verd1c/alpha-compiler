@@ -651,15 +651,15 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int16 yyrline[] =
 {
        0,    86,    86,    88,    89,    92,    93,    94,    95,    96,
-     106,   113,   121,   122,   123,   129,   130,   134,   135,   136,
-     137,   138,   139,   140,   141,   142,   143,   144,   145,   146,
-     149,   150,   151,   152,   181,   210,   239,   268,   272,   271,
-     303,   328,   329,   330,   331,   334,   354,   376,   390,   394,
-     395,   396,   397,   400,   401,   429,   432,   433,   436,   438,
-     440,   441,   442,   445,   446,   449,   450,   453,   456,   457,
-     460,   464,   469,   470,   473,   473,   473,   491,   517,   531,
-     531,   531,   531,   531,   533,   534,   535,   538,   554,   555,
-     558,   560,   562,   564,   566,   568,   569
+     106,   113,   121,   122,   123,   127,   128,   129,   130,   131,
+     132,   133,   134,   135,   136,   137,   138,   139,   140,   141,
+     144,   145,   146,   147,   176,   205,   234,   263,   267,   266,
+     298,   323,   324,   325,   326,   329,   349,   371,   385,   389,
+     390,   391,   392,   395,   396,   424,   427,   428,   431,   433,
+     435,   436,   437,   440,   441,   444,   445,   448,   451,   452,
+     455,   459,   464,   465,   468,   468,   468,   486,   512,   526,
+     526,   526,   526,   526,   528,   529,   530,   533,   549,   550,
+     553,   555,   557,   559,   561,   563,   564
 };
 #endif
 
@@ -1695,25 +1695,8 @@ yyreduce:
 #line 1696 "parser.c"
     break;
 
-  case 14:
-#line 123 "parser.y"
-                            {
-                    resettemp();
-                }
-#line 1704 "parser.c"
-    break;
-
-  case 16:
-#line 130 "parser.y"
-                                             {
-                                                SymTableEntry sym =newTemp(scope,symTable);
-
-                                             }
-#line 1713 "parser.c"
-    break;
-
   case 33:
-#line 152 "parser.y"
+#line 147 "parser.y"
                                    {               
                             SymTableEntry *e;
 
@@ -1743,11 +1726,11 @@ yyreduce:
                                 }
                             }
                         }
-#line 1747 "parser.c"
+#line 1730 "parser.c"
     break;
 
   case 34:
-#line 181 "parser.y"
+#line 176 "parser.y"
                                    {               
                             SymTableEntry *e;
 
@@ -1777,11 +1760,11 @@ yyreduce:
                                 }
                             }
                         }
-#line 1781 "parser.c"
+#line 1764 "parser.c"
     break;
 
   case 35:
-#line 210 "parser.y"
+#line 205 "parser.y"
                                      {               
                             SymTableEntry *e;
 
@@ -1811,11 +1794,11 @@ yyreduce:
                                 }
                             }
                         }
-#line 1815 "parser.c"
+#line 1798 "parser.c"
     break;
 
   case 36:
-#line 239 "parser.y"
+#line 234 "parser.y"
                                      {               
                             SymTableEntry *e;
 
@@ -1845,11 +1828,11 @@ yyreduce:
                                 }
                             }
                         }
-#line 1849 "parser.c"
+#line 1832 "parser.c"
     break;
 
   case 38:
-#line 272 "parser.y"
+#line 267 "parser.y"
                         {               
                             SymTableEntry *e;
 
@@ -1879,11 +1862,11 @@ yyreduce:
                                 }
                             }
                         }
-#line 1883 "parser.c"
+#line 1866 "parser.c"
     break;
 
   case 40:
-#line 303 "parser.y"
+#line 298 "parser.y"
                         {               
                             SymTableEntry *e;
 
@@ -1909,11 +1892,11 @@ yyreduce:
                                 }
                             }
                         }
-#line 1913 "parser.c"
+#line 1896 "parser.c"
     break;
 
   case 45:
-#line 334 "parser.y"
+#line 329 "parser.y"
                                             {
                                                 SymTableEntry *e;
                                                 
@@ -1934,11 +1917,11 @@ yyreduce:
                                                 _further_checks = 1;
                                                 _func_lvalue_check = 1;
                                             }
-#line 1938 "parser.c"
+#line 1921 "parser.c"
     break;
 
   case 46:
-#line 354 "parser.y"
+#line 349 "parser.y"
                                             {
                                                 SymTableEntry *e;
                                                 
@@ -1961,11 +1944,11 @@ yyreduce:
                                                 _further_checks = 1;
                                                 _func_lvalue_check = 1;
                                             }
-#line 1965 "parser.c"
+#line 1948 "parser.c"
     break;
 
   case 47:
-#line 376 "parser.y"
+#line 371 "parser.y"
                                             {
                                                 SymTableEntry *e;
                                                 
@@ -1980,36 +1963,36 @@ yyreduce:
                                                 _further_checks = 0;
                                                 _func_lvalue_check = 1;
                                             }
-#line 1984 "parser.c"
+#line 1967 "parser.c"
     break;
 
   case 48:
-#line 390 "parser.y"
+#line 385 "parser.y"
                                             {
                                             _func_lvalue_check = 0;}
-#line 1991 "parser.c"
+#line 1974 "parser.c"
     break;
 
   case 49:
-#line 394 "parser.y"
+#line 389 "parser.y"
                                 {}
-#line 1997 "parser.c"
+#line 1980 "parser.c"
     break;
 
   case 50:
-#line 395 "parser.y"
+#line 390 "parser.y"
                                                             {}
-#line 2003 "parser.c"
+#line 1986 "parser.c"
     break;
 
   case 53:
-#line 400 "parser.y"
+#line 395 "parser.y"
                                                               {printf("line: %d: Function call\n", yylineno);}
-#line 2009 "parser.c"
+#line 1992 "parser.c"
     break;
 
   case 54:
-#line 401 "parser.y"
+#line 396 "parser.y"
                                     {
                                         SymTableEntry* e;
 
@@ -2038,34 +2021,34 @@ yyreduce:
                                             }
                                         }
                                     }
-#line 2042 "parser.c"
+#line 2025 "parser.c"
     break;
 
   case 70:
-#line 460 "parser.y"
+#line 455 "parser.y"
                                 {
                                     scope++; // Up scope
                                 }
-#line 2050 "parser.c"
+#line 2033 "parser.c"
     break;
 
   case 71:
-#line 464 "parser.y"
+#line 459 "parser.y"
                                 {
                                     // Scope down and hide old symbols
                                     scope_down(symTable);
                                 }
-#line 2059 "parser.c"
+#line 2042 "parser.c"
     break;
 
   case 74:
-#line 473 "parser.y"
+#line 468 "parser.y"
                                            {scope++;}
-#line 2065 "parser.c"
+#line 2048 "parser.c"
     break;
 
   case 75:
-#line 473 "parser.y"
+#line 468 "parser.y"
                                                                                 {    scope--; 
                                                                                     _func_count++;
 
@@ -2074,11 +2057,11 @@ yyreduce:
                                                                                         push(stack, (yyvsp[-4].symValue));
                                                                                     //printCallStack(stack, yylineno);
                                                                                 }
-#line 2078 "parser.c"
+#line 2061 "parser.c"
     break;
 
   case 76:
-#line 482 "parser.y"
+#line 477 "parser.y"
                         {
                             _func_count--;
 
@@ -2086,11 +2069,11 @@ yyreduce:
                             if((yyvsp[-6].symValue))
                                 pop(stack);
                         }
-#line 2090 "parser.c"
+#line 2073 "parser.c"
     break;
 
   case 77:
-#line 491 "parser.y"
+#line 486 "parser.y"
                             {
                                 SymTableEntry *e;
 
@@ -2117,11 +2100,11 @@ yyreduce:
 
                                 printf("line: %d: function definition\n", yylineno);
                             }
-#line 2121 "parser.c"
+#line 2104 "parser.c"
     break;
 
   case 78:
-#line 517 "parser.y"
+#line 512 "parser.y"
                             {  
                                 char *s;
                                 s = (char *)malloc(8 * sizeof(char));
@@ -2135,17 +2118,17 @@ yyreduce:
 
                                 printf("line: %d: anonymous function definition\n", yylineno);
                             }
-#line 2139 "parser.c"
+#line 2122 "parser.c"
     break;
 
   case 86:
-#line 535 "parser.y"
+#line 530 "parser.y"
                   {}
-#line 2145 "parser.c"
+#line 2128 "parser.c"
     break;
 
   case 87:
-#line 538 "parser.y"
+#line 533 "parser.y"
                      {
                         SymTableEntry *e, *a;
 
@@ -2161,29 +2144,29 @@ yyreduce:
                             } 
                         }                         
                     }
-#line 2165 "parser.c"
+#line 2148 "parser.c"
     break;
 
   case 90:
-#line 558 "parser.y"
+#line 553 "parser.y"
                                     { _in_control++; printf("line: %d: if statement\n", yylineno); }
-#line 2171 "parser.c"
+#line 2154 "parser.c"
     break;
 
   case 92:
-#line 562 "parser.y"
+#line 557 "parser.y"
                                        { _in_control++; printf("line: %d: while statement\n", yylineno);}
-#line 2177 "parser.c"
+#line 2160 "parser.c"
     break;
 
   case 94:
-#line 566 "parser.y"
+#line 561 "parser.y"
                                      { _in_control++; printf("line: %d: for statement\n", yylineno);}
-#line 2183 "parser.c"
+#line 2166 "parser.c"
     break;
 
 
-#line 2187 "parser.c"
+#line 2170 "parser.c"
 
       default: break;
     }
@@ -2415,7 +2398,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 574 "parser.y"
+#line 569 "parser.y"
 
 
 int yyerror(char *yaccProvidedMessage){
@@ -2565,7 +2548,6 @@ int main(int argc, char **argv){
 
     }
 
-    init_quads();
     symTable = init_sym_table();
     stack = init_call_stack();
     yyparse();
