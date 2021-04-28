@@ -1,0 +1,13 @@
+function X(){
+    local b;
+    a = 20;
+    b=10;
+
+    a>b;
+
+    if(b == 2){
+        b = 3;
+    }
+
+    a<=c;
+}
