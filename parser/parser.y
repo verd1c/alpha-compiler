@@ -663,10 +663,10 @@ ifprefix    :  ifstart expression RIGHT_PARENTHESIS {
 
                                                             $2 = sym_expr(new_temp(symTable, scope));                                                
                                                             backPatchList($2->truelist,nextQuad());
-                                                            emit(ASSIGN_I,newexpr_constBool(1),NULL,$2,nextQuad(),yylineno);
-                                                            emit(JUMP_I,NULL,NULL,newexpr_constNumber(nextQuad()+2),nextQuad(),yylineno);
+                                                            emit(ASSIGN_I,newexpr_const_bool(1),NULL,$2,nextQuad(),yylineno);
+                                                            emit(JUMP_I,NULL,NULL,newexpr_const_num(nextQuad()+2),nextQuad(),yylineno);
                                                             backPatchList($2->falselist,nextQuad());
-                                                            emit(ASSIGN_I,newexpr_constBool(0),NULL,$2,nextQuad(),yylineno);
+                                                            emit(ASSIGN_I,newexpr_const_bool(0),NULL,$2,nextQuad(),yylineno);
                                                         }
                                                      emit(IF_EQ_I,newexpr_const_num(nextQuad()+1),$3,newexpr_const_bool(1),nextQuad(),yylineno);
                                                      $$=nextQuad();
@@ -727,15 +727,15 @@ forprefix   : forstart elist SEMICOLON M expression SEMICOLON  {
                                                                                       $6 = sym_expr(new_temp(symTable, scope));
 
                                                                                     backPatchList($6->truelist,nextQuad());
-                                                                                    emit(ASSIGN_I,newexpr_constBool(1),NULL,$6,nextQuad(),yylineno);
-                                                                                    emit(JUMP_I,NULL,NULL,newexpr_constNumber(nextQuadLabel()+2),nextQuad(),yylineno);
+                                                                                    emit(ASSIGN_I,newexpr_const_bool(1),NULL,$6,nextQuad(),yylineno);
+                                                                                    emit(JUMP_I,NULL,NULL,newexpr_const_num(nextQuadLabel()+2),nextQuad(),yylineno);
                                                                                     backPatchList($6->falselist,nextQuad());
-                                                                                    emit(ASSIGN_I,newexpr_constBool(0),NULL,$6,nextQuad(),yylineno);
+                                                                                    emit(ASSIGN_I,newexpr_const_bool(0),NULL,$6,nextQuad(),yylineno);
                                                                     
                                                                                 }
                                                                 $$->test    = $4;
                                                                 $$->enter   = nextQuad();
-                                                                emit(IF_EQ_I,$6,newexpr_constBool(1),NULL,nextQuad(),yylineno);
+                                                                emit(IF_EQ_I,$6,newexpr_const_bool(1),NULL,nextQuad(),yylineno);
                                                             }
                 ;
 
