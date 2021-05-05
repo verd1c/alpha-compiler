@@ -13,53 +13,53 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Folder">
-      <UniqueIdentifier>{05ba0e4f-8a3b-4a15-935e-c8473590d995}</UniqueIdentifier>
+    <Filter Include="Source Files\compiler">
+      <UniqueIdentifier>{cf9b7058-58b5-48f5-aa8b-4fa7815d0a7f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="parser\parser.c">
-      <Filter>Source Files\Folder</Filter>
+    <ClCompile Include="compiler\intermediate.c">
+      <Filter>Source Files\compiler</Filter>
     </ClCompile>
-    <ClCompile Include="parser\scanner.c">
-      <Filter>Source Files\Folder</Filter>
+    <ClCompile Include="compiler\parser.c">
+      <Filter>Source Files\compiler</Filter>
     </ClCompile>
-    <ClCompile Include="parser\symbol_table.c">
-      <Filter>Source Files\Folder</Filter>
+    <ClCompile Include="compiler\scanner.c">
+      <Filter>Source Files\compiler</Filter>
     </ClCompile>
-    <ClCompile Include="parser\intermediate.c">
-      <Filter>Source Files\Folder</Filter>
+    <ClCompile Include="compiler\stack.c">
+      <Filter>Source Files\compiler</Filter>
     </ClCompile>
-    <ClCompile Include="parser\tools.c">
-      <Filter>Source Files\Folder</Filter>
+    <ClCompile Include="compiler\symbol_table.c">
+      <Filter>Source Files\compiler</Filter>
     </ClCompile>
-    <ClCompile Include="stack.c">
-      <Filter>Source Files\Folder</Filter>
+    <ClCompile Include="compiler\tools.c">
+      <Filter>Source Files\compiler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="parser\lex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\parser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\symbol_table.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\intermediate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\tools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="stack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="parser\parser.y">
-      <Filter>Source Files\Folder</Filter>
+    <None Include="compiler\parser.y">
+      <Filter>Source Files\compiler</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="compiler\parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\symbol_table.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\intermediate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\lex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

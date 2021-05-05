@@ -13,7 +13,7 @@ struct Stack {
 };
 
 void push_c(Stack *s, void *data);
-void *pop_c(Stack *s);
+void pop_c(Stack *s);
 void *top_c(Stack *s);
 
 
