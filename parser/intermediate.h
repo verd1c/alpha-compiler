@@ -7,9 +7,13 @@
 #define CURR_SIZE   (total*sizeof(Quad))
 #define NEW_SIZE    (EXPAND_SIZE*sizeof(Quad)+CURR_SIZE)
 
+// label list
+typedef int llist_t;
+
 typedef struct Quad         Quad;
 typedef struct Expression   Expr;
 typedef struct Call         Call;
+typedef struct Stmt         Stmt;
 
 extern Quad*            quads;
 extern unsigned         total;
@@ -46,6 +50,7 @@ enum expression_type_t {
 
     NIL_E
 };
+;
 
 struct Expression {
     enum expression_type_t  type;
@@ -56,6 +61,12 @@ struct Expression {
     double numConst;
     char* strConst;
     unsigned char boolConst;
+
+    // in case of boolexpr
+    llist_t truelist;
+    llist_t falselist;
+    llist_t test;
+    llist_t enter;
 
     struct Expression* next; // next
 };
@@ -76,23 +87,43 @@ struct Call {
     Expr *elist;
 };
 
+struct Stmt {
+    llist_t breaklist;
+    llist_t contlist;
+};
+
+// VM ASM creation
+int mk_bool_vmasm(Expr *e);
+unsigned next_quad(void);
+int is_arith(Expr *e);
 void init_quads(void);
 void emit(enum iopcode_t op, Expr* result, Expr* arg1, Expr* arg2, unsigned label, unsigned line);
-Expr* sym_expr(SymTableEntry *e);
+
+// Expression creation
+Expr *expr(enum expression_type_t  type);
+Expr *sym_expr(SymTableEntry *e);
+Expr *string_expr(char *str);
 Expr *nil_expr(void);
 Expr *num_expr(double num);
 Expr *bool_expr(unsigned char bool);
+Expr *member_expr(SymTable *t, int scope, Expr *lvalue, char *name);
+
+void reset_temp_counter(void);
 SymTableEntry *new_temp(SymTable *t, int scope);
 Expr *make_call(SymTable *t, int scope, Expr *call, Expr *revelist);
 Expr *reverse_elist(Expr **elist);
+Expr *emit_if_table_item(SymTable *t, int scope, Expr *e);
+void make_stmt(Stmt *s);
 
 Call *function_call(unsigned char isMethod, char *name, int scope, Expr *elist);
 
-void patchLabel(unsigned quadNo, unsigned label);
-Expr* newexpr_const_bool (unsigned int b) ;
-Expr* newexpr_const_num(double d);
-unsigned nextquad (void);
+llist_t llist(int i);
+llist_t llist_merge(llist_t l1, llist_t l2);
+void llist_patch(llist_t list, int label);
+void patch_label(unsigned quad, unsigned label);
+
 void print_call(Call *c);
+void print_expression(Expr *e);
 
-
+void printQuads(void);
 #endif
