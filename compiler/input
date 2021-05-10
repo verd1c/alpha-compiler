@@ -1,2 +1,14 @@
-for(i=0; i<N; ++i)
-print();
+x = 1;
+
+while(x > 0){
+    if(x = 512541512){
+        while(x > 0){
+            if(x == 5){
+                break;
+            }
+        }
+
+        break;
+    }
+    x = x - 1;
+}
