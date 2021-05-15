@@ -611,17 +611,17 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    99,    99,   101,   101,   107,   115,   119,   123,   127,
-     131,   142,   152,   163,   167,   171,   177,   180,   184,   188,
-     192,   196,   200,   209,   218,   227,   236,   245,   254,   254,
-     273,   273,   292,   298,   300,   304,   310,   311,   355,   399,
-     431,   463,   471,   470,   521,   550,   554,   555,   559,   567,
-     587,   609,   623,   629,   632,   642,   646,   649,   652,   690,
-     696,   697,   700,   704,   708,   711,   719,   724,   725,   728,
-     729,   732,   735,   736,   739,   743,   748,   749,   752,   752,
-     752,   773,   799,   813,   816,   819,   822,   825,   829,   830,
-     831,   834,   850,   857,   860,   860,   869,   874,   874,   882,
-     894,   903,   905,   920,   925,   929
+       0,    99,    99,   101,   101,   102,   105,   109,   113,   117,
+     121,   132,   142,   153,   157,   161,   167,   170,   174,   178,
+     182,   186,   190,   199,   208,   217,   226,   235,   244,   244,
+     263,   263,   282,   288,   290,   294,   300,   301,   345,   389,
+     421,   453,   461,   460,   511,   540,   544,   545,   549,   557,
+     577,   599,   613,   619,   622,   632,   636,   639,   642,   680,
+     686,   687,   690,   694,   698,   701,   709,   714,   715,   718,
+     719,   722,   725,   726,   729,   733,   738,   739,   747,   747,
+     747,   768,   794,   808,   811,   814,   817,   820,   824,   825,
+     826,   829,   845,   852,   855,   855,   864,   869,   869,   877,
+     889,   898,   900,   915,   920,   924
 };
 #endif
 
@@ -1736,32 +1736,10 @@ yyreduce:
     {reset_temp_counter();}
     break;
 
-  case 4:
-
-/* Line 1455 of yacc.c  */
-#line 102 "compiler/parser.y"
-    {
-                        (yyval.stmtValue) = stmt();
-                        (yyval.stmtValue)->breaklist = llist_merge((yyvsp[(1) - (3)].stmtValue)->breaklist, (yyvsp[(3) - (3)].stmtValue)->breaklist);
-                        (yyval.stmtValue)->contlist = llist_merge((yyvsp[(1) - (3)].stmtValue)->contlist, (yyvsp[(3) - (3)].stmtValue)->contlist);
-                    }
-    break;
-
-  case 5:
-
-/* Line 1455 of yacc.c  */
-#line 108 "compiler/parser.y"
-    {
-                        (yyval.stmtValue) = stmt();
-                        (yyval.stmtValue)->contlist = (yyvsp[(1) - (1)].stmtValue)->contlist;
-                        (yyval.stmtValue)->breaklist = (yyvsp[(1) - (1)].stmtValue)->breaklist;
-                    }
-    break;
-
   case 6:
 
 /* Line 1455 of yacc.c  */
-#line 116 "compiler/parser.y"
+#line 106 "compiler/parser.y"
     {
                         (yyval.stmtValue) = stmt();
                     }
@@ -1770,7 +1748,7 @@ yyreduce:
   case 7:
 
 /* Line 1455 of yacc.c  */
-#line 120 "compiler/parser.y"
+#line 110 "compiler/parser.y"
     {
                         (yyval.stmtValue) = (yyvsp[(1) - (1)].stmtValue);
                     }
@@ -1779,16 +1757,16 @@ yyreduce:
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 124 "compiler/parser.y"
+#line 114 "compiler/parser.y"
     {
-                        (yyval.stmtValue) = (yyvsp[(1) - (1)].stmtValue);
+                        (yyval.stmtValue) = stmt();
                     }
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 128 "compiler/parser.y"
+#line 118 "compiler/parser.y"
     {
                         (yyval.stmtValue) = (yyvsp[(1) - (1)].stmtValue);
                     }
@@ -1797,7 +1775,7 @@ yyreduce:
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 131 "compiler/parser.y"
+#line 121 "compiler/parser.y"
     {
                                             if(scope==0 && _in_control==0){
                                                 printf("input:%d: error:  Return outside of scope \n", yylineno);
@@ -1813,7 +1791,7 @@ yyreduce:
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 142 "compiler/parser.y"
+#line 132 "compiler/parser.y"
     {
                                             if(scope==0 && _in_control==0){
                                                 printf("input:%d: error:  Break outside of scope \n", yylineno);
@@ -1829,7 +1807,7 @@ yyreduce:
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 152 "compiler/parser.y"
+#line 142 "compiler/parser.y"
     { 
                                             if(scope==0 && _in_control==0){
 
@@ -1846,7 +1824,7 @@ yyreduce:
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 164 "compiler/parser.y"
+#line 154 "compiler/parser.y"
     {
                         (yyval.stmtValue) = (yyvsp[(1) - (1)].stmtValue);
                     }
@@ -1855,7 +1833,7 @@ yyreduce:
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 168 "compiler/parser.y"
+#line 158 "compiler/parser.y"
     {
                         (yyval.stmtValue) = stmt();
                     }
@@ -1864,7 +1842,7 @@ yyreduce:
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 172 "compiler/parser.y"
+#line 162 "compiler/parser.y"
     {
                         (yyval.stmtValue) = stmt();
                     }
@@ -1873,7 +1851,7 @@ yyreduce:
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 177 "compiler/parser.y"
+#line 167 "compiler/parser.y"
     {
                                                     (yyval.exprValue) = (yyvsp[(1) - (1)].exprValue);
                                                 }
@@ -1882,7 +1860,7 @@ yyreduce:
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 180 "compiler/parser.y"
+#line 170 "compiler/parser.y"
     {
                                                     (yyval.exprValue) = sym_expr(new_temp(symTable, scope));
                                                     emit(ADD_I, (yyval.exprValue), (yyvsp[(1) - (3)].exprValue), (yyvsp[(3) - (3)].exprValue), 0, yylineno);
@@ -1892,7 +1870,7 @@ yyreduce:
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 184 "compiler/parser.y"
+#line 174 "compiler/parser.y"
     {
                                                     (yyval.exprValue) = sym_expr(new_temp(symTable, scope));
                                                     emit(SUB_I, (yyval.exprValue), (yyvsp[(1) - (3)].exprValue), (yyvsp[(3) - (3)].exprValue), 0, yylineno);
@@ -1902,7 +1880,7 @@ yyreduce:
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 188 "compiler/parser.y"
+#line 178 "compiler/parser.y"
     {
                                                     (yyval.exprValue) = sym_expr(new_temp(symTable, scope));
                                                     emit(MUL_I, (yyval.exprValue), (yyvsp[(1) - (3)].exprValue), (yyvsp[(3) - (3)].exprValue), 0, yylineno);
@@ -1912,7 +1890,7 @@ yyreduce:
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 192 "compiler/parser.y"
+#line 182 "compiler/parser.y"
     {
                                                     (yyval.exprValue) = sym_expr(new_temp(symTable, scope));
                                                     emit(DIV_I, (yyval.exprValue), (yyvsp[(1) - (3)].exprValue), (yyvsp[(3) - (3)].exprValue), 0, yylineno);
@@ -1922,7 +1900,7 @@ yyreduce:
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 196 "compiler/parser.y"
+#line 186 "compiler/parser.y"
     {
                                                     (yyval.exprValue) = sym_expr(new_temp(symTable, scope));
                                                     emit(MOD_I, (yyval.exprValue), (yyvsp[(1) - (3)].exprValue), (yyvsp[(3) - (3)].exprValue), 0, yylineno);
@@ -1932,7 +1910,7 @@ yyreduce:
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 201 "compiler/parser.y"
+#line 191 "compiler/parser.y"
     {
                         (yyval.exprValue) = expr(BOOLEXPR_E);
                         (yyval.exprValue)->sym = new_temp(symTable, scope);
@@ -1946,7 +1924,7 @@ yyreduce:
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 210 "compiler/parser.y"
+#line 200 "compiler/parser.y"
     {
                         (yyval.exprValue) = expr(BOOLEXPR_E);
                         (yyval.exprValue)->sym = new_temp(symTable, scope);
@@ -1960,7 +1938,7 @@ yyreduce:
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 219 "compiler/parser.y"
+#line 209 "compiler/parser.y"
     {
                         (yyval.exprValue) = expr(BOOLEXPR_E);
                         (yyval.exprValue)->sym = new_temp(symTable, scope);
@@ -1974,7 +1952,7 @@ yyreduce:
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 228 "compiler/parser.y"
+#line 218 "compiler/parser.y"
     {
                         (yyval.exprValue) = expr(BOOLEXPR_E);
                         (yyval.exprValue)->sym = new_temp(symTable, scope);
@@ -1988,7 +1966,7 @@ yyreduce:
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 237 "compiler/parser.y"
+#line 227 "compiler/parser.y"
     {
                         (yyval.exprValue) = expr(BOOLEXPR_E);
                         (yyval.exprValue)->sym = new_temp(symTable, scope);
@@ -2002,7 +1980,7 @@ yyreduce:
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 246 "compiler/parser.y"
+#line 236 "compiler/parser.y"
     {
                         (yyval.exprValue) = expr(BOOLEXPR_E);
                         (yyval.exprValue)->sym = new_temp(symTable, scope);
@@ -2016,14 +1994,14 @@ yyreduce:
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 254 "compiler/parser.y"
+#line 244 "compiler/parser.y"
     {mk_nbe_vmasm(AND_I, (yyvsp[(1) - (2)].exprValue));}
     break;
 
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 255 "compiler/parser.y"
+#line 245 "compiler/parser.y"
     {
                         (yyval.exprValue) = expr(BOOLEXPR_E);
                         (yyval.exprValue)->sym = new_temp(symTable, scope);
@@ -2047,14 +2025,14 @@ yyreduce:
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 273 "compiler/parser.y"
+#line 263 "compiler/parser.y"
     {mk_nbe_vmasm(OR_I, (yyvsp[(1) - (2)].exprValue));}
     break;
 
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 274 "compiler/parser.y"
+#line 264 "compiler/parser.y"
     {
                         (yyval.exprValue) = expr(BOOLEXPR_E);
                         (yyval.exprValue)->sym = new_temp(symTable, scope);
@@ -2078,7 +2056,7 @@ yyreduce:
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 293 "compiler/parser.y"
+#line 283 "compiler/parser.y"
     {
                         (yyval.exprValue) = (yyvsp[(1) - (1)].exprValue);
                     }
@@ -2087,14 +2065,14 @@ yyreduce:
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 298 "compiler/parser.y"
+#line 288 "compiler/parser.y"
     {(yyval.numValue) = next_quad();}
     break;
 
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 301 "compiler/parser.y"
+#line 291 "compiler/parser.y"
     {
                         (yyval.exprValue) = (yyvsp[(2) - (3)].exprValue);
                     }
@@ -2103,7 +2081,7 @@ yyreduce:
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 305 "compiler/parser.y"
+#line 295 "compiler/parser.y"
     {
                         (yyval.exprValue) = expr(ARITHEXPR_E);
                         (yyval.exprValue)->sym = new_temp(symTable, scope);
@@ -2114,7 +2092,7 @@ yyreduce:
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 312 "compiler/parser.y"
+#line 302 "compiler/parser.y"
     {            
                         Expr *ex = (Expr*)0, *val = (Expr*)0;   
                         SymTableEntry *e;
@@ -2163,7 +2141,7 @@ yyreduce:
   case 38:
 
 /* Line 1455 of yacc.c  */
-#line 356 "compiler/parser.y"
+#line 346 "compiler/parser.y"
     {
                         Expr *ex = (Expr*)0, *val = (Expr*)0;
                         SymTableEntry *e;
@@ -2212,7 +2190,7 @@ yyreduce:
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 400 "compiler/parser.y"
+#line 390 "compiler/parser.y"
     {               
                         SymTableEntry *e;
 
@@ -2249,7 +2227,7 @@ yyreduce:
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 432 "compiler/parser.y"
+#line 422 "compiler/parser.y"
     {               
                         SymTableEntry *e;
 
@@ -2286,7 +2264,7 @@ yyreduce:
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 464 "compiler/parser.y"
+#line 454 "compiler/parser.y"
     {   
                         printf("term -> primary\n");
                         (yyval.exprValue) = (yyvsp[(1) - (1)].exprValue);
@@ -2296,7 +2274,7 @@ yyreduce:
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 471 "compiler/parser.y"
+#line 461 "compiler/parser.y"
     {               
                             SymTableEntry *e;
 
@@ -2333,7 +2311,7 @@ yyreduce:
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 502 "compiler/parser.y"
+#line 492 "compiler/parser.y"
     {
 
                         mk_bool_vmasm((yyvsp[(4) - (4)].exprValue));
@@ -2357,7 +2335,7 @@ yyreduce:
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 521 "compiler/parser.y"
+#line 511 "compiler/parser.y"
     {               
                             SymTableEntry *e;
 
@@ -2392,7 +2370,7 @@ yyreduce:
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 551 "compiler/parser.y"
+#line 541 "compiler/parser.y"
     {
                         (yyval.exprValue) = (yyvsp[(1) - (1)].exprValue);
                     }
@@ -2401,7 +2379,7 @@ yyreduce:
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 556 "compiler/parser.y"
+#line 546 "compiler/parser.y"
     {
                         (yyval.exprValue) = (yyvsp[(2) - (3)].exprValue);
                     }
@@ -2410,7 +2388,7 @@ yyreduce:
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 559 "compiler/parser.y"
+#line 549 "compiler/parser.y"
     {   
                             Expr *c = (yyvsp[(1) - (1)].exprValue);
                             (yyval.exprValue) = (yyvsp[(1) - (1)].exprValue);
@@ -2422,7 +2400,7 @@ yyreduce:
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 567 "compiler/parser.y"
+#line 557 "compiler/parser.y"
     {
                                                 SymTableEntry *e;
                                                 
@@ -2448,7 +2426,7 @@ yyreduce:
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 587 "compiler/parser.y"
+#line 577 "compiler/parser.y"
     {
                                                 SymTableEntry *e;
                                                 
@@ -2476,7 +2454,7 @@ yyreduce:
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 609 "compiler/parser.y"
+#line 599 "compiler/parser.y"
     {
                                                 SymTableEntry *e;
                                                 
@@ -2496,7 +2474,7 @@ yyreduce:
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 623 "compiler/parser.y"
+#line 613 "compiler/parser.y"
     {
                                                 _func_lvalue_check = 0;
                                                 (yyval.exprValue) = (yyvsp[(1) - (1)].strValue);
@@ -2506,7 +2484,7 @@ yyreduce:
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 629 "compiler/parser.y"
+#line 619 "compiler/parser.y"
     {
                                     (yyval.strValue) = member_expr(symTable, scope, (yyvsp[(1) - (3)].exprValue), (yyvsp[(3) - (3)].strValue));
                                 }
@@ -2515,7 +2493,7 @@ yyreduce:
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 633 "compiler/parser.y"
+#line 623 "compiler/parser.y"
     {
                         Expr *res;
 
@@ -2530,7 +2508,7 @@ yyreduce:
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 643 "compiler/parser.y"
+#line 633 "compiler/parser.y"
     {
                         
                     }
@@ -2539,7 +2517,7 @@ yyreduce:
   case 57:
 
 /* Line 1455 of yacc.c  */
-#line 649 "compiler/parser.y"
+#line 639 "compiler/parser.y"
     {
                                                                     (yyval.exprValue) = make_call(symTable, scope, (yyvsp[(1) - (4)].exprValue), reverse_elist(&(yyvsp[(3) - (4)].exprValue)));
                                                                 }
@@ -2548,7 +2526,7 @@ yyreduce:
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 652 "compiler/parser.y"
+#line 642 "compiler/parser.y"
     {
                                         SymTableEntry* e;
 
@@ -2592,7 +2570,7 @@ yyreduce:
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 690 "compiler/parser.y"
+#line 680 "compiler/parser.y"
     {
                                                         Expr *g = (yyvsp[(2) - (6)].exprValue);
                                                         (yyval.exprValue) = make_call(symTable, scope, g, reverse_elist(&(yyvsp[(5) - (6)].exprValue)));
@@ -2602,21 +2580,21 @@ yyreduce:
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 696 "compiler/parser.y"
+#line 686 "compiler/parser.y"
     {(yyval.functionCall) = (yyvsp[(1) - (1)].functionCall);}
     break;
 
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 697 "compiler/parser.y"
+#line 687 "compiler/parser.y"
     {(yyval.functionCall) = (yyvsp[(1) - (1)].functionCall);}
     break;
 
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 700 "compiler/parser.y"
+#line 690 "compiler/parser.y"
     {
                                                                 (yyval.functionCall) = function_call(FALSE, NULL, scope, (yyvsp[(2) - (3)].exprValue));
                                                             }
@@ -2625,7 +2603,7 @@ yyreduce:
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 704 "compiler/parser.y"
+#line 694 "compiler/parser.y"
     {
                                                                             (yyval.functionCall) = function_call(TRUE, (yyvsp[(2) - (5)].strValue), scope, (yyvsp[(4) - (5)].exprValue));
                                                                         }
@@ -2634,7 +2612,7 @@ yyreduce:
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 708 "compiler/parser.y"
+#line 698 "compiler/parser.y"
     {
                                                 (yyval.exprValue) = (yyvsp[(1) - (1)].exprValue);
                                             }
@@ -2643,7 +2621,7 @@ yyreduce:
   case 65:
 
 /* Line 1455 of yacc.c  */
-#line 711 "compiler/parser.y"
+#line 701 "compiler/parser.y"
     {
                                                 Expr *head = (yyvsp[(1) - (3)].exprValue);
 
@@ -2656,7 +2634,7 @@ yyreduce:
   case 66:
 
 /* Line 1455 of yacc.c  */
-#line 719 "compiler/parser.y"
+#line 709 "compiler/parser.y"
     {
                         (yyval.exprValue) = nil_expr();
                     }
@@ -2665,21 +2643,21 @@ yyreduce:
   case 72:
 
 /* Line 1455 of yacc.c  */
-#line 735 "compiler/parser.y"
+#line 725 "compiler/parser.y"
     {(yyval.stmtValue) = stmt();}
     break;
 
   case 73:
 
 /* Line 1455 of yacc.c  */
-#line 736 "compiler/parser.y"
+#line 726 "compiler/parser.y"
     {(yyval.stmtValue) = (yyvsp[(2) - (3)].stmtValue);}
     break;
 
   case 74:
 
 /* Line 1455 of yacc.c  */
-#line 739 "compiler/parser.y"
+#line 729 "compiler/parser.y"
     {
                                     scope++; // Up scope
                                 }
@@ -2688,7 +2666,7 @@ yyreduce:
   case 75:
 
 /* Line 1455 of yacc.c  */
-#line 743 "compiler/parser.y"
+#line 733 "compiler/parser.y"
     {
                                     // Scope down and hide old symbols
                                     scope_down(symTable);
@@ -2698,28 +2676,32 @@ yyreduce:
   case 76:
 
 /* Line 1455 of yacc.c  */
-#line 748 "compiler/parser.y"
+#line 738 "compiler/parser.y"
     {(yyval.stmtValue) = (yyvsp[(1) - (1)].stmtValue);}
     break;
 
   case 77:
 
 /* Line 1455 of yacc.c  */
-#line 749 "compiler/parser.y"
-    {(yyval.stmtValue) = (yyvsp[(1) - (2)].stmtValue);}
+#line 740 "compiler/parser.y"
+    {
+                        (yyval.stmtValue) = stmt();
+                        (yyval.stmtValue)->breaklist = llist_merge((yyvsp[(1) - (2)].stmtValue)->breaklist, (yyvsp[(2) - (2)].stmtValue)->breaklist);
+                        (yyval.stmtValue)->contlist = llist_merge((yyvsp[(1) - (2)].stmtValue)->contlist, (yyvsp[(2) - (2)].stmtValue)->contlist);
+                    }
     break;
 
   case 78:
 
 /* Line 1455 of yacc.c  */
-#line 752 "compiler/parser.y"
+#line 747 "compiler/parser.y"
     {scope++;}
     break;
 
   case 79:
 
 /* Line 1455 of yacc.c  */
-#line 752 "compiler/parser.y"
+#line 747 "compiler/parser.y"
     {    scope--; 
                                                                                     _func_count++;
 
@@ -2733,7 +2715,7 @@ yyreduce:
   case 80:
 
 /* Line 1455 of yacc.c  */
-#line 761 "compiler/parser.y"
+#line 756 "compiler/parser.y"
     {
                             _func_count--;
 
@@ -2749,7 +2731,7 @@ yyreduce:
   case 81:
 
 /* Line 1455 of yacc.c  */
-#line 773 "compiler/parser.y"
+#line 768 "compiler/parser.y"
     {
                                 SymTableEntry *e;
 
@@ -2781,7 +2763,7 @@ yyreduce:
   case 82:
 
 /* Line 1455 of yacc.c  */
-#line 799 "compiler/parser.y"
+#line 794 "compiler/parser.y"
     {  
                                 char *s;
                                 s = (char *)malloc(8 * sizeof(char));
@@ -2800,7 +2782,7 @@ yyreduce:
   case 83:
 
 /* Line 1455 of yacc.c  */
-#line 813 "compiler/parser.y"
+#line 808 "compiler/parser.y"
     {
                                 (yyval.exprValue) = num_expr((yyvsp[(1) - (1)].numValue));
                             }
@@ -2809,7 +2791,7 @@ yyreduce:
   case 84:
 
 /* Line 1455 of yacc.c  */
-#line 816 "compiler/parser.y"
+#line 811 "compiler/parser.y"
     {   
                                 (yyval.exprValue) = string_expr((yyvsp[(1) - (1)].strValue));
                             }
@@ -2818,7 +2800,7 @@ yyreduce:
   case 85:
 
 /* Line 1455 of yacc.c  */
-#line 819 "compiler/parser.y"
+#line 814 "compiler/parser.y"
     {
                                 (yyval.exprValue) = nil_expr();
                             }
@@ -2827,7 +2809,7 @@ yyreduce:
   case 86:
 
 /* Line 1455 of yacc.c  */
-#line 822 "compiler/parser.y"
+#line 817 "compiler/parser.y"
     {
                                 (yyval.exprValue) = bool_expr(1);
                             }
@@ -2836,7 +2818,7 @@ yyreduce:
   case 87:
 
 /* Line 1455 of yacc.c  */
-#line 825 "compiler/parser.y"
+#line 820 "compiler/parser.y"
     {
                                 (yyval.exprValue) = bool_expr(0);
                             }
@@ -2845,14 +2827,14 @@ yyreduce:
   case 90:
 
 /* Line 1455 of yacc.c  */
-#line 831 "compiler/parser.y"
+#line 826 "compiler/parser.y"
     {}
     break;
 
   case 91:
 
 /* Line 1455 of yacc.c  */
-#line 834 "compiler/parser.y"
+#line 829 "compiler/parser.y"
     {
                         SymTableEntry *e, *a;
 
@@ -2873,7 +2855,7 @@ yyreduce:
   case 92:
 
 /* Line 1455 of yacc.c  */
-#line 851 "compiler/parser.y"
+#line 846 "compiler/parser.y"
     {
                         (yyval.stmtValue) = stmt();
                         (yyval.stmtValue)->contlist = (yyvsp[(2) - (2)].stmtValue)->contlist;
@@ -2885,14 +2867,14 @@ yyreduce:
   case 94:
 
 /* Line 1455 of yacc.c  */
-#line 860 "compiler/parser.y"
+#line 855 "compiler/parser.y"
     { _in_control++; }
     break;
 
   case 95:
 
 /* Line 1455 of yacc.c  */
-#line 861 "compiler/parser.y"
+#line 856 "compiler/parser.y"
     {
                         mk_bool_vmasm((yyvsp[(4) - (5)].exprValue));
 
@@ -2905,7 +2887,7 @@ yyreduce:
   case 96:
 
 /* Line 1455 of yacc.c  */
-#line 870 "compiler/parser.y"
+#line 865 "compiler/parser.y"
     {
                         (yyval.numValue) = next_quad();
                     }
@@ -2914,14 +2896,14 @@ yyreduce:
   case 97:
 
 /* Line 1455 of yacc.c  */
-#line 874 "compiler/parser.y"
+#line 869 "compiler/parser.y"
     { _in_control++; printf("line: %d: while statement\n", yylineno);}
     break;
 
   case 98:
 
 /* Line 1455 of yacc.c  */
-#line 875 "compiler/parser.y"
+#line 870 "compiler/parser.y"
     {
                         mk_bool_vmasm((yyvsp[(3) - (4)].exprValue));
                         emit(IF_EQ_I, NULL, (yyvsp[(3) - (4)].exprValue), num_expr(1), next_quad() + 2, yylineno);
@@ -2933,7 +2915,7 @@ yyreduce:
   case 99:
 
 /* Line 1455 of yacc.c  */
-#line 883 "compiler/parser.y"
+#line 878 "compiler/parser.y"
     {
                         (yyval.stmtValue) = stmt();
                         (yyval.stmtValue)->contlist = (yyvsp[(3) - (3)].stmtValue)->contlist;
@@ -2949,7 +2931,7 @@ yyreduce:
   case 100:
 
 /* Line 1455 of yacc.c  */
-#line 895 "compiler/parser.y"
+#line 890 "compiler/parser.y"
     {
                         (yyval.exprValue) = bool_expr(1);
                         mk_bool_vmasm((yyvsp[(5) - (6)].exprValue));
@@ -2962,14 +2944,14 @@ yyreduce:
   case 101:
 
 /* Line 1455 of yacc.c  */
-#line 903 "compiler/parser.y"
+#line 898 "compiler/parser.y"
     { ++_in_control; printf("line: %d: for statement\n", yylineno);}
     break;
 
   case 102:
 
 /* Line 1455 of yacc.c  */
-#line 906 "compiler/parser.y"
+#line 901 "compiler/parser.y"
     {
                         (yyval.stmtValue) = stmt();
                         (yyval.stmtValue)->contlist = (yyvsp[(6) - (7)].stmtValue)->contlist;
@@ -2988,7 +2970,7 @@ yyreduce:
   case 103:
 
 /* Line 1455 of yacc.c  */
-#line 920 "compiler/parser.y"
+#line 915 "compiler/parser.y"
     {
                         (yyval.numValue) = next_quad();
                         emit(JUMP_I, NULL, NULL, NULL, 0, yylineno);
@@ -2998,7 +2980,7 @@ yyreduce:
   case 104:
 
 /* Line 1455 of yacc.c  */
-#line 926 "compiler/parser.y"
+#line 921 "compiler/parser.y"
     {
                         emit(RET_I, NULL, NULL, NULL, next_quad(), yylineno);
                     }
@@ -3007,7 +2989,7 @@ yyreduce:
   case 105:
 
 /* Line 1455 of yacc.c  */
-#line 930 "compiler/parser.y"
+#line 925 "compiler/parser.y"
     {
                         mk_bool_vmasm((yyvsp[(2) - (3)].exprValue));
                         emit(RET_I, (yyvsp[(2) - (3)].exprValue), NULL, NULL, next_quad(), yylineno);
@@ -3018,7 +3000,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 3022 "compiler/parser.c"
+#line 3004 "compiler/parser.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -3230,7 +3212,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 939 "compiler/parser.y"
+#line 934 "compiler/parser.y"
 
 
 int yyerror(char *yaccProvidedMessage){

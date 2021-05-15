@@ -1,14 +1,9 @@
-x = 1;
+function() {
 
-while(x > 0){
-    if(x = 512541512){
-        while(x > 0){
-            if(x == 5){
-                break;
-            }
-        }
-
+    while (true) {
+        break;
+        return i;
+        continue;
         break;
     }
-    x = x - 1;
 }
