@@ -78,7 +78,7 @@
 %type<numValue>     M N ifprefix whilestart whilecond
 %type<stmtValue>    statement statements forstmt returnstmt whilestmt ifstmt block blockstmt
 %type<strValue>     member arg idlist 
-%type<exprValue>    expression lvalue funcstart const primary term assignexpr elist call funcdef forprefix
+%type<exprValue>    expression lvalue funcstart const primary term assignexpr elist call funcdef forprefix objectdef indexed indexedelem
 %type<functionCall> normcall methodcall callsuffix
 
 %right EQUALS
@@ -297,7 +297,7 @@ term        :   LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
                         $$->sym = new_temp(symTable, scope);
                         emit(UMINUS_I, $$, $2, NULL, next_quad(), yylineno);
                     }
-                | NOT expression
+                | NOT expression {}
                 | PLUS_PLUS lvalue
                     {            
                         Expr *ex = (Expr*)0, *val = (Expr*)0;   
@@ -541,7 +541,9 @@ primary     :   lvalue  {
                     {
                         $$ = $1;
                     }
-                | objectdef
+                | objectdef {
+                        $$ = $1;
+                    }
                 | LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS 
                     {
                         $$ = $2;
@@ -633,7 +635,7 @@ member      :   lvalue DOT ID   {
                     {
                         
                     }
-                | call LEFT_BRACE expression RIGHT_BRACE
+                | call LEFT_BRACE expression RIGHT_BRACE {}
                 ;
 
 call        :   call LEFT_PARENTHESIS elist RIGHT_PARENTHESIS   {
@@ -711,15 +713,50 @@ elist       :   expression                  {
                     }
                 ;
         
-objectdef   :    LEFT_BRACE elist RIGHT_BRACE
-                | LEFT_BRACE indexed RIGHT_BRACE
+objectdef   :    LEFT_BRACE elist RIGHT_BRACE {                 
+                                                                int i = 0;
+                                                                Expr* t = expr(NEWTABLE_E);
+                                                                t->sym  = new_temp(symTable, scope);
+                                                                emit(TABLECREATE_I,t,NULL,NULL,next_quad(),yylineno);
+                                                                Expr* tmp = $2;
+                                                                while(tmp != NULL){
+                                                                    emit(TABLESETELEM_I,t,num_expr(i++),tmp,next_quad(),yylineno);
+                                                                    tmp = tmp->next;
+                                                                }
+                                                                $$ = t;
+                                                }
+                | LEFT_BRACE indexed RIGHT_BRACE    {    
+                                                                Expr* t = expr(NEWTABLE_E);
+                                                                t->sym  = new_temp(symTable, scope);
+                                                                emit(TABLECREATE_I,t,NULL,NULL,next_quad(),yylineno);
+                                                                Expr* tmp = $2;
+                                                                while(tmp != NULL){
+                                                                    emit(TABLESETELEM_I,t,tmp->index,tmp->next_index,next_quad(),yylineno);
+                                                                    tmp = tmp->next;
+                                                                }
+                                                                $$ = t;
+                                                    }
                 ;
 
-indexed     :   indexedelem
-                | indexedelem COMMA indexed
+indexed     :   indexedelem {$$ = $1;}
+                | indexedelem COMMA indexed{
+                                                    Expr* tmp = $1;
+                                                    while(tmp->next != NULL){
+                                                        tmp = tmp->next;
+                                                    }
+                                                    tmp->next   = $3;
+                                                    $$ = $1;
+                                                }
                 ;
                 
-indexedelem :   LEFT_BRACKET expression COLON expression RIGHT_BRACKET
+indexedelem :   LEFT_BRACKET expression COLON expression RIGHT_BRACKET {
+
+
+                                                                            mk_bool_vmasm($4);
+                                                                            $$=expr(NEWTABLE_E);
+                                                                            $$->index= $2;
+                                                                            $$->next_index  = $4;
+                                                                        }
                 ;
 
 block       :   blockstart blockend {$$ = stmt();}
@@ -849,7 +886,7 @@ ifstmt      :   ifprefix statement
                         $$->breaklist = $2->breaklist;
                         patch_label($1, next_quad());
                     }
-                | ifprefix statement ELSE statement
+                | ifprefix statement ELSE statement {}
                 ;
 
 ifprefix    :   IF LEFT_PARENTHESIS { _in_control++; } expression RIGHT_PARENTHESIS

@@ -1,9 +1,1 @@
-function() {
-
-    while (true) {
-        break;
-        return i;
-        continue;
-        break;
-    }
-}
+x= [a,b,c,d];

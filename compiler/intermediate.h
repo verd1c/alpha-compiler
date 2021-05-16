@@ -57,6 +57,7 @@ struct Expression {
     // types
     SymTableEntry* sym;
     struct Expression* index;
+    struct Expression* next_index;
     double numConst;
     char* strConst;
     unsigned char boolConst;
@@ -97,7 +98,7 @@ int is_arith(Expr *e);
 void init_quads(void);
 void emit(enum iopcode_t op, Expr* result, Expr* arg1, Expr* arg2, unsigned label, unsigned line);
 int mk_bool_vmasm(Expr *e);
-int mk_nbe_vmasm(Expr *e);
+int mk_nbe_vmasm(enum iopcode_t	op, Expr *e);
 
 // Expression creation
 Expr *expr(enum expression_type_t  type);
