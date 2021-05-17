@@ -1,10 +1,7 @@
 ﻿  Parameter format not correct - "parser.c".
   Parameter format not correct - "parser.h".
   Parameter format not correct - "parser.output".
-  compiler/parser.y:300.19-32: warning: type clash on default action: <exprValue> != <strValue>
-  compiler/parser.y:544.19-27: warning: type clash on default action: <exprValue> != <>
-  compiler/parser.y:636.19-56: warning: type clash on default action: <strValue> != <exprValue>
-  compiler/parser.y:852.19-51: warning: type clash on default action: <stmtValue> != <numValue>
+  compiler/parser.y:658.19-56: warning: type clash on default action: <strValue> != <exprValue>
   conflicts: 1 shift/reduce
   intermediate.c
 C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(85,19): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
@@ -34,24 +31,25 @@ compiler/parser.y(263,23): warning C4047: 'function': 'Expr *' differs in levels
 compiler/parser.y(263,19): warning C4024: 'mk_nbe_vmasm': different types for formal and actual parameter 1
 compiler/parser.y(263,42): warning C4020: 'mk_nbe_vmasm': too many actual parameters
 compiler/parser.y(277,109): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
-compiler/parser.y(615,96): warning C4133: '=': incompatible types - from 'char *' to 'Expression *'
-compiler/parser.y(620,143): warning C4133: '=': incompatible types - from 'Expr *' to 'char *'
-compiler/parser.y(630,47): warning C4133: '=': incompatible types - from 'Expr *' to 'char *'
-compiler/parser.y(691,107): warning C4305: 'function': truncation from 'int' to 'unsigned char'
-compiler/parser.y(695,118): warning C4305: 'function': truncation from 'int' to 'unsigned char'
-compiler/parser.y(850,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(883,83): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(884,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(886,104): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
-compiler/parser.y(893,78): warning C4244: '=': conversion from 'double' to 'llist_t', possible loss of data
-compiler/parser.y(906,105): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(907,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(908,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(909,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(909,97): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(912,105): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
-compiler/parser.y(928,73): warning C4133: '=': incompatible types - from 'Expression *' to 'Stmt *'
-compiler/parser.y(649,51): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+compiler/parser.y(637,96): warning C4133: '=': incompatible types - from 'char *' to 'Expression *'
+compiler/parser.y(642,143): warning C4133: '=': incompatible types - from 'Expr *' to 'char *'
+compiler/parser.y(652,47): warning C4133: '=': incompatible types - from 'Expr *' to 'char *'
+compiler/parser.y(921,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(928,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(928,97): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(929,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(967,83): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(968,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(970,104): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+compiler/parser.y(977,78): warning C4244: '=': conversion from 'double' to 'llist_t', possible loss of data
+compiler/parser.y(990,105): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(991,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(992,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(993,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(993,97): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(996,105): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+compiler/parser.y(1012,73): warning C4133: '=': incompatible types - from 'Expression *' to 'Stmt *'
+compiler/parser.y(672,51): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
   scanner.c
 lex.l(77,23): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
 lex.l(82,23): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.

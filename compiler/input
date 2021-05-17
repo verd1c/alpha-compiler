@@ -1,9 +1,8 @@
-function() {
+a = 1;
+b = 2;
 
-    while (true) {
-        break;
-        return i;
-        continue;
-        break;
-    }
+function X(){
+
 }
+
+c = a-- - ++b;
