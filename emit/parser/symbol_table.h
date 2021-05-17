@@ -11,6 +11,13 @@
 
 extern int scope;
 
+
+typedef enum scopespace_t {
+    programvar,
+    functionlocal,
+    formalarg
+}scopespace_t;
+
 enum Type{
     VAR,
     FUN
@@ -47,6 +54,10 @@ typedef struct SymTableEntry {
         Function *funcValue;
     } value;
 
+    scopespace_t space;
+    unsigned offset;
+    unsigned scope;
+
     struct SymTableEntry *nextEntry;    // next entry
 
     struct SymTableEntry *nextInScope;  // next in linked list by scope
@@ -77,6 +88,7 @@ SymTableEntry *function_lookup(SymTable *t, char *name, int scope);
 SymTableEntry* lookup_variable(SymTable *t, char *name, int scope);
 SymTableEntry* lookup_active(SymTable *t, char *name, int scope);
 SymTableEntry *lookup_temp(SymTable *t, int scope);
+
 
 // Stack
 CallStack *init_call_stack();
