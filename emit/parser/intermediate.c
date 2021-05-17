@@ -6,11 +6,35 @@
 #include <stddef.h>
 #include <string.h>
 
+unsigned int programVarOffset = 0;
+unsigned int functionLocalOffset = 0;
+unsigned int formalArgOffset = 0;
+unsigned int scopeSpaceCounter = 1;
+
+int is_arith(Expr *e)
+{
+	if (e->type == CONSTBOOL_E ||
+		e->type == CONSTSTRING_E ||
+		e->type == NIL_E ||
+		e->type == NEWTABLE_E ||
+		e->type == PROGRAMFUNC_E ||
+		e->type == LIBRARYFUNC_E ||
+		e->type == BOOLEXPR_E)
+	{
+		return 0;
+	}
+}
+
+unsigned next_quad(void)
+{
+	return currQuad;
+}
+
 void init_quads(void)
 {
 	quads = (Quad *)0;
-	total = 0;
-	currQuad = 0;
+	total = 1;
+	currQuad = 1;
 
 	return;
 }
@@ -22,6 +46,7 @@ void expand(void)
 	assert(total == currQuad);
 
 	Quad *p = (Quad *)malloc(NEW_SIZE);
+	memset(p, 0, NEW_SIZE);
 	if (quads)
 	{
 		memcpy(p, quads, CURR_SIZE);
@@ -33,8 +58,15 @@ void expand(void)
 	return;
 }
 
-void emit(enum iopcode_t op, Expr *result, Expr *arg1, Expr *arg2, unsigned label, unsigned line)
+void emit(
+	enum iopcode_t op,
+	Expr *result,
+	Expr *arg1,
+	Expr *arg2,
+	unsigned label,
+	unsigned line)
 {
+
 	if (currQuad == total)
 		expand();
 
@@ -49,29 +81,90 @@ void emit(enum iopcode_t op, Expr *result, Expr *arg1, Expr *arg2, unsigned labe
 	return;
 }
 
-void emit_compares(enum iopcode_t op, Expr *result, Expr *arg1, Expr *arg2, SymTable *s, unsigned label, unsigned line)
+
+scopespace_t currscopespace(void)
 {
-	Expr *expr = (Expr *)malloc(sizeof(Expr));
-	expr->type = BOOLEXPR_E;
-	expr = sym_expr(new_temp(s, scope));
-
-	emit(op, NULL, arg1, arg2, currQuad + 3, line);
-	emit(ASSIGN_I, expr, bool_expr(0), NULL, 0, line);
-	emit(JUMP_I, NULL, NULL, NULL, currQuad + 2, line);
-	emit(ASSIGN_I, expr, bool_expr(1), NULL, 0, line);
-
-	return;
+	if (scopeSpaceCounter == 1)
+	{
+		return programvar;
+	}
+	else if (scopeSpaceCounter % 2 == 0)
+	{
+		return formalarg;
+	}
+	else
+	{
+		return functionlocal;
+	}
 }
 
-void emit_logical(enum iopcode_t op, Expr *result, Expr *arg1, Expr *arg2, SymTable *s, unsigned label, unsigned line)
+unsigned currscopeoffset(void)
 {
-	Expr *expr = (Expr *)malloc(sizeof(Expr));
-	expr->type = BOOLEXPR_E;
-	expr = sym_expr(new_temp(s, scope));
+	switch (currscopespace())
+	{
+	case programvar:
+		return programVarOffset;
+	case functionlocal:
+		return functionLocalOffset;
+	case formalarg:
+		return formalArgOffset;
+	default:
+		assert(0);
+	}
+}
 
-	emit(op, expr, arg1, arg2, 0, line);
+void inccurrscopeoffset(void)
+{
+	switch (currscopespace())
+	{
+	case programvar:
+		++programVarOffset;
+		break;
+	case functionlocal:
+		++functionLocalOffset;
+		break;
+	case formalarg:
+		++formalArgOffset;
+		break;
+	default:
+		assert(0);
+	}
+}
 
-	return;
+void enterscopespace(void) { ++scopeSpaceCounter; }
+
+void exitscopespace(void)
+{
+	assert(scopeSpaceCounter > 1);
+	--scopeSpaceCounter;
+}
+
+void resetformalargsoffset(void)
+{
+	formalArgOffset = 0;
+}
+
+void resetfunctionlocalsoffset(void)
+{
+	functionLocalOffset = 0;
+}
+
+void restorecurrscopeoffset(unsigned n)
+{
+	switch (currscopespace())
+	{
+	case programvar:
+		programVarOffset = n;
+		break;
+	case functionlocal:
+		functionLocalOffset = n;
+		break;
+	case formalarg:
+		formalArgOffset = n;
+		break;
+	default:
+		assert(0);
+	}
 }
 
 // create string const expr
@@ -161,7 +254,7 @@ Expr *sym_expr(SymTableEntry *e)
 }
 
 /**/
-inline void reset_temp_counter(void)
+void reset_temp_counter(void)
 {
 	_temp_counter = 0;
 }
@@ -187,7 +280,17 @@ char *new_temp_name(void)
 
 SymTableEntry *new_temp(SymTable *t, int scope)
 {
-	return insert(t, new_temp_name(), scope, yylineno, LOCAL_VAR);
+	SymTableEntry *e;
+	char *t_name;
+
+	t_name = new_temp_name();
+
+	e = lookup_no_type(t, t_name, scope);
+
+	if (e)
+		return e;
+	else
+		return insert(t, t_name, scope, yylineno, LOCAL_VAR);
 }
 
 Call *function_call(unsigned char isMethod,
@@ -208,11 +311,14 @@ Expr *make_call(SymTable *t, int scope, Expr *call, Expr *revelist)
 {
 	Expr *iter, *res;
 
-	iter = revelist;
-	while (iter)
+	if (revelist->type != NIL_E)
 	{
-		emit(PARAM_I, NULL, iter, NULL, 0, 0);
-		iter = iter->next;
+		iter = revelist;
+		while (iter)
+		{
+			emit(PARAM_I, NULL, iter, NULL, 0, 0);
+			iter = iter->next;
+		}
 	}
 	emit(CALL_I, NULL, call, NULL, 0, 0);
 
@@ -238,7 +344,230 @@ Expr *reverse_elist(Expr **elist)
 	return *elist;
 }
 
+Expr *emit_if_table_item(SymTable *t, int scope, Expr *e)
+{
+	Expr *result;
+
+	if (e->type != TABLEITEM_E)
+		return e;
+
+	result = sym_expr(new_temp(t, scope));
+	emit(TABLEGETELEM_I, result, e, e->index, next_quad(), yylineno);
+	return result;
+}
+
+Expr *expr(enum expression_type_t type)
+{
+	Expr *e;
+
+	e = (Expr *)malloc(sizeof(Expr));
+
+	if (!e)
+	{
+		alpha_message(stdout, MEMORY_ERROR, "malloc");
+		exit(0);
+	}
+
+	memset(e, 0, sizeof(Expr));
+
+	e->type = type;
+
+	return e;
+}
+
+Expr *member_expr(SymTable *t, int scope, Expr *lvalue, char *name)
+{
+	Expr *ti;
+
+	lvalue = emit_if_table_item(t, scope, lvalue);
+	ti = expr(TABLEITEM_E);
+	ti->sym = lvalue->sym;
+	ti->index = string_expr(name);
+	return ti;
+}
+
+llist_t llist(int i)
+{
+	return i;
+}
+
+llist_t llist_merge(llist_t l1, llist_t l2)
+{
+	llist_t iter;
+
+	if (!l1)
+	{
+		return l2;
+	}
+	else if (!l2)
+	{
+		return l1;
+	}
+	else
+	{
+		iter = l1;
+		while (quads[iter].label)
+		{
+			iter = quads[iter].label;
+		}
+		quads[iter].label = l2;
+		return l1;
+	}
+}
+
+void patch_label(unsigned quad, unsigned label)
+{
+	assert(quad<label);
+	quads[quad].label = label;
+}
+
+void llist_patch(llist_t list, int label)
+{
+	llist_t next;
+	while (list)
+	{
+		next = quads[list].label;
+		quads[list].label = label;
+		list = next;
+	}
+	return;
+}
+
+void print_expression(Expr *e)
+{
+	if (e)
+	{
+		if (e->type == CONSTNUM_E)
+		{
+			printf(" %-3f ", e->numConst);
+		}
+		else if (e->type == CONSTBOOL_E)
+		{
+			if (e->boolConst == 0)
+				printf(" %-5s ", "false");
+			else
+				printf(" %-5s ", "true");
+		}
+		else if (e->type == CONSTSTRING_E)
+		{
+			printf(" %-13s ", e->strConst);
+		}
+		else if (e->type == NIL_E)
+		{
+			printf(" NIL ");
+		}
+		else
+		{
+			if (e->sym->type == LOCAL_VAR || e->sym->type == GLOBAL_VAR || e->sym->type == ARGUMENT_VAR)
+				printf(" %-13s ", e->sym->value.varValue->name);
+			else
+				printf(" %-13s ", e->sym->value.funcValue->name);
+		}
+	}
+	return;
+}
+
+int mk_bool_vmasm(Expr *e)
+{
+	if (e->type == BOOLEXPR_E)
+	{
+
+		// build case of true
+		llist_patch(e->truelist, next_quad());
+		emit(ASSIGN_I, e, bool_expr(1), NULL, 0, yylineno);
+		emit(JUMP_I, NULL, NULL, NULL, next_quad() + 2, yylineno);
+
+		// build case of false
+		llist_patch(e->falselist, next_quad());
+		emit(ASSIGN_I, e, bool_expr(0), NULL, 0, yylineno);
+
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+int mk_nbe_vmasm(enum iopcode_t op, Expr *e)
+{
+	if (e->type != BOOLEXPR_E)
+	{
+		e->truelist = llist(next_quad());
+		e->falselist = llist(next_quad() + 1);
+		emit(IF_EQ_I, NULL, e, bool_expr(1), 0, yylineno);
+		emit(JUMP_I, NULL, NULL, NULL, 0, yylineno);
+
+		if (op == AND_I)
+			llist_patch(e->truelist, next_quad());
+		else if (op == OR_I)
+			llist_patch(e->falselist, next_quad());
+
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+Stmt *stmt(void)
+{
+	Stmt *statement = (Stmt *)malloc(sizeof(Stmt));
+	statement->breaklist = 0;
+	statement->contlist = 0;
+	return statement;
+}
+
 void print_call(Call *c)
 {
 	printf("Call [%d] [%-10s] [%-3d]\n", c->isMethod, c->name, c->scope);
+}
+
+char *opcodeToStrin_g[] = {
+	"ASSIGN", "ADD", "SUB",
+	"MUL", "DIV", "MOD",
+	"UMINUS", "AND", "OR",
+	"NOT", "IF_EQ", "IF_NOTEQ",
+	"IF_LESSEQ", "IF_GREATEREQ", "IF_LESS",
+	"IF_GREATER", "CALL", "PARAM",
+	"RET", "GETRETVAL", "FUNCSTART",
+	"FUNCEND", "TABLECREATE",
+	"TABLEGETELEM", "TABLESETELEM", "JUMP"};
+
+void printQuads(void)
+{
+	Quad q;
+	Expr *e;
+	int i;
+
+	printf("-------------------------------\n");
+	printf("[#]\n");
+	printf("-------------------------------\n");
+	for (i = 1; i < currQuad; i++)
+	{
+		q = quads[i];
+		printf(" %-3d: %-13s ", i, opcodeToStrin_g[q.op]);
+
+		// print result
+		if (q.op == JUMP_I)
+		{
+			printf(" %-3d ", q.label);
+		}
+		else if (q.op == IF_LESS_I || q.op == IF_GREATER_I || q.op == IF_LESSEQ_I || q.op == IF_GREATEREQ_I || q.op == IF_NOTEQ_I || q.op == IF_EQ_I)
+		{
+			print_expression(q.result);
+			print_expression(q.arg1);
+			print_expression(q.arg2);
+			printf(" %-3d ", q.label);
+		}
+		else
+		{
+			print_expression(q.result);
+			print_expression(q.arg1);
+			print_expression(q.arg2);
+		}
+
+		printf("\n");
+	}
 }
