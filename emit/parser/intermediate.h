@@ -1,100 +1,143 @@
-#ifndef __SYM_TABLE__
-#define __SYM_TABLE__
+#ifndef __INTERMEDIATE__
+#define __INTERMEDIATE__
 
-/*
-* Structs used in bison
-*/
+#include "symbol_table.h"
 
-#define SIZE 512
-#define CALL_STACK_SIZE 64
-#define HASH_MULTIPLIER 65599
+#define EXPAND_SIZE 1024
+#define CURR_SIZE   (total*sizeof(Quad))
+#define NEW_SIZE    (EXPAND_SIZE*sizeof(Quad)+CURR_SIZE)
 
-extern int scope;
+// label list
+typedef int llist_t;
 
+typedef struct Quad         Quad;
+typedef struct Expression   Expr;
+typedef struct Call         Call;
+typedef struct Stmt         Stmt;
 
-typedef enum scopespace_t {
-    programvar,
-    functionlocal,
-    formalarg
-}scopespace_t;
+extern Quad*            quads;
+extern unsigned         total;
+extern unsigned int     currQuad;
+extern long             _temp_counter;
 
-enum Type{
-    VAR,
-    FUN
+enum iopcode_t {
+    ASSIGN_I, ADD_I, SUB_I,
+    MUL_I, DIV_I, MOD_I,
+    UMINUS_I, AND_I, OR_I,
+    NOT_I, IF_EQ_I, IF_NOTEQ_I,
+    IF_LESSEQ_I, IF_GREATEREQ_I, IF_LESS_I,
+    IF_GREATER_I, CALL_I, PARAM_I,
+    RET_I, GETRETVAL_I, FUNCSTART_I,
+    FUNCEND_I, TABLECREATE_I,
+    TABLEGETELEM_I, TABLESETELEM_I, JUMP_I
 };
 
-enum EntryType{
-    LOCAL_VAR,
-    GLOBAL_VAR,
-    ARGUMENT_VAR,
+enum expression_type_t {
+    VAR_E,
+    TABLEITEM_E,
 
-    USER_FUNC,
-    LIB_FUNC
+    PROGRAMFUNC_E,
+    LIBRARYFUNC_E,
+
+    ARITHEXPR_E,
+    BOOLEXPR_E,
+    ASSIGNEXPR_E,
+    NEWTABLE_E,
+
+    CONSTNUM_E,
+    CONSTBOOL_E,
+    CONSTSTRING_E,
+
+    NIL_E
 };
 
-typedef struct Variable {
+struct Expression {
+    enum expression_type_t  type;
+
+    // types
+    SymTableEntry* sym;
+    struct Expression* index;
+    double numConst;
+    char* strConst;
+    unsigned char boolConst;
+
+    // in case of boolexpr
+    llist_t truelist;
+    llist_t falselist;
+    llist_t test;
+    llist_t enter;
+
+
+    struct Expression* next; // next
+    struct Expression* next_index;
+};
+
+
+struct Quad {
+    enum iopcode_t op;
+    Expr* result;
+    Expr* arg1;
+    Expr* arg2;
+    unsigned label;
+    unsigned line;
+};
+
+struct Call {
+    unsigned char isMethod;
     char *name;
     int scope;
-    int line;
-} Variable;
+    Expr *elist;
+};
 
-typedef struct Function {
-    char *name;
-    char **argv;
-    int scope;
-    int line;
-} Function;
+struct Stmt {
+    llist_t breaklist;
+    llist_t contlist;
+};
 
-typedef struct SymTableEntry {
-    int isActive;                       // wether entry is active or not
+// VM ASM creation
+unsigned next_quad(void);
+int is_arith(Expr *e);
+void init_quads(void);
+void emit(enum iopcode_t op, Expr* result, Expr* arg1, Expr* arg2, unsigned label, unsigned line);
+int mk_bool_vmasm(Expr *e);
+int mk_nbe_vmasm(enum iopcode_t	op,Expr *e);
 
-    enum EntryType type;                // entry type
-    union{
-        Variable *varValue;
-        Function *funcValue;
-    } value;
+// Expression creation
+Expr *expr(enum expression_type_t  type);
+Expr *sym_expr(SymTableEntry *e);
+Expr *string_expr(char *str);
+Expr *nil_expr(void);
+Expr *num_expr(double num);
+Expr *bool_expr(unsigned char bool);
+Expr *member_expr(SymTable *t, int scope, Expr *lvalue, char *name);
 
-    scopespace_t space;
-    unsigned offset;
-    unsigned scope;
-
-    struct SymTableEntry *nextEntry;    // next entry
-
-    struct SymTableEntry *nextInScope;  // next in linked list by scope
-    struct SymTableEntry *nextScope;    // next scope list
-} SymTableEntry;
-
-typedef struct SymTable_t{
-    unsigned int length;                    // sym table length
-    
-    SymTableEntry *table[SIZE];         // hash table
-    SymTableEntry *scopeChain;          // linked row lists by scope
-
-} SymTable;
-
-typedef struct CallStack_t{
-    int size;
-    int top;
-
-    SymTableEntry *stack[CALL_STACK_SIZE];
-} CallStack;
-
-SymTable* init_sym_table();
-SymTableEntry* lookup(SymTable *t, char *text, int scope, enum EntryType type);
-SymTableEntry* lookup_no_type(SymTable *t, char *name, int scope);
-SymTableEntry* insert(SymTable *t, char *name, int scope, int line, enum EntryType type);
-void scope_down(SymTable *t);
-SymTableEntry *function_lookup(SymTable *t, char *name, int scope);
-SymTableEntry* lookup_variable(SymTable *t, char *name, int scope);
-SymTableEntry* lookup_active(SymTable *t, char *name, int scope);
-SymTableEntry *lookup_temp(SymTable *t, int scope);
+//offset 
+scopespace_t currscopespace(void);
+unsigned currscopeoffset(void);
+void inccurrscopeoffset(void);
+void enterscopespace(void);
+void exitscopespace(void);
+void resetformalargsoffset(void);
+void resetfunctionlocalsoffset(void);
+void restorecurrscopeoffset(unsigned n);
 
 
-// Stack
-CallStack *init_call_stack();
-void push(CallStack *s, SymTableEntry *e);
-void pop(CallStack *s);
-void printCallStack(CallStack *s, int line);
-int is_valid(CallStack *s, SymTableEntry *target, int curScope);
+void reset_temp_counter(void);
+SymTableEntry *new_temp(SymTable *t, int scope);
+Expr *make_call(SymTable *t, int scope, Expr *call, Expr *revelist);
+Expr *reverse_elist(Expr **elist);
+Expr *emit_if_table_item(SymTable *t, int scope, Expr *e);
 
+Call *function_call(unsigned char isMethod, char *name, int scope, Expr *elist);
+
+llist_t llist(int i);
+llist_t llist_merge(llist_t l1, llist_t l2);
+void llist_patch(llist_t list, int label);
+void patch_label(unsigned quad, unsigned label);
+
+Stmt *stmt(void);
+void print_call(Call *c);
+void print_expression(Expr *e);
+
+void printQuads(void);
 #endif
