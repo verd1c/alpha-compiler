@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <string.h>
 
+
 static int hash(char *text){
     size_t i;
     unsigned int sum = 0;
@@ -500,6 +501,13 @@ CallStack *init_call_stack(){
     return stack;
 }
 
+OffsetStack * init_offset_stack(){
+	OffsetStack *node = malloc(sizeof(OffsetStack));
+	node->next = NULL;
+
+	return node;
+}
+
 void push(CallStack *s, SymTableEntry *e){
     if(s->top == -1){ // Empty
         s->stack[s->size - 1] = e;
@@ -525,6 +533,35 @@ void pop(CallStack *s){
     }
 }
 
+scopespace_t push_offset(OffsetStack *s, scopespace_t scspace){
+    OffsetStack *tmp, *new = malloc(sizeof(OffsetStack));
+
+    tmp = s;
+    while(tmp->next) {
+        tmp = tmp->next;
+    }
+    tmp->next = new;
+    new->next = NULL;
+    new->scspace_off = scspace;
+
+    return s->scspace_off;
+}
+
+scopespace_t pop_and_top_offset(OffsetStack *s){
+    if(s->next = NULL) printf("Empty Offset Stack\n");
+    else {
+        OffsetStack *tmp, *prev;
+        tmp = s;
+
+        while(tmp->next){
+            prev = tmp;
+            tmp = tmp->next;
+        }
+        prev->next = NULL;
+        return tmp->scspace_off;
+    }
+}
+
 char *typeToStringA[] = {
         "LOCAL_VAR",
         "GLOBAL_VAR",
@@ -535,13 +572,14 @@ char *typeToStringA[] = {
     };
 
 void printCallStack(CallStack *s, int line){
+    int i;
     SymTableEntry *e;
     printf("---------------------------------------------------\nSTACK AT LINE %d\n", line);
     printf("Size: %d\n", s->size);
     printf("Top: %d\n", s->top);
     if(s->top == -1)
         printf("Stack is empty\n");
-    for(int i = s->size - 1; i >= s->top; i--){
+    for(i = s->size - 1; i >= s->top; i--){
         e = s->stack[i];
         if(e->type == LOCAL_VAR || e->type == GLOBAL_VAR || e->type == ARGUMENT_VAR){
             printf("SymTableEntry [%-20s] [%-4d] [%-5d] [%-10s]\n", e->value.varValue->name, e->value.varValue->line, e->value.varValue->scope, typeToStringA[e->type]);
