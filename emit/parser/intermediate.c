@@ -571,3 +571,4 @@ void printQuads(void)
 		printf("\n");
 	}
 }
+
