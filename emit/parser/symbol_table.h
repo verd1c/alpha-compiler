@@ -18,6 +18,11 @@ typedef enum scopespace_t {
     formalarg
 }scopespace_t;
 
+typedef struct OffsetStack_t{
+    struct offset *next;
+    scopespace_t scspace_off;
+}OffsetStack;
+
 enum Type{
     VAR,
     FUN
@@ -54,7 +59,7 @@ typedef struct SymTableEntry {
         Function *funcValue;
     } value;
 
-    scopespace_t space;
+    scopespace_t scspace;
     unsigned offset;
     unsigned scope;
 
@@ -95,6 +100,10 @@ CallStack *init_call_stack();
 void push(CallStack *s, SymTableEntry *e);
 void pop(CallStack *s);
 void printCallStack(CallStack *s, int line);
+
+scopespace_t push_offset(OffsetStack *s, scopespace_t scspace);
+scopespace_t pop_and_top_offset(OffsetStack *s);
+
 int is_valid(CallStack *s, SymTableEntry *target, int curScope);
 
 #endif
