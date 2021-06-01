@@ -1,15 +1,55 @@
+#include "../include/vm_asm.h"
 
-enum iopcode_t {
-    ASSIGN_I,
-    ADD_I,
-    SUB_I,
-    MUL_I,
-    DIV_I   , MOD_I,
-    UMINUS_I, AND_I, OR_I,
-    NOT_I, IF_EQ_I, IF_NOTEQ_I,
-    IF_LESSEQ_I, IF_GREATEREQ_I, IF_LESS_I,
-    IF_GREATER_I, CALL_I, PARAM_I,
-    RET_I, GETRETVAL_I, FUNCSTART_I,
-    FUNCEND_I, TABLECREATE_I,
-    TABLEGETELEM_I, TABLESETELEM_I
-};
+static void avm_initstack(void){
+    for(unsigned i = 0; i < AVM_STACKSIZE; ++i){
+        AVM_WIPEOUT(stack[i]);
+        stack[i].type = undef_m;
+    }
+}
+
+void avm_tableincrefcounter(avm_table* t){
+    ++t->refCounter;
+}
+
+void avm_tabledecrefcounter(avm_table* t){
+    assert(t-> refCounter>0);
+    if(!--t->refCounter)
+    avm_tabledestroy(t);
+}
+
+void avm_tablebucketsinit(avm_table_bucket** p){
+    for(unsigned i=0; i<AVM_TABLE_HASHSIZE; ++i){
+        p[i]=(avm_table_bucket*) 0;
+    }
+}
+
+avm_table* avm_tablenew(void){
+    avm_table* t = (avm_table*) malloc(sizeof(avm_table));
+    AVM_WIPEOUT(*t);
+    t->refCounter=t->total=0;
+    avm_tablebucketsinit(t->numIndexed);
+    avm_tablebucketsinit(t->strIndexed);
+
+    return t;
+}
+
+void avm_memcellclear(avm_memcell *m);
+
+void avm_tablebucketsdestroy(avm_table_bucket **p){
+    for(unsigned i=0; i<AVM_TABLE_HASHSIZE; i++, ++p){
+        for (avm_table_bucket *b = *p;b;) {
+            avm_table_bucket *del = b;
+            b = b->next;
+            avm_memcellclear(&del->key);
+            avm_memcellclear(&del->value);
+            free(del);
+        }
+        p[i] = (avm_table_bucket*) 0;
+    }
+}
+
+void avm_tabledestroy(avm_table *t){
+    avm_tablebucketsdestroy(t->strIndexed);
+    avm_tablebucketsdestroy(t->numIndexed);
+    free(t);
+}

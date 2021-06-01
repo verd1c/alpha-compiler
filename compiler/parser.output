@@ -7,121 +7,121 @@ Grammar
 
     1 program: statements
 
-    2 $@1: /* empty */
+    2 statements: statements statement
+    3           | statement
 
-    3 statements: statements $@1 statement
-    4           | statement
+    4 statement: expression SEMICOLON
+    5          | ifstmt
+    6          | whilestmt
+    7          | forstmt
+    8          | returnstmt
+    9          | BREAK SEMICOLON
+   10          | CONTINUE SEMICOLON
+   11          | block
+   12          | funcdef
+   13          | SEMICOLON
 
-    5 statement: expression SEMICOLON
-    6          | ifstmt
-    7          | whilestmt
-    8          | forstmt
-    9          | returnstmt
-   10          | BREAK SEMICOLON
-   11          | CONTINUE SEMICOLON
-   12          | block
-   13          | funcdef
-   14          | SEMICOLON
+   14 expression: assignexpr
+   15           | expression PLUS expression
+   16           | expression MINUS expression
+   17           | expression MULT expression
+   18           | expression DIV expression
+   19           | expression MOD expression
+   20           | expression GREATER_THAN expression
+   21           | expression GREATER_OR_EQUAL expression
+   22           | expression LESS_THAN expression
+   23           | expression LESS_OR_EQUAL expression
 
-   15 expression: assignexpr
-   16           | expression PLUS expression
-   17           | expression MINUS expression
-   18           | expression MULT expression
-   19           | expression DIV expression
-   20           | expression MOD expression
-   21           | expression GREATER_THAN expression
-   22           | expression GREATER_OR_EQUAL expression
-   23           | expression LESS_THAN expression
-   24           | expression LESS_OR_EQUAL expression
+   24 $@1: /* empty */
 
-   25 $@2: /* empty */
+   25 expression: expression EQUALS_EQUALS $@1 expression
 
-   26 expression: expression EQUALS_EQUALS $@2 expression
+   26 $@2: /* empty */
 
-   27 $@3: /* empty */
+   27 expression: expression NOT_EQUALS $@2 expression
 
-   28 expression: expression NOT_EQUALS $@3 expression
+   28 $@3: /* empty */
 
-   29 $@4: /* empty */
+   29 expression: expression AND $@3 M expression
 
-   30 expression: expression AND $@4 M expression
+   30 $@4: /* empty */
 
-   31 $@5: /* empty */
+   31 expression: expression OR $@4 M expression
+   32           | term
 
-   32 expression: expression OR $@5 M expression
-   33           | term
+   33 M: /* empty */
 
-   34 M: /* empty */
+   34 term: LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
+   35     | MINUS expression
+   36     | NOT expression
+   37     | PLUS_PLUS lvalue
+   38     | lvalue PLUS_PLUS
+   39     | MINUS_MINUS lvalue
+   40     | lvalue MINUS_MINUS
+   41     | primary
 
-   35 term: LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
-   36     | MINUS expression
-   37     | NOT expression
-   38     | PLUS_PLUS lvalue
-   39     | lvalue PLUS_PLUS
-   40     | MINUS_MINUS lvalue
-   41     | lvalue MINUS_MINUS
-   42     | primary
+   42 $@5: /* empty */
 
-   43 $@6: /* empty */
+   43 assignexpr: lvalue $@5 EQUALS expression
 
-   44 assignexpr: lvalue $@6 EQUALS expression
+   44 primary: lvalue
+   45        | call
+   46        | objectdef
+   47        | LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS
+   48        | const
 
-   45 primary: lvalue
-   46        | call
-   47        | objectdef
-   48        | LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS
-   49        | const
+   49 lvalue: ID
+   50       | LOCAL ID
+   51       | DOUBLE_COLON ID
+   52       | member
 
-   50 lvalue: ID
-   51       | LOCAL ID
-   52       | DOUBLE_COLON ID
-   53       | member
+   53 member: lvalue DOT ID
+   54       | lvalue LEFT_BRACE expression RIGHT_BRACE
+   55       | call DOT ID
+   56       | call LEFT_BRACE expression RIGHT_BRACE
 
-   54 member: lvalue DOT ID
-   55       | lvalue LEFT_BRACE expression RIGHT_BRACE
-   56       | call DOT ID
-   57       | call LEFT_BRACE expression RIGHT_BRACE
+   57 call: call LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   58     | lvalue callsuffix
+   59     | LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
-   58 call: call LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
-   59     | lvalue callsuffix
-   60     | LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   60 callsuffix: normcall
+   61           | methodcall
 
-   61 callsuffix: normcall
-   62           | methodcall
+   62 normcall: LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
-   63 normcall: LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   63 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
-   64 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   64 elist: expression
+   65      | expression COMMA elist
+   66      | /* empty */
 
-   65 elist: expression
-   66      | expression COMMA elist
-   67      | /* empty */
+   67 objectdef: LEFT_BRACE elist RIGHT_BRACE
+   68          | LEFT_BRACE indexed RIGHT_BRACE
 
-   68 objectdef: LEFT_BRACE elist RIGHT_BRACE
-   69          | LEFT_BRACE indexed RIGHT_BRACE
+   69 indexed: indexedelem
+   70        | indexedelem COMMA indexed
 
-   70 indexed: indexedelem
-   71        | indexedelem COMMA indexed
+   71 indexedelem: LEFT_BRACKET expression COLON expression RIGHT_BRACKET
 
-   72 indexedelem: LEFT_BRACKET expression COLON expression RIGHT_BRACKET
+   72 block: blockstart blockend
+   73      | blockstart blockstmt blockend
 
-   73 block: blockstart blockend
-   74      | blockstart blockstmt blockend
+   74 blockstart: LEFT_BRACKET
 
-   75 blockstart: LEFT_BRACKET
+   75 blockend: RIGHT_BRACKET
 
-   76 blockend: RIGHT_BRACKET
+   76 blockstmt: statement
+   77          | statement blockstmt
 
-   77 blockstmt: statement
-   78          | statement blockstmt
+   78 $@6: /* empty */
 
    79 $@7: /* empty */
 
    80 $@8: /* empty */
 
-   81 $@9: /* empty */
+   81 funcdef: funcstart LEFT_PARENTHESIS $@6 idlist $@7 RIGHT_PARENTHESIS $@8 funcbody
 
-   82 funcdef: funcstart LEFT_PARENTHESIS $@7 idlist $@8 RIGHT_PARENTHESIS $@9 block
+   82 funcbody: block
 
    83 funcstart: FUNCTION ID
    84          | FUNCTION
@@ -143,15 +143,15 @@ Grammar
 
    96 elseprefix: ELSE
 
-   97 $@10: /* empty */
+   97 $@9: /* empty */
 
-   98 ifprefix: IF LEFT_PARENTHESIS $@10 expression RIGHT_PARENTHESIS
+   98 ifprefix: IF LEFT_PARENTHESIS $@9 expression RIGHT_PARENTHESIS
 
    99 whilestart: WHILE
 
-  100 $@11: /* empty */
+  100 $@10: /* empty */
 
-  101 whilecond: LEFT_PARENTHESIS $@11 expression RIGHT_PARENTHESIS
+  101 whilecond: LEFT_PARENTHESIS $@10 expression RIGHT_PARENTHESIS
 
   102 whilestmt: whilestart whilecond statement
 
@@ -172,7 +172,7 @@ Terminals, with rules where they appear
 $end (0) 0
 error (256)
 NUM (258) 85
-ID (259) 50 51 52 54 56 64 83 93
+ID (259) 49 50 51 53 55 63 83 93
 STRING (260) 86
 IF (261) 98
 ELSE (262) 96
@@ -180,41 +180,41 @@ WHILE (263) 99
 FOR (264) 104
 FUNCTION (265) 83 84
 RETURN (266) 107 108
-BREAK (267) 10
-CONTINUE (268) 11
-AND (269) 30
-NOT (270) 37
-OR (271) 32
-LOCAL (272) 51
+BREAK (267) 9
+CONTINUE (268) 10
+AND (269) 29
+NOT (270) 36
+OR (271) 31
+LOCAL (272) 50
 TRUE (273) 88
 FALSE (274) 89
 NIL (275) 87
-LEFT_BRACE (276) 55 57 68 69
-RIGHT_BRACE (277) 55 57 68 69
-LEFT_BRACKET (278) 72 75
-RIGHT_BRACKET (279) 72 76
-LEFT_PARENTHESIS (280) 35 48 58 60 63 64 82 98 101 104
-RIGHT_PARENTHESIS (281) 35 48 58 60 63 64 82 98 101 105
-SEMICOLON (282) 5 10 11 14 103 107 108
-COMMA (283) 66 71 91
-COLON (284) 72
-DOUBLE_COLON (285) 52
-DOT (286) 54 56
-DOUBLE_DOT (287) 64
-EQUALS (288) 44
-PLUS (289) 16
-MINUS (290) 17 36
-MULT (291) 18
-DIV (292) 19
-MOD (293) 20
-EQUALS_EQUALS (294) 26
-NOT_EQUALS (295) 28
-PLUS_PLUS (296) 38 39
-MINUS_MINUS (297) 40 41
-GREATER_THAN (298) 21
-LESS_THAN (299) 23
-GREATER_OR_EQUAL (300) 22
-LESS_OR_EQUAL (301) 24
+LEFT_BRACE (276) 54 56 67 68
+RIGHT_BRACE (277) 54 56 67 68
+LEFT_BRACKET (278) 71 74
+RIGHT_BRACKET (279) 71 75
+LEFT_PARENTHESIS (280) 34 47 57 59 62 63 81 98 101 104
+RIGHT_PARENTHESIS (281) 34 47 57 59 62 63 81 98 101 105
+SEMICOLON (282) 4 9 10 13 103 107 108
+COMMA (283) 65 70 91
+COLON (284) 71
+DOUBLE_COLON (285) 51
+DOT (286) 53 55
+DOUBLE_DOT (287) 63
+EQUALS (288) 43
+PLUS (289) 15
+MINUS (290) 16 35
+MULT (291) 17
+DIV (292) 18
+MOD (293) 19
+EQUALS_EQUALS (294) 25
+NOT_EQUALS (295) 27
+PLUS_PLUS (296) 37 38
+MINUS_MINUS (297) 39 40
+GREATER_THAN (298) 20
+LESS_THAN (299) 22
+GREATER_OR_EQUAL (300) 21
+LESS_OR_EQUAL (301) 23
 UMINUS (302)
 
 
@@ -225,104 +225,104 @@ $accept (48)
 program (49)
     on left: 1, on right: 0
 statements (50)
-    on left: 3 4, on right: 1 3
-$@1 (51)
-    on left: 2, on right: 3
-statement (52)
-    on left: 5 6 7 8 9 10 11 12 13 14, on right: 3 4 77 78 94 95 102
+    on left: 2 3, on right: 1 2
+statement (51)
+    on left: 4 5 6 7 8 9 10 11 12 13, on right: 2 3 76 77 94 95 102
     105
-expression (53)
-    on left: 15 16 17 18 19 20 21 22 23 24 26 28 30 32 33, on right:
-    5 16 17 18 19 20 21 22 23 24 26 28 30 32 35 36 37 44 55 57 65 66
-    72 98 101 103 108
+expression (52)
+    on left: 14 15 16 17 18 19 20 21 22 23 25 27 29 31 32, on right:
+    4 15 16 17 18 19 20 21 22 23 25 27 29 31 34 35 36 43 54 56 64 65
+    71 98 101 103 108
+$@1 (53)
+    on left: 24, on right: 25
 $@2 (54)
-    on left: 25, on right: 26
+    on left: 26, on right: 27
 $@3 (55)
-    on left: 27, on right: 28
+    on left: 28, on right: 29
 $@4 (56)
-    on left: 29, on right: 30
-$@5 (57)
-    on left: 31, on right: 32
-M (58)
-    on left: 34, on right: 30 32 103
-term (59)
-    on left: 35 36 37 38 39 40 41 42, on right: 33
-assignexpr (60)
-    on left: 44, on right: 15
-$@6 (61)
-    on left: 43, on right: 44
-primary (62)
-    on left: 45 46 47 48 49, on right: 42
-lvalue (63)
-    on left: 50 51 52 53, on right: 38 39 40 41 44 45 54 55 59
-member (64)
-    on left: 54 55 56 57, on right: 53
-call (65)
-    on left: 58 59 60, on right: 46 56 57 58
-callsuffix (66)
-    on left: 61 62, on right: 59
-normcall (67)
+    on left: 30, on right: 31
+M (57)
+    on left: 33, on right: 29 31 103
+term (58)
+    on left: 34 35 36 37 38 39 40 41, on right: 32
+assignexpr (59)
+    on left: 43, on right: 14
+$@5 (60)
+    on left: 42, on right: 43
+primary (61)
+    on left: 44 45 46 47 48, on right: 41
+lvalue (62)
+    on left: 49 50 51 52, on right: 37 38 39 40 43 44 53 54 58
+member (63)
+    on left: 53 54 55 56, on right: 52
+call (64)
+    on left: 57 58 59, on right: 45 55 56 57
+callsuffix (65)
+    on left: 60 61, on right: 58
+normcall (66)
+    on left: 62, on right: 60
+methodcall (67)
     on left: 63, on right: 61
-methodcall (68)
-    on left: 64, on right: 62
-elist (69)
-    on left: 65 66 67, on right: 58 60 63 64 66 68 103 105
-objectdef (70)
-    on left: 68 69, on right: 47
-indexed (71)
-    on left: 70 71, on right: 69 71
-indexedelem (72)
-    on left: 72, on right: 70 71
-block (73)
-    on left: 73 74, on right: 12 82
-blockstart (74)
-    on left: 75, on right: 73 74
-blockend (75)
-    on left: 76, on right: 73 74
-blockstmt (76)
-    on left: 77 78, on right: 74 78
-funcdef (77)
-    on left: 82, on right: 13 48 60
+elist (68)
+    on left: 64 65 66, on right: 57 59 62 63 65 67 103 105
+objectdef (69)
+    on left: 67 68, on right: 46
+indexed (70)
+    on left: 69 70, on right: 68 70
+indexedelem (71)
+    on left: 71, on right: 69 70
+block (72)
+    on left: 72 73, on right: 11 82
+blockstart (73)
+    on left: 74, on right: 72 73
+blockend (74)
+    on left: 75, on right: 72 73
+blockstmt (75)
+    on left: 76 77, on right: 73 77
+funcdef (76)
+    on left: 81, on right: 12 47 59
+$@6 (77)
+    on left: 78, on right: 81
 $@7 (78)
-    on left: 79, on right: 82
+    on left: 79, on right: 81
 $@8 (79)
-    on left: 80, on right: 82
-$@9 (80)
-    on left: 81, on right: 82
+    on left: 80, on right: 81
+funcbody (80)
+    on left: 82, on right: 81
 funcstart (81)
-    on left: 83 84, on right: 82
+    on left: 83 84, on right: 81
 const (82)
-    on left: 85 86 87 88 89, on right: 49
+    on left: 85 86 87 88 89, on right: 48
 idlist (83)
-    on left: 90 91 92, on right: 82 91
+    on left: 90 91 92, on right: 81 91
 arg (84)
     on left: 93, on right: 90 91
 ifstmt (85)
-    on left: 94 95, on right: 6
+    on left: 94 95, on right: 5
 elseprefix (86)
     on left: 96, on right: 95
 ifprefix (87)
     on left: 98, on right: 94 95
-$@10 (88)
+$@9 (88)
     on left: 97, on right: 98
 whilestart (89)
     on left: 99, on right: 102
 whilecond (90)
     on left: 101, on right: 102
-$@11 (91)
+$@10 (91)
     on left: 100, on right: 101
 whilestmt (92)
-    on left: 102, on right: 7
+    on left: 102, on right: 6
 forprefix (93)
     on left: 103, on right: 105
 forstart (94)
     on left: 104, on right: 103
 forstmt (95)
-    on left: 105, on right: 8
+    on left: 105, on right: 7
 N (96)
     on left: 106, on right: 105
 returnstmt (97)
-    on left: 107 108, on right: 9
+    on left: 107 108, on right: 8
 
 
 state 0
@@ -388,9 +388,9 @@ state 1
 
 state 2
 
-   50 lvalue: ID .
+   49 lvalue: ID .
 
-    $default  reduce using rule 50 (lvalue)
+    $default  reduce using rule 49 (lvalue)
 
 
 state 3
@@ -402,7 +402,7 @@ state 3
 
 state 4
 
-   98 ifprefix: IF . LEFT_PARENTHESIS $@10 expression RIGHT_PARENTHESIS
+   98 ifprefix: IF . LEFT_PARENTHESIS $@9 expression RIGHT_PARENTHESIS
 
     LEFT_PARENTHESIS  shift, and go to state 48
 
@@ -465,21 +465,21 @@ state 8
 
 state 9
 
-   10 statement: BREAK . SEMICOLON
+    9 statement: BREAK . SEMICOLON
 
     SEMICOLON  shift, and go to state 53
 
 
 state 10
 
-   11 statement: CONTINUE . SEMICOLON
+   10 statement: CONTINUE . SEMICOLON
 
     SEMICOLON  shift, and go to state 54
 
 
 state 11
 
-   37 term: NOT . expression
+   36 term: NOT . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -509,7 +509,7 @@ state 11
 
 state 12
 
-   51 lvalue: LOCAL . ID
+   50 lvalue: LOCAL . ID
 
     ID  shift, and go to state 56
 
@@ -537,8 +537,8 @@ state 15
 
 state 16
 
-   68 objectdef: LEFT_BRACE . elist RIGHT_BRACE
-   69          | LEFT_BRACE . indexed RIGHT_BRACE
+   67 objectdef: LEFT_BRACE . elist RIGHT_BRACE
+   68          | LEFT_BRACE . indexed RIGHT_BRACE
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -556,7 +556,7 @@ state 16
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    $default  reduce using rule 67 (elist)
+    $default  reduce using rule 66 (elist)
 
     expression   go to state 58
     term         go to state 28
@@ -574,16 +574,16 @@ state 16
 
 state 17
 
-   75 blockstart: LEFT_BRACKET .
+   74 blockstart: LEFT_BRACKET .
 
-    $default  reduce using rule 75 (blockstart)
+    $default  reduce using rule 74 (blockstart)
 
 
 state 18
 
-   35 term: LEFT_PARENTHESIS . expression RIGHT_PARENTHESIS
-   48 primary: LEFT_PARENTHESIS . funcdef RIGHT_PARENTHESIS
-   60 call: LEFT_PARENTHESIS . funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   34 term: LEFT_PARENTHESIS . expression RIGHT_PARENTHESIS
+   47 primary: LEFT_PARENTHESIS . funcdef RIGHT_PARENTHESIS
+   59 call: LEFT_PARENTHESIS . funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -616,21 +616,21 @@ state 18
 
 state 19
 
-   14 statement: SEMICOLON .
+   13 statement: SEMICOLON .
 
-    $default  reduce using rule 14 (statement)
+    $default  reduce using rule 13 (statement)
 
 
 state 20
 
-   52 lvalue: DOUBLE_COLON . ID
+   51 lvalue: DOUBLE_COLON . ID
 
     ID  shift, and go to state 64
 
 
 state 21
 
-   36 term: MINUS . expression
+   35 term: MINUS . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -660,7 +660,7 @@ state 21
 
 state 22
 
-   38 term: PLUS_PLUS . lvalue
+   37 term: PLUS_PLUS . lvalue
 
     ID                shift, and go to state 2
     LOCAL             shift, and go to state 12
@@ -674,7 +674,7 @@ state 22
 
 state 23
 
-   40 term: MINUS_MINUS . lvalue
+   39 term: MINUS_MINUS . lvalue
 
     ID                shift, and go to state 2
     LOCAL             shift, and go to state 12
@@ -696,37 +696,81 @@ state 24
 state 25
 
     1 program: statements .
-    3 statements: statements . $@1 statement
+    2 statements: statements . statement
 
-    $end      reduce using rule 1 (program)
-    $default  reduce using rule 2 ($@1)
+    NUM               shift, and go to state 1
+    ID                shift, and go to state 2
+    STRING            shift, and go to state 3
+    IF                shift, and go to state 4
+    WHILE             shift, and go to state 5
+    FOR               shift, and go to state 6
+    FUNCTION          shift, and go to state 7
+    RETURN            shift, and go to state 8
+    BREAK             shift, and go to state 9
+    CONTINUE          shift, and go to state 10
+    NOT               shift, and go to state 11
+    LOCAL             shift, and go to state 12
+    TRUE              shift, and go to state 13
+    FALSE             shift, and go to state 14
+    NIL               shift, and go to state 15
+    LEFT_BRACE        shift, and go to state 16
+    LEFT_BRACKET      shift, and go to state 17
+    LEFT_PARENTHESIS  shift, and go to state 18
+    SEMICOLON         shift, and go to state 19
+    DOUBLE_COLON      shift, and go to state 20
+    MINUS             shift, and go to state 21
+    PLUS_PLUS         shift, and go to state 22
+    MINUS_MINUS       shift, and go to state 23
 
-    $@1  go to state 71
+    $default  reduce using rule 1 (program)
+
+    statement   go to state 71
+    expression  go to state 27
+    term        go to state 28
+    assignexpr  go to state 29
+    primary     go to state 30
+    lvalue      go to state 31
+    member      go to state 32
+    call        go to state 33
+    objectdef   go to state 34
+    block       go to state 35
+    blockstart  go to state 36
+    funcdef     go to state 37
+    funcstart   go to state 38
+    const       go to state 39
+    ifstmt      go to state 40
+    ifprefix    go to state 41
+    whilestart  go to state 42
+    whilestmt   go to state 43
+    forprefix   go to state 44
+    forstart    go to state 45
+    forstmt     go to state 46
+    returnstmt  go to state 47
 
 
 state 26
 
-    4 statements: statement .
+    3 statements: statement .
 
-    $default  reduce using rule 4 (statements)
+    $default  reduce using rule 3 (statements)
 
 
 state 27
 
-    5 statement: expression . SEMICOLON
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
+    4 statement: expression . SEMICOLON
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
 
     AND               shift, and go to state 72
     OR                shift, and go to state 73
@@ -746,34 +790,34 @@ state 27
 
 state 28
 
-   33 expression: term .
+   32 expression: term .
 
-    $default  reduce using rule 33 (expression)
+    $default  reduce using rule 32 (expression)
 
 
 state 29
 
-   15 expression: assignexpr .
+   14 expression: assignexpr .
 
-    $default  reduce using rule 15 (expression)
+    $default  reduce using rule 14 (expression)
 
 
 state 30
 
-   42 term: primary .
+   41 term: primary .
 
-    $default  reduce using rule 42 (term)
+    $default  reduce using rule 41 (term)
 
 
 state 31
 
-   39 term: lvalue . PLUS_PLUS
-   41     | lvalue . MINUS_MINUS
-   44 assignexpr: lvalue . $@6 EQUALS expression
-   45 primary: lvalue .
-   54 member: lvalue . DOT ID
-   55       | lvalue . LEFT_BRACE expression RIGHT_BRACE
-   59 call: lvalue . callsuffix
+   38 term: lvalue . PLUS_PLUS
+   40     | lvalue . MINUS_MINUS
+   43 assignexpr: lvalue . $@5 EQUALS expression
+   44 primary: lvalue .
+   53 member: lvalue . DOT ID
+   54       | lvalue . LEFT_BRACE expression RIGHT_BRACE
+   58 call: lvalue . callsuffix
 
     LEFT_BRACE        shift, and go to state 86
     LEFT_PARENTHESIS  shift, and go to state 87
@@ -782,10 +826,10 @@ state 31
     PLUS_PLUS         shift, and go to state 90
     MINUS_MINUS       shift, and go to state 91
 
-    EQUALS    reduce using rule 43 ($@6)
-    $default  reduce using rule 45 (primary)
+    EQUALS    reduce using rule 42 ($@5)
+    $default  reduce using rule 44 (primary)
 
-    $@6         go to state 92
+    $@5         go to state 92
     callsuffix  go to state 93
     normcall    go to state 94
     methodcall  go to state 95
@@ -793,43 +837,43 @@ state 31
 
 state 32
 
-   53 lvalue: member .
+   52 lvalue: member .
 
-    $default  reduce using rule 53 (lvalue)
+    $default  reduce using rule 52 (lvalue)
 
 
 state 33
 
-   46 primary: call .
-   56 member: call . DOT ID
-   57       | call . LEFT_BRACE expression RIGHT_BRACE
-   58 call: call . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   45 primary: call .
+   55 member: call . DOT ID
+   56       | call . LEFT_BRACE expression RIGHT_BRACE
+   57 call: call . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     LEFT_BRACE        shift, and go to state 96
     LEFT_PARENTHESIS  shift, and go to state 97
     DOT               shift, and go to state 98
 
-    $default  reduce using rule 46 (primary)
+    $default  reduce using rule 45 (primary)
 
 
 state 34
 
-   47 primary: objectdef .
+   46 primary: objectdef .
 
-    $default  reduce using rule 47 (primary)
+    $default  reduce using rule 46 (primary)
 
 
 state 35
 
-   12 statement: block .
+   11 statement: block .
 
-    $default  reduce using rule 12 (statement)
+    $default  reduce using rule 11 (statement)
 
 
 state 36
 
-   73 block: blockstart . blockend
-   74      | blockstart . blockstmt blockend
+   72 block: blockstart . blockend
+   73      | blockstart . blockstmt blockend
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -884,30 +928,30 @@ state 36
 
 state 37
 
-   13 statement: funcdef .
+   12 statement: funcdef .
 
-    $default  reduce using rule 13 (statement)
+    $default  reduce using rule 12 (statement)
 
 
 state 38
 
-   82 funcdef: funcstart . LEFT_PARENTHESIS $@7 idlist $@8 RIGHT_PARENTHESIS $@9 block
+   81 funcdef: funcstart . LEFT_PARENTHESIS $@6 idlist $@7 RIGHT_PARENTHESIS $@8 funcbody
 
     LEFT_PARENTHESIS  shift, and go to state 103
 
 
 state 39
 
-   49 primary: const .
+   48 primary: const .
 
-    $default  reduce using rule 49 (primary)
+    $default  reduce using rule 48 (primary)
 
 
 state 40
 
-    6 statement: ifstmt .
+    5 statement: ifstmt .
 
-    $default  reduce using rule 6 (statement)
+    $default  reduce using rule 5 (statement)
 
 
 state 41
@@ -974,9 +1018,9 @@ state 42
 
 state 43
 
-    7 statement: whilestmt .
+    6 statement: whilestmt .
 
-    $default  reduce using rule 7 (statement)
+    $default  reduce using rule 6 (statement)
 
 
 state 44
@@ -1007,7 +1051,7 @@ state 45
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    $default  reduce using rule 67 (elist)
+    $default  reduce using rule 66 (elist)
 
     expression  go to state 58
     term        go to state 28
@@ -1023,25 +1067,25 @@ state 45
 
 state 46
 
-    8 statement: forstmt .
+    7 statement: forstmt .
 
-    $default  reduce using rule 8 (statement)
+    $default  reduce using rule 7 (statement)
 
 
 state 47
 
-    9 statement: returnstmt .
+    8 statement: returnstmt .
 
-    $default  reduce using rule 9 (statement)
+    $default  reduce using rule 8 (statement)
 
 
 state 48
 
-   98 ifprefix: IF LEFT_PARENTHESIS . $@10 expression RIGHT_PARENTHESIS
+   98 ifprefix: IF LEFT_PARENTHESIS . $@9 expression RIGHT_PARENTHESIS
 
-    $default  reduce using rule 97 ($@10)
+    $default  reduce using rule 97 ($@9)
 
-    $@10  go to state 109
+    $@9  go to state 109
 
 
 state 49
@@ -1067,19 +1111,19 @@ state 51
 
 state 52
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
   108 returnstmt: RETURN expression . SEMICOLON
 
     AND               shift, and go to state 72
@@ -1100,48 +1144,48 @@ state 52
 
 state 53
 
-   10 statement: BREAK SEMICOLON .
+    9 statement: BREAK SEMICOLON .
 
-    $default  reduce using rule 10 (statement)
+    $default  reduce using rule 9 (statement)
 
 
 state 54
 
-   11 statement: CONTINUE SEMICOLON .
+   10 statement: CONTINUE SEMICOLON .
 
-    $default  reduce using rule 11 (statement)
+    $default  reduce using rule 10 (statement)
 
 
 state 55
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-   37 term: NOT expression .
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
+   36 term: NOT expression .
 
-    $default  reduce using rule 37 (term)
+    $default  reduce using rule 36 (term)
 
 
 state 56
 
-   51 lvalue: LOCAL ID .
+   50 lvalue: LOCAL ID .
 
-    $default  reduce using rule 51 (lvalue)
+    $default  reduce using rule 50 (lvalue)
 
 
 state 57
 
-   72 indexedelem: LEFT_BRACKET . expression COLON expression RIGHT_BRACKET
+   71 indexedelem: LEFT_BRACKET . expression COLON expression RIGHT_BRACKET
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1171,21 +1215,21 @@ state 57
 
 state 58
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-   65 elist: expression .
-   66      | expression . COMMA elist
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
+   64 elist: expression .
+   65      | expression . COMMA elist
 
     AND               shift, and go to state 72
     OR                shift, and go to state 73
@@ -1202,49 +1246,49 @@ state 58
     GREATER_OR_EQUAL  shift, and go to state 84
     LESS_OR_EQUAL     shift, and go to state 85
 
-    $default  reduce using rule 65 (elist)
+    $default  reduce using rule 64 (elist)
 
 
 state 59
 
-   68 objectdef: LEFT_BRACE elist . RIGHT_BRACE
+   67 objectdef: LEFT_BRACE elist . RIGHT_BRACE
 
     RIGHT_BRACE  shift, and go to state 113
 
 
 state 60
 
-   69 objectdef: LEFT_BRACE indexed . RIGHT_BRACE
+   68 objectdef: LEFT_BRACE indexed . RIGHT_BRACE
 
     RIGHT_BRACE  shift, and go to state 114
 
 
 state 61
 
-   70 indexed: indexedelem .
-   71        | indexedelem . COMMA indexed
+   69 indexed: indexedelem .
+   70        | indexedelem . COMMA indexed
 
     COMMA  shift, and go to state 115
 
-    $default  reduce using rule 70 (indexed)
+    $default  reduce using rule 69 (indexed)
 
 
 state 62
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-   35 term: LEFT_PARENTHESIS expression . RIGHT_PARENTHESIS
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
+   34 term: LEFT_PARENTHESIS expression . RIGHT_PARENTHESIS
 
     AND                shift, and go to state 72
     OR                 shift, and go to state 73
@@ -1264,42 +1308,42 @@ state 62
 
 state 63
 
-   48 primary: LEFT_PARENTHESIS funcdef . RIGHT_PARENTHESIS
-   60 call: LEFT_PARENTHESIS funcdef . RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   47 primary: LEFT_PARENTHESIS funcdef . RIGHT_PARENTHESIS
+   59 call: LEFT_PARENTHESIS funcdef . RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     RIGHT_PARENTHESIS  shift, and go to state 117
 
 
 state 64
 
-   52 lvalue: DOUBLE_COLON ID .
+   51 lvalue: DOUBLE_COLON ID .
 
-    $default  reduce using rule 52 (lvalue)
+    $default  reduce using rule 51 (lvalue)
 
 
 state 65
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-   36 term: MINUS expression .
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
+   35 term: MINUS expression .
 
-    $default  reduce using rule 36 (term)
+    $default  reduce using rule 35 (term)
 
 
 state 66
 
-   60 call: LEFT_PARENTHESIS . funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   59 call: LEFT_PARENTHESIS . funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     FUNCTION  shift, and go to state 7
 
@@ -1309,17 +1353,17 @@ state 66
 
 state 67
 
-   38 term: PLUS_PLUS lvalue .
-   54 member: lvalue . DOT ID
-   55       | lvalue . LEFT_BRACE expression RIGHT_BRACE
-   59 call: lvalue . callsuffix
+   37 term: PLUS_PLUS lvalue .
+   53 member: lvalue . DOT ID
+   54       | lvalue . LEFT_BRACE expression RIGHT_BRACE
+   58 call: lvalue . callsuffix
 
     LEFT_BRACE        shift, and go to state 86
     LEFT_PARENTHESIS  shift, and go to state 87
     DOT               shift, and go to state 88
     DOUBLE_DOT        shift, and go to state 89
 
-    $default  reduce using rule 38 (term)
+    $default  reduce using rule 37 (term)
 
     callsuffix  go to state 93
     normcall    go to state 94
@@ -1328,9 +1372,9 @@ state 67
 
 state 68
 
-   56 member: call . DOT ID
-   57       | call . LEFT_BRACE expression RIGHT_BRACE
-   58 call: call . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   55 member: call . DOT ID
+   56       | call . LEFT_BRACE expression RIGHT_BRACE
+   57 call: call . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
     LEFT_BRACE        shift, and go to state 96
     LEFT_PARENTHESIS  shift, and go to state 97
@@ -1339,17 +1383,17 @@ state 68
 
 state 69
 
-   40 term: MINUS_MINUS lvalue .
-   54 member: lvalue . DOT ID
-   55       | lvalue . LEFT_BRACE expression RIGHT_BRACE
-   59 call: lvalue . callsuffix
+   39 term: MINUS_MINUS lvalue .
+   53 member: lvalue . DOT ID
+   54       | lvalue . LEFT_BRACE expression RIGHT_BRACE
+   58 call: lvalue . callsuffix
 
     LEFT_BRACE        shift, and go to state 86
     LEFT_PARENTHESIS  shift, and go to state 87
     DOT               shift, and go to state 88
     DOUBLE_DOT        shift, and go to state 89
 
-    $default  reduce using rule 40 (term)
+    $default  reduce using rule 39 (term)
 
     callsuffix  go to state 93
     normcall    go to state 94
@@ -1365,34 +1409,56 @@ state 70
 
 state 71
 
-    3 statements: statements $@1 . statement
+    2 statements: statements statement .
+
+    $default  reduce using rule 2 (statements)
+
+
+state 72
+
+   29 expression: expression AND . $@3 M expression
+
+    $default  reduce using rule 28 ($@3)
+
+    $@3  go to state 119
+
+
+state 73
+
+   31 expression: expression OR . $@4 M expression
+
+    $default  reduce using rule 30 ($@4)
+
+    $@4  go to state 120
+
+
+state 74
+
+    4 statement: expression SEMICOLON .
+
+    $default  reduce using rule 4 (statement)
+
+
+state 75
+
+   15 expression: expression PLUS . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
     STRING            shift, and go to state 3
-    IF                shift, and go to state 4
-    WHILE             shift, and go to state 5
-    FOR               shift, and go to state 6
-    FUNCTION          shift, and go to state 7
-    RETURN            shift, and go to state 8
-    BREAK             shift, and go to state 9
-    CONTINUE          shift, and go to state 10
     NOT               shift, and go to state 11
     LOCAL             shift, and go to state 12
     TRUE              shift, and go to state 13
     FALSE             shift, and go to state 14
     NIL               shift, and go to state 15
     LEFT_BRACE        shift, and go to state 16
-    LEFT_BRACKET      shift, and go to state 17
     LEFT_PARENTHESIS  shift, and go to state 18
-    SEMICOLON         shift, and go to state 19
     DOUBLE_COLON      shift, and go to state 20
     MINUS             shift, and go to state 21
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    statement   go to state 119
-    expression  go to state 27
+    expression  go to state 121
     term        go to state 28
     assignexpr  go to state 29
     primary     go to state 30
@@ -1400,49 +1466,12 @@ state 71
     member      go to state 32
     call        go to state 33
     objectdef   go to state 34
-    block       go to state 35
-    blockstart  go to state 36
-    funcdef     go to state 37
-    funcstart   go to state 38
     const       go to state 39
-    ifstmt      go to state 40
-    ifprefix    go to state 41
-    whilestart  go to state 42
-    whilestmt   go to state 43
-    forprefix   go to state 44
-    forstart    go to state 45
-    forstmt     go to state 46
-    returnstmt  go to state 47
 
 
-state 72
+state 76
 
-   30 expression: expression AND . $@4 M expression
-
-    $default  reduce using rule 29 ($@4)
-
-    $@4  go to state 120
-
-
-state 73
-
-   32 expression: expression OR . $@5 M expression
-
-    $default  reduce using rule 31 ($@5)
-
-    $@5  go to state 121
-
-
-state 74
-
-    5 statement: expression SEMICOLON .
-
-    $default  reduce using rule 5 (statement)
-
-
-state 75
-
-   16 expression: expression PLUS . expression
+   16 expression: expression MINUS . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1470,9 +1499,9 @@ state 75
     const       go to state 39
 
 
-state 76
+state 77
 
-   17 expression: expression MINUS . expression
+   17 expression: expression MULT . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1500,9 +1529,9 @@ state 76
     const       go to state 39
 
 
-state 77
+state 78
 
-   18 expression: expression MULT . expression
+   18 expression: expression DIV . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1530,9 +1559,9 @@ state 77
     const       go to state 39
 
 
-state 78
+state 79
 
-   19 expression: expression DIV . expression
+   19 expression: expression MOD . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1560,9 +1589,27 @@ state 78
     const       go to state 39
 
 
-state 79
+state 80
 
-   20 expression: expression MOD . expression
+   25 expression: expression EQUALS_EQUALS . $@1 expression
+
+    $default  reduce using rule 24 ($@1)
+
+    $@1  go to state 126
+
+
+state 81
+
+   27 expression: expression NOT_EQUALS . $@2 expression
+
+    $default  reduce using rule 26 ($@2)
+
+    $@2  go to state 127
+
+
+state 82
+
+   20 expression: expression GREATER_THAN . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1579,7 +1626,7 @@ state 79
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    expression  go to state 126
+    expression  go to state 128
     term        go to state 28
     assignexpr  go to state 29
     primary     go to state 30
@@ -1590,27 +1637,9 @@ state 79
     const       go to state 39
 
 
-state 80
+state 83
 
-   26 expression: expression EQUALS_EQUALS . $@2 expression
-
-    $default  reduce using rule 25 ($@2)
-
-    $@2  go to state 127
-
-
-state 81
-
-   28 expression: expression NOT_EQUALS . $@3 expression
-
-    $default  reduce using rule 27 ($@3)
-
-    $@3  go to state 128
-
-
-state 82
-
-   21 expression: expression GREATER_THAN . expression
+   22 expression: expression LESS_THAN . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1638,9 +1667,9 @@ state 82
     const       go to state 39
 
 
-state 83
+state 84
 
-   23 expression: expression LESS_THAN . expression
+   21 expression: expression GREATER_OR_EQUAL . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1668,9 +1697,9 @@ state 83
     const       go to state 39
 
 
-state 84
+state 85
 
-   22 expression: expression GREATER_OR_EQUAL . expression
+   23 expression: expression LESS_OR_EQUAL . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1698,9 +1727,9 @@ state 84
     const       go to state 39
 
 
-state 85
+state 86
 
-   24 expression: expression LESS_OR_EQUAL . expression
+   54 member: lvalue LEFT_BRACE . expression RIGHT_BRACE
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1728,39 +1757,9 @@ state 85
     const       go to state 39
 
 
-state 86
-
-   55 member: lvalue LEFT_BRACE . expression RIGHT_BRACE
-
-    NUM               shift, and go to state 1
-    ID                shift, and go to state 2
-    STRING            shift, and go to state 3
-    NOT               shift, and go to state 11
-    LOCAL             shift, and go to state 12
-    TRUE              shift, and go to state 13
-    FALSE             shift, and go to state 14
-    NIL               shift, and go to state 15
-    LEFT_BRACE        shift, and go to state 16
-    LEFT_PARENTHESIS  shift, and go to state 18
-    DOUBLE_COLON      shift, and go to state 20
-    MINUS             shift, and go to state 21
-    PLUS_PLUS         shift, and go to state 22
-    MINUS_MINUS       shift, and go to state 23
-
-    expression  go to state 133
-    term        go to state 28
-    assignexpr  go to state 29
-    primary     go to state 30
-    lvalue      go to state 31
-    member      go to state 32
-    call        go to state 33
-    objectdef   go to state 34
-    const       go to state 39
-
-
 state 87
 
-   63 normcall: LEFT_PARENTHESIS . elist RIGHT_PARENTHESIS
+   62 normcall: LEFT_PARENTHESIS . elist RIGHT_PARENTHESIS
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1777,7 +1776,7 @@ state 87
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    $default  reduce using rule 67 (elist)
+    $default  reduce using rule 66 (elist)
 
     expression  go to state 58
     term        go to state 28
@@ -1786,70 +1785,70 @@ state 87
     lvalue      go to state 31
     member      go to state 32
     call        go to state 33
-    elist       go to state 134
+    elist       go to state 133
     objectdef   go to state 34
     const       go to state 39
 
 
 state 88
 
-   54 member: lvalue DOT . ID
+   53 member: lvalue DOT . ID
 
-    ID  shift, and go to state 135
+    ID  shift, and go to state 134
 
 
 state 89
 
-   64 methodcall: DOUBLE_DOT . ID LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   63 methodcall: DOUBLE_DOT . ID LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
-    ID  shift, and go to state 136
+    ID  shift, and go to state 135
 
 
 state 90
 
-   39 term: lvalue PLUS_PLUS .
+   38 term: lvalue PLUS_PLUS .
 
-    $default  reduce using rule 39 (term)
+    $default  reduce using rule 38 (term)
 
 
 state 91
 
-   41 term: lvalue MINUS_MINUS .
+   40 term: lvalue MINUS_MINUS .
 
-    $default  reduce using rule 41 (term)
+    $default  reduce using rule 40 (term)
 
 
 state 92
 
-   44 assignexpr: lvalue $@6 . EQUALS expression
+   43 assignexpr: lvalue $@5 . EQUALS expression
 
-    EQUALS  shift, and go to state 137
+    EQUALS  shift, and go to state 136
 
 
 state 93
 
-   59 call: lvalue callsuffix .
+   58 call: lvalue callsuffix .
 
-    $default  reduce using rule 59 (call)
+    $default  reduce using rule 58 (call)
 
 
 state 94
 
-   61 callsuffix: normcall .
+   60 callsuffix: normcall .
 
-    $default  reduce using rule 61 (callsuffix)
+    $default  reduce using rule 60 (callsuffix)
 
 
 state 95
 
-   62 callsuffix: methodcall .
+   61 callsuffix: methodcall .
 
-    $default  reduce using rule 62 (callsuffix)
+    $default  reduce using rule 61 (callsuffix)
 
 
 state 96
 
-   57 member: call LEFT_BRACE . expression RIGHT_BRACE
+   56 member: call LEFT_BRACE . expression RIGHT_BRACE
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1866,7 +1865,7 @@ state 96
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    expression  go to state 138
+    expression  go to state 137
     term        go to state 28
     assignexpr  go to state 29
     primary     go to state 30
@@ -1879,7 +1878,7 @@ state 96
 
 state 97
 
-   58 call: call LEFT_PARENTHESIS . elist RIGHT_PARENTHESIS
+   57 call: call LEFT_PARENTHESIS . elist RIGHT_PARENTHESIS
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1896,7 +1895,7 @@ state 97
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    $default  reduce using rule 67 (elist)
+    $default  reduce using rule 66 (elist)
 
     expression  go to state 58
     term        go to state 28
@@ -1905,29 +1904,29 @@ state 97
     lvalue      go to state 31
     member      go to state 32
     call        go to state 33
-    elist       go to state 139
+    elist       go to state 138
     objectdef   go to state 34
     const       go to state 39
 
 
 state 98
 
-   56 member: call DOT . ID
+   55 member: call DOT . ID
 
-    ID  shift, and go to state 140
+    ID  shift, and go to state 139
 
 
 state 99
 
-   76 blockend: RIGHT_BRACKET .
+   75 blockend: RIGHT_BRACKET .
 
-    $default  reduce using rule 76 (blockend)
+    $default  reduce using rule 75 (blockend)
 
 
 state 100
 
-   77 blockstmt: statement .
-   78          | statement . blockstmt
+   76 blockstmt: statement .
+   77          | statement . blockstmt
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -1953,7 +1952,7 @@ state 100
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    $default  reduce using rule 77 (blockstmt)
+    $default  reduce using rule 76 (blockstmt)
 
     statement   go to state 100
     expression  go to state 27
@@ -1966,7 +1965,7 @@ state 100
     objectdef   go to state 34
     block       go to state 35
     blockstart  go to state 36
-    blockstmt   go to state 141
+    blockstmt   go to state 140
     funcdef     go to state 37
     funcstart   go to state 38
     const       go to state 39
@@ -1982,27 +1981,27 @@ state 100
 
 state 101
 
-   73 block: blockstart blockend .
+   72 block: blockstart blockend .
 
-    $default  reduce using rule 73 (block)
+    $default  reduce using rule 72 (block)
 
 
 state 102
 
-   74 block: blockstart blockstmt . blockend
+   73 block: blockstart blockstmt . blockend
 
     RIGHT_BRACKET  shift, and go to state 99
 
-    blockend  go to state 142
+    blockend  go to state 141
 
 
 state 103
 
-   82 funcdef: funcstart LEFT_PARENTHESIS . $@7 idlist $@8 RIGHT_PARENTHESIS $@9 block
+   81 funcdef: funcstart LEFT_PARENTHESIS . $@6 idlist $@7 RIGHT_PARENTHESIS $@8 funcbody
 
-    $default  reduce using rule 79 ($@7)
+    $default  reduce using rule 78 ($@6)
 
-    $@7  go to state 143
+    $@6  go to state 142
 
 
 state 104
@@ -2010,21 +2009,21 @@ state 104
    94 ifstmt: ifprefix statement .
    95       | ifprefix statement . elseprefix statement
 
-    ELSE  shift, and go to state 144
+    ELSE  shift, and go to state 143
 
     ELSE      [reduce using rule 94 (ifstmt)]
     $default  reduce using rule 94 (ifstmt)
 
-    elseprefix  go to state 145
+    elseprefix  go to state 144
 
 
 state 105
 
-  101 whilecond: LEFT_PARENTHESIS . $@11 expression RIGHT_PARENTHESIS
+  101 whilecond: LEFT_PARENTHESIS . $@10 expression RIGHT_PARENTHESIS
 
-    $default  reduce using rule 100 ($@11)
+    $default  reduce using rule 100 ($@10)
 
-    $@11  go to state 146
+    $@10  go to state 145
 
 
 state 106
@@ -2055,7 +2054,7 @@ state 106
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    statement   go to state 147
+    statement   go to state 146
     expression  go to state 27
     term        go to state 28
     assignexpr  go to state 29
@@ -2098,7 +2097,7 @@ state 107
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    $default  reduce using rule 67 (elist)
+    $default  reduce using rule 66 (elist)
 
     expression  go to state 58
     term        go to state 28
@@ -2107,7 +2106,7 @@ state 107
     lvalue      go to state 31
     member      go to state 32
     call        go to state 33
-    elist       go to state 148
+    elist       go to state 147
     objectdef   go to state 34
     const       go to state 39
 
@@ -2116,12 +2115,12 @@ state 108
 
   103 forprefix: forstart elist . SEMICOLON M expression SEMICOLON
 
-    SEMICOLON  shift, and go to state 149
+    SEMICOLON  shift, and go to state 148
 
 
 state 109
 
-   98 ifprefix: IF LEFT_PARENTHESIS $@10 . expression RIGHT_PARENTHESIS
+   98 ifprefix: IF LEFT_PARENTHESIS $@9 . expression RIGHT_PARENTHESIS
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -2138,7 +2137,7 @@ state 109
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    expression  go to state 150
+    expression  go to state 149
     term        go to state 28
     assignexpr  go to state 29
     primary     go to state 30
@@ -2158,24 +2157,24 @@ state 110
 
 state 111
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-   72 indexedelem: LEFT_BRACKET expression . COLON expression RIGHT_BRACKET
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
+   71 indexedelem: LEFT_BRACKET expression . COLON expression RIGHT_BRACKET
 
     AND               shift, and go to state 72
     OR                shift, and go to state 73
-    COLON             shift, and go to state 151
+    COLON             shift, and go to state 150
     PLUS              shift, and go to state 75
     MINUS             shift, and go to state 76
     MULT              shift, and go to state 77
@@ -2191,7 +2190,7 @@ state 111
 
 state 112
 
-   66 elist: expression COMMA . elist
+   65 elist: expression COMMA . elist
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -2208,7 +2207,7 @@ state 112
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    $default  reduce using rule 67 (elist)
+    $default  reduce using rule 66 (elist)
 
     expression  go to state 58
     term        go to state 28
@@ -2217,100 +2216,117 @@ state 112
     lvalue      go to state 31
     member      go to state 32
     call        go to state 33
-    elist       go to state 152
+    elist       go to state 151
     objectdef   go to state 34
     const       go to state 39
 
 
 state 113
 
-   68 objectdef: LEFT_BRACE elist RIGHT_BRACE .
+   67 objectdef: LEFT_BRACE elist RIGHT_BRACE .
 
-    $default  reduce using rule 68 (objectdef)
+    $default  reduce using rule 67 (objectdef)
 
 
 state 114
 
-   69 objectdef: LEFT_BRACE indexed RIGHT_BRACE .
+   68 objectdef: LEFT_BRACE indexed RIGHT_BRACE .
 
-    $default  reduce using rule 69 (objectdef)
+    $default  reduce using rule 68 (objectdef)
 
 
 state 115
 
-   71 indexed: indexedelem COMMA . indexed
+   70 indexed: indexedelem COMMA . indexed
 
     LEFT_BRACKET  shift, and go to state 57
 
-    indexed      go to state 153
+    indexed      go to state 152
     indexedelem  go to state 61
 
 
 state 116
 
-   35 term: LEFT_PARENTHESIS expression RIGHT_PARENTHESIS .
+   34 term: LEFT_PARENTHESIS expression RIGHT_PARENTHESIS .
 
-    $default  reduce using rule 35 (term)
+    $default  reduce using rule 34 (term)
 
 
 state 117
 
-   48 primary: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS .
-   60 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   47 primary: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS .
+   59 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
-    LEFT_PARENTHESIS  shift, and go to state 154
+    LEFT_PARENTHESIS  shift, and go to state 153
 
-    $default  reduce using rule 48 (primary)
+    $default  reduce using rule 47 (primary)
 
 
 state 118
 
-   60 call: LEFT_PARENTHESIS funcdef . RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   59 call: LEFT_PARENTHESIS funcdef . RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
-    RIGHT_PARENTHESIS  shift, and go to state 155
+    RIGHT_PARENTHESIS  shift, and go to state 154
 
 
 state 119
 
-    3 statements: statements $@1 statement .
+   29 expression: expression AND $@3 . M expression
 
-    $default  reduce using rule 3 (statements)
+    $default  reduce using rule 33 (M)
+
+    M  go to state 155
 
 
 state 120
 
-   30 expression: expression AND $@4 . M expression
+   31 expression: expression OR $@4 . M expression
 
-    $default  reduce using rule 34 (M)
+    $default  reduce using rule 33 (M)
 
     M  go to state 156
 
 
 state 121
 
-   32 expression: expression OR $@5 . M expression
+   15 expression: expression . PLUS expression
+   15           | expression PLUS expression .
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
 
-    $default  reduce using rule 34 (M)
+    MULT  shift, and go to state 77
+    DIV   shift, and go to state 78
+    MOD   shift, and go to state 79
 
-    M  go to state 157
+    $default  reduce using rule 15 (expression)
 
 
 state 122
 
-   16 expression: expression . PLUS expression
-   16           | expression PLUS expression .
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   16           | expression MINUS expression .
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
 
     MULT  shift, and go to state 77
     DIV   shift, and go to state 78
@@ -2321,91 +2337,97 @@ state 122
 
 state 123
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   17           | expression MINUS expression .
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-
-    MULT  shift, and go to state 77
-    DIV   shift, and go to state 78
-    MOD   shift, and go to state 79
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   17           | expression MULT expression .
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
 
     $default  reduce using rule 17 (expression)
 
 
 state 124
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   18           | expression MULT expression .
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   18           | expression DIV expression .
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
 
     $default  reduce using rule 18 (expression)
 
 
 state 125
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   19           | expression DIV expression .
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   19           | expression MOD expression .
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
 
     $default  reduce using rule 19 (expression)
 
 
 state 126
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   20           | expression MOD expression .
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
+   25 expression: expression EQUALS_EQUALS $@1 . expression
 
-    $default  reduce using rule 20 (expression)
+    NUM               shift, and go to state 1
+    ID                shift, and go to state 2
+    STRING            shift, and go to state 3
+    NOT               shift, and go to state 11
+    LOCAL             shift, and go to state 12
+    TRUE              shift, and go to state 13
+    FALSE             shift, and go to state 14
+    NIL               shift, and go to state 15
+    LEFT_BRACE        shift, and go to state 16
+    LEFT_PARENTHESIS  shift, and go to state 18
+    DOUBLE_COLON      shift, and go to state 20
+    MINUS             shift, and go to state 21
+    PLUS_PLUS         shift, and go to state 22
+    MINUS_MINUS       shift, and go to state 23
+
+    expression  go to state 157
+    term        go to state 28
+    assignexpr  go to state 29
+    primary     go to state 30
+    lvalue      go to state 31
+    member      go to state 32
+    call        go to state 33
+    objectdef   go to state 34
+    const       go to state 39
 
 
 state 127
 
-   26 expression: expression EQUALS_EQUALS $@2 . expression
+   27 expression: expression NOT_EQUALS $@2 . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -2435,112 +2457,51 @@ state 127
 
 state 128
 
-   28 expression: expression NOT_EQUALS $@3 . expression
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   20           | expression GREATER_THAN expression .
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
 
-    NUM               shift, and go to state 1
-    ID                shift, and go to state 2
-    STRING            shift, and go to state 3
-    NOT               shift, and go to state 11
-    LOCAL             shift, and go to state 12
-    TRUE              shift, and go to state 13
-    FALSE             shift, and go to state 14
-    NIL               shift, and go to state 15
-    LEFT_BRACE        shift, and go to state 16
-    LEFT_PARENTHESIS  shift, and go to state 18
-    DOUBLE_COLON      shift, and go to state 20
-    MINUS             shift, and go to state 21
-    PLUS_PLUS         shift, and go to state 22
-    MINUS_MINUS       shift, and go to state 23
+    PLUS   shift, and go to state 75
+    MINUS  shift, and go to state 76
+    MULT   shift, and go to state 77
+    DIV    shift, and go to state 78
+    MOD    shift, and go to state 79
 
-    expression  go to state 159
-    term        go to state 28
-    assignexpr  go to state 29
-    primary     go to state 30
-    lvalue      go to state 31
-    member      go to state 32
-    call        go to state 33
-    objectdef   go to state 34
-    const       go to state 39
+    GREATER_THAN      error (nonassociative)
+    LESS_THAN         error (nonassociative)
+    GREATER_OR_EQUAL  error (nonassociative)
+    LESS_OR_EQUAL     error (nonassociative)
+
+    $default  reduce using rule 20 (expression)
 
 
 state 129
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   21           | expression GREATER_THAN expression .
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-
-    PLUS   shift, and go to state 75
-    MINUS  shift, and go to state 76
-    MULT   shift, and go to state 77
-    DIV    shift, and go to state 78
-    MOD    shift, and go to state 79
-
-    GREATER_THAN      error (nonassociative)
-    LESS_THAN         error (nonassociative)
-    GREATER_OR_EQUAL  error (nonassociative)
-    LESS_OR_EQUAL     error (nonassociative)
-
-    $default  reduce using rule 21 (expression)
-
-
-state 130
-
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   23           | expression LESS_THAN expression .
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-
-    PLUS   shift, and go to state 75
-    MINUS  shift, and go to state 76
-    MULT   shift, and go to state 77
-    DIV    shift, and go to state 78
-    MOD    shift, and go to state 79
-
-    GREATER_THAN      error (nonassociative)
-    LESS_THAN         error (nonassociative)
-    GREATER_OR_EQUAL  error (nonassociative)
-    LESS_OR_EQUAL     error (nonassociative)
-
-    $default  reduce using rule 23 (expression)
-
-
-state 131
-
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   22           | expression GREATER_OR_EQUAL expression .
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   22           | expression LESS_THAN expression .
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
 
     PLUS   shift, and go to state 75
     MINUS  shift, and go to state 76
@@ -2556,22 +2517,22 @@ state 131
     $default  reduce using rule 22 (expression)
 
 
-state 132
+state 130
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   24           | expression LESS_OR_EQUAL expression .
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   21           | expression GREATER_OR_EQUAL expression .
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
 
     PLUS   shift, and go to state 75
     MINUS  shift, and go to state 76
@@ -2584,29 +2545,60 @@ state 132
     GREATER_OR_EQUAL  error (nonassociative)
     LESS_OR_EQUAL     error (nonassociative)
 
-    $default  reduce using rule 24 (expression)
+    $default  reduce using rule 21 (expression)
 
 
-state 133
+state 131
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-   55 member: lvalue LEFT_BRACE expression . RIGHT_BRACE
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   23           | expression LESS_OR_EQUAL expression .
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
+
+    PLUS   shift, and go to state 75
+    MINUS  shift, and go to state 76
+    MULT   shift, and go to state 77
+    DIV    shift, and go to state 78
+    MOD    shift, and go to state 79
+
+    GREATER_THAN      error (nonassociative)
+    LESS_THAN         error (nonassociative)
+    GREATER_OR_EQUAL  error (nonassociative)
+    LESS_OR_EQUAL     error (nonassociative)
+
+    $default  reduce using rule 23 (expression)
+
+
+state 132
+
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
+   54 member: lvalue LEFT_BRACE expression . RIGHT_BRACE
 
     AND               shift, and go to state 72
     OR                shift, and go to state 73
-    RIGHT_BRACE       shift, and go to state 160
+    RIGHT_BRACE       shift, and go to state 159
     PLUS              shift, and go to state 75
     MINUS             shift, and go to state 76
     MULT              shift, and go to state 77
@@ -2620,30 +2612,30 @@ state 133
     LESS_OR_EQUAL     shift, and go to state 85
 
 
+state 133
+
+   62 normcall: LEFT_PARENTHESIS elist . RIGHT_PARENTHESIS
+
+    RIGHT_PARENTHESIS  shift, and go to state 160
+
+
 state 134
 
-   63 normcall: LEFT_PARENTHESIS elist . RIGHT_PARENTHESIS
+   53 member: lvalue DOT ID .
 
-    RIGHT_PARENTHESIS  shift, and go to state 161
+    $default  reduce using rule 53 (member)
 
 
 state 135
 
-   54 member: lvalue DOT ID .
+   63 methodcall: DOUBLE_DOT ID . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
 
-    $default  reduce using rule 54 (member)
+    LEFT_PARENTHESIS  shift, and go to state 161
 
 
 state 136
 
-   64 methodcall: DOUBLE_DOT ID . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
-
-    LEFT_PARENTHESIS  shift, and go to state 162
-
-
-state 137
-
-   44 assignexpr: lvalue $@6 EQUALS . expression
+   43 assignexpr: lvalue $@5 EQUALS . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -2660,7 +2652,7 @@ state 137
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    expression  go to state 163
+    expression  go to state 162
     term        go to state 28
     assignexpr  go to state 29
     primary     go to state 30
@@ -2671,26 +2663,26 @@ state 137
     const       go to state 39
 
 
-state 138
+state 137
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-   57 member: call LEFT_BRACE expression . RIGHT_BRACE
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
+   56 member: call LEFT_BRACE expression . RIGHT_BRACE
 
     AND               shift, and go to state 72
     OR                shift, and go to state 73
-    RIGHT_BRACE       shift, and go to state 164
+    RIGHT_BRACE       shift, and go to state 163
     PLUS              shift, and go to state 75
     MINUS             shift, and go to state 76
     MULT              shift, and go to state 77
@@ -2704,54 +2696,54 @@ state 138
     LESS_OR_EQUAL     shift, and go to state 85
 
 
+state 138
+
+   57 call: call LEFT_PARENTHESIS elist . RIGHT_PARENTHESIS
+
+    RIGHT_PARENTHESIS  shift, and go to state 164
+
+
 state 139
 
-   58 call: call LEFT_PARENTHESIS elist . RIGHT_PARENTHESIS
+   55 member: call DOT ID .
 
-    RIGHT_PARENTHESIS  shift, and go to state 165
+    $default  reduce using rule 55 (member)
 
 
 state 140
 
-   56 member: call DOT ID .
+   77 blockstmt: statement blockstmt .
 
-    $default  reduce using rule 56 (member)
+    $default  reduce using rule 77 (blockstmt)
 
 
 state 141
 
-   78 blockstmt: statement blockstmt .
+   73 block: blockstart blockstmt blockend .
 
-    $default  reduce using rule 78 (blockstmt)
+    $default  reduce using rule 73 (block)
 
 
 state 142
 
-   74 block: blockstart blockstmt blockend .
+   81 funcdef: funcstart LEFT_PARENTHESIS $@6 . idlist $@7 RIGHT_PARENTHESIS $@8 funcbody
 
-    $default  reduce using rule 74 (block)
-
-
-state 143
-
-   82 funcdef: funcstart LEFT_PARENTHESIS $@7 . idlist $@8 RIGHT_PARENTHESIS $@9 block
-
-    ID  shift, and go to state 166
+    ID  shift, and go to state 165
 
     $default  reduce using rule 92 (idlist)
 
-    idlist  go to state 167
-    arg     go to state 168
+    idlist  go to state 166
+    arg     go to state 167
 
 
-state 144
+state 143
 
    96 elseprefix: ELSE .
 
     $default  reduce using rule 96 (elseprefix)
 
 
-state 145
+state 144
 
    95 ifstmt: ifprefix statement elseprefix . statement
 
@@ -2779,7 +2771,7 @@ state 145
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    statement   go to state 169
+    statement   go to state 168
     expression  go to state 27
     term        go to state 28
     assignexpr  go to state 29
@@ -2803,9 +2795,9 @@ state 145
     returnstmt  go to state 47
 
 
-state 146
+state 145
 
-  101 whilecond: LEFT_PARENTHESIS $@11 . expression RIGHT_PARENTHESIS
+  101 whilecond: LEFT_PARENTHESIS $@10 . expression RIGHT_PARENTHESIS
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -2822,7 +2814,7 @@ state 146
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    expression  go to state 170
+    expression  go to state 169
     term        go to state 28
     assignexpr  go to state 29
     primary     go to state 30
@@ -2833,49 +2825,49 @@ state 146
     const       go to state 39
 
 
-state 147
+state 146
 
   102 whilestmt: whilestart whilecond statement .
 
     $default  reduce using rule 102 (whilestmt)
 
 
-state 148
+state 147
 
   105 forstmt: forprefix N elist . RIGHT_PARENTHESIS N statement N
 
-    RIGHT_PARENTHESIS  shift, and go to state 171
+    RIGHT_PARENTHESIS  shift, and go to state 170
+
+
+state 148
+
+  103 forprefix: forstart elist SEMICOLON . M expression SEMICOLON
+
+    $default  reduce using rule 33 (M)
+
+    M  go to state 171
 
 
 state 149
 
-  103 forprefix: forstart elist SEMICOLON . M expression SEMICOLON
-
-    $default  reduce using rule 34 (M)
-
-    M  go to state 172
-
-
-state 150
-
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-   98 ifprefix: IF LEFT_PARENTHESIS $@10 expression . RIGHT_PARENTHESIS
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
+   98 ifprefix: IF LEFT_PARENTHESIS $@9 expression . RIGHT_PARENTHESIS
 
     AND                shift, and go to state 72
     OR                 shift, and go to state 73
-    RIGHT_PARENTHESIS  shift, and go to state 173
+    RIGHT_PARENTHESIS  shift, and go to state 172
     PLUS               shift, and go to state 75
     MINUS              shift, and go to state 76
     MULT               shift, and go to state 77
@@ -2889,9 +2881,9 @@ state 150
     LESS_OR_EQUAL      shift, and go to state 85
 
 
-state 151
+state 150
 
-   72 indexedelem: LEFT_BRACKET expression COLON . expression RIGHT_BRACKET
+   71 indexedelem: LEFT_BRACKET expression COLON . expression RIGHT_BRACKET
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -2908,7 +2900,7 @@ state 151
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    expression  go to state 174
+    expression  go to state 173
     term        go to state 28
     assignexpr  go to state 29
     primary     go to state 30
@@ -2919,23 +2911,23 @@ state 151
     const       go to state 39
 
 
+state 151
+
+   65 elist: expression COMMA elist .
+
+    $default  reduce using rule 65 (elist)
+
+
 state 152
 
-   66 elist: expression COMMA elist .
+   70 indexed: indexedelem COMMA indexed .
 
-    $default  reduce using rule 66 (elist)
+    $default  reduce using rule 70 (indexed)
 
 
 state 153
 
-   71 indexed: indexedelem COMMA indexed .
-
-    $default  reduce using rule 71 (indexed)
-
-
-state 154
-
-   60 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS . elist RIGHT_PARENTHESIS
+   59 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS . elist RIGHT_PARENTHESIS
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -2952,7 +2944,7 @@ state 154
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    $default  reduce using rule 67 (elist)
+    $default  reduce using rule 66 (elist)
 
     expression  go to state 58
     term        go to state 28
@@ -2961,21 +2953,51 @@ state 154
     lvalue      go to state 31
     member      go to state 32
     call        go to state 33
-    elist       go to state 175
+    elist       go to state 174
     objectdef   go to state 34
     const       go to state 39
 
 
+state 154
+
+   59 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+
+    LEFT_PARENTHESIS  shift, and go to state 153
+
+
 state 155
 
-   60 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS . LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
+   29 expression: expression AND $@3 M . expression
 
-    LEFT_PARENTHESIS  shift, and go to state 154
+    NUM               shift, and go to state 1
+    ID                shift, and go to state 2
+    STRING            shift, and go to state 3
+    NOT               shift, and go to state 11
+    LOCAL             shift, and go to state 12
+    TRUE              shift, and go to state 13
+    FALSE             shift, and go to state 14
+    NIL               shift, and go to state 15
+    LEFT_BRACE        shift, and go to state 16
+    LEFT_PARENTHESIS  shift, and go to state 18
+    DOUBLE_COLON      shift, and go to state 20
+    MINUS             shift, and go to state 21
+    PLUS_PLUS         shift, and go to state 22
+    MINUS_MINUS       shift, and go to state 23
+
+    expression  go to state 175
+    term        go to state 28
+    assignexpr  go to state 29
+    primary     go to state 30
+    lvalue      go to state 31
+    member      go to state 32
+    call        go to state 33
+    objectdef   go to state 34
+    const       go to state 39
 
 
 state 156
 
-   30 expression: expression AND $@4 M . expression
+   31 expression: expression OR $@4 M . expression
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -3005,50 +3027,53 @@ state 156
 
 state 157
 
-   32 expression: expression OR $@5 M . expression
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   25           | expression EQUALS_EQUALS $@1 expression .
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
 
-    NUM               shift, and go to state 1
-    ID                shift, and go to state 2
-    STRING            shift, and go to state 3
-    NOT               shift, and go to state 11
-    LOCAL             shift, and go to state 12
-    TRUE              shift, and go to state 13
-    FALSE             shift, and go to state 14
-    NIL               shift, and go to state 15
-    LEFT_BRACE        shift, and go to state 16
-    LEFT_PARENTHESIS  shift, and go to state 18
-    DOUBLE_COLON      shift, and go to state 20
-    MINUS             shift, and go to state 21
-    PLUS_PLUS         shift, and go to state 22
-    MINUS_MINUS       shift, and go to state 23
+    PLUS              shift, and go to state 75
+    MINUS             shift, and go to state 76
+    MULT              shift, and go to state 77
+    DIV               shift, and go to state 78
+    MOD               shift, and go to state 79
+    GREATER_THAN      shift, and go to state 82
+    LESS_THAN         shift, and go to state 83
+    GREATER_OR_EQUAL  shift, and go to state 84
+    LESS_OR_EQUAL     shift, and go to state 85
 
-    expression  go to state 177
-    term        go to state 28
-    assignexpr  go to state 29
-    primary     go to state 30
-    lvalue      go to state 31
-    member      go to state 32
-    call        go to state 33
-    objectdef   go to state 34
-    const       go to state 39
+    EQUALS_EQUALS  error (nonassociative)
+    NOT_EQUALS     error (nonassociative)
+
+    $default  reduce using rule 25 (expression)
 
 
 state 158
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   26           | expression EQUALS_EQUALS $@2 expression .
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   27           | expression NOT_EQUALS $@2 expression .
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
 
     PLUS              shift, and go to state 75
     MINUS             shift, and go to state 76
@@ -3063,59 +3088,26 @@ state 158
     EQUALS_EQUALS  error (nonassociative)
     NOT_EQUALS     error (nonassociative)
 
-    $default  reduce using rule 26 (expression)
+    $default  reduce using rule 27 (expression)
 
 
 state 159
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   28           | expression NOT_EQUALS $@3 expression .
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
+   54 member: lvalue LEFT_BRACE expression RIGHT_BRACE .
 
-    PLUS              shift, and go to state 75
-    MINUS             shift, and go to state 76
-    MULT              shift, and go to state 77
-    DIV               shift, and go to state 78
-    MOD               shift, and go to state 79
-    GREATER_THAN      shift, and go to state 82
-    LESS_THAN         shift, and go to state 83
-    GREATER_OR_EQUAL  shift, and go to state 84
-    LESS_OR_EQUAL     shift, and go to state 85
-
-    EQUALS_EQUALS  error (nonassociative)
-    NOT_EQUALS     error (nonassociative)
-
-    $default  reduce using rule 28 (expression)
+    $default  reduce using rule 54 (member)
 
 
 state 160
 
-   55 member: lvalue LEFT_BRACE expression RIGHT_BRACE .
+   62 normcall: LEFT_PARENTHESIS elist RIGHT_PARENTHESIS .
 
-    $default  reduce using rule 55 (member)
+    $default  reduce using rule 62 (normcall)
 
 
 state 161
 
-   63 normcall: LEFT_PARENTHESIS elist RIGHT_PARENTHESIS .
-
-    $default  reduce using rule 63 (normcall)
-
-
-state 162
-
-   64 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS . elist RIGHT_PARENTHESIS
+   63 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS . elist RIGHT_PARENTHESIS
 
     NUM               shift, and go to state 1
     ID                shift, and go to state 2
@@ -3132,7 +3124,7 @@ state 162
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    $default  reduce using rule 67 (elist)
+    $default  reduce using rule 66 (elist)
 
     expression  go to state 58
     term        go to state 28
@@ -3141,27 +3133,27 @@ state 162
     lvalue      go to state 31
     member      go to state 32
     call        go to state 33
-    elist       go to state 178
+    elist       go to state 177
     objectdef   go to state 34
     const       go to state 39
 
 
-state 163
+state 162
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-   44 assignexpr: lvalue $@6 EQUALS expression .
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
+   43 assignexpr: lvalue $@5 EQUALS expression .
 
     AND               shift, and go to state 72
     OR                shift, and go to state 73
@@ -3177,76 +3169,76 @@ state 163
     GREATER_OR_EQUAL  shift, and go to state 84
     LESS_OR_EQUAL     shift, and go to state 85
 
-    $default  reduce using rule 44 (assignexpr)
+    $default  reduce using rule 43 (assignexpr)
+
+
+state 163
+
+   56 member: call LEFT_BRACE expression RIGHT_BRACE .
+
+    $default  reduce using rule 56 (member)
 
 
 state 164
 
-   57 member: call LEFT_BRACE expression RIGHT_BRACE .
+   57 call: call LEFT_PARENTHESIS elist RIGHT_PARENTHESIS .
 
-    $default  reduce using rule 57 (member)
+    $default  reduce using rule 57 (call)
 
 
 state 165
-
-   58 call: call LEFT_PARENTHESIS elist RIGHT_PARENTHESIS .
-
-    $default  reduce using rule 58 (call)
-
-
-state 166
 
    93 arg: ID .
 
     $default  reduce using rule 93 (arg)
 
 
+state 166
+
+   81 funcdef: funcstart LEFT_PARENTHESIS $@6 idlist . $@7 RIGHT_PARENTHESIS $@8 funcbody
+
+    $default  reduce using rule 79 ($@7)
+
+    $@7  go to state 178
+
+
 state 167
-
-   82 funcdef: funcstart LEFT_PARENTHESIS $@7 idlist . $@8 RIGHT_PARENTHESIS $@9 block
-
-    $default  reduce using rule 80 ($@8)
-
-    $@8  go to state 179
-
-
-state 168
 
    90 idlist: arg .
    91       | arg . COMMA idlist
 
-    COMMA  shift, and go to state 180
+    COMMA  shift, and go to state 179
 
     $default  reduce using rule 90 (idlist)
 
 
-state 169
+state 168
 
    95 ifstmt: ifprefix statement elseprefix statement .
 
     $default  reduce using rule 95 (ifstmt)
 
 
-state 170
+state 169
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-  101 whilecond: LEFT_PARENTHESIS $@11 expression . RIGHT_PARENTHESIS
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
+  101 whilecond: LEFT_PARENTHESIS $@10 expression . RIGHT_PARENTHESIS
 
     AND                shift, and go to state 72
     OR                 shift, and go to state 73
-    RIGHT_PARENTHESIS  shift, and go to state 181
+    RIGHT_PARENTHESIS  shift, and go to state 180
     PLUS               shift, and go to state 75
     MINUS              shift, and go to state 76
     MULT               shift, and go to state 77
@@ -3260,16 +3252,16 @@ state 170
     LESS_OR_EQUAL      shift, and go to state 85
 
 
-state 171
+state 170
 
   105 forstmt: forprefix N elist RIGHT_PARENTHESIS . N statement N
 
     $default  reduce using rule 106 (N)
 
-    N  go to state 182
+    N  go to state 181
 
 
-state 172
+state 171
 
   103 forprefix: forstart elist SEMICOLON M . expression SEMICOLON
 
@@ -3288,7 +3280,7 @@ state 172
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    expression  go to state 183
+    expression  go to state 182
     term        go to state 28
     assignexpr  go to state 29
     primary     go to state 30
@@ -3299,33 +3291,33 @@ state 172
     const       go to state 39
 
 
-state 173
+state 172
 
-   98 ifprefix: IF LEFT_PARENTHESIS $@10 expression RIGHT_PARENTHESIS .
+   98 ifprefix: IF LEFT_PARENTHESIS $@9 expression RIGHT_PARENTHESIS .
 
     $default  reduce using rule 98 (ifprefix)
 
 
-state 174
+state 173
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-   72 indexedelem: LEFT_BRACKET expression COLON expression . RIGHT_BRACKET
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
+   71 indexedelem: LEFT_BRACKET expression COLON expression . RIGHT_BRACKET
 
     AND               shift, and go to state 72
     OR                shift, and go to state 73
-    RIGHT_BRACKET     shift, and go to state 184
+    RIGHT_BRACKET     shift, and go to state 183
     PLUS              shift, and go to state 75
     MINUS             shift, and go to state 76
     MULT              shift, and go to state 77
@@ -3337,31 +3329,31 @@ state 174
     LESS_THAN         shift, and go to state 83
     GREATER_OR_EQUAL  shift, and go to state 84
     LESS_OR_EQUAL     shift, and go to state 85
+
+
+state 174
+
+   59 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist . RIGHT_PARENTHESIS
+
+    RIGHT_PARENTHESIS  shift, and go to state 184
 
 
 state 175
 
-   60 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist . RIGHT_PARENTHESIS
-
-    RIGHT_PARENTHESIS  shift, and go to state 185
-
-
-state 176
-
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   30           | expression AND $@4 M expression .
-   32           | expression . OR $@5 M expression
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   29           | expression AND $@3 M expression .
+   31           | expression . OR $@4 M expression
 
     PLUS              shift, and go to state 75
     MINUS             shift, and go to state 76
@@ -3375,25 +3367,25 @@ state 176
     GREATER_OR_EQUAL  shift, and go to state 84
     LESS_OR_EQUAL     shift, and go to state 85
 
-    $default  reduce using rule 30 (expression)
+    $default  reduce using rule 29 (expression)
 
 
-state 177
+state 176
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
-   32           | expression OR $@5 M expression .
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
+   31           | expression OR $@4 M expression .
 
     AND               shift, and go to state 72
     PLUS              shift, and go to state 75
@@ -3408,43 +3400,43 @@ state 177
     GREATER_OR_EQUAL  shift, and go to state 84
     LESS_OR_EQUAL     shift, and go to state 85
 
-    $default  reduce using rule 32 (expression)
+    $default  reduce using rule 31 (expression)
+
+
+state 177
+
+   63 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS elist . RIGHT_PARENTHESIS
+
+    RIGHT_PARENTHESIS  shift, and go to state 185
 
 
 state 178
 
-   64 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS elist . RIGHT_PARENTHESIS
+   81 funcdef: funcstart LEFT_PARENTHESIS $@6 idlist $@7 . RIGHT_PARENTHESIS $@8 funcbody
 
     RIGHT_PARENTHESIS  shift, and go to state 186
 
 
 state 179
 
-   82 funcdef: funcstart LEFT_PARENTHESIS $@7 idlist $@8 . RIGHT_PARENTHESIS $@9 block
+   91 idlist: arg COMMA . idlist
 
-    RIGHT_PARENTHESIS  shift, and go to state 187
+    ID  shift, and go to state 165
+
+    $default  reduce using rule 92 (idlist)
+
+    idlist  go to state 187
+    arg     go to state 167
 
 
 state 180
 
-   91 idlist: arg COMMA . idlist
-
-    ID  shift, and go to state 166
-
-    $default  reduce using rule 92 (idlist)
-
-    idlist  go to state 188
-    arg     go to state 168
-
-
-state 181
-
-  101 whilecond: LEFT_PARENTHESIS $@11 expression RIGHT_PARENTHESIS .
+  101 whilecond: LEFT_PARENTHESIS $@10 expression RIGHT_PARENTHESIS .
 
     $default  reduce using rule 101 (whilecond)
 
 
-state 182
+state 181
 
   105 forstmt: forprefix N elist RIGHT_PARENTHESIS N . statement N
 
@@ -3472,7 +3464,7 @@ state 182
     PLUS_PLUS         shift, and go to state 22
     MINUS_MINUS       shift, and go to state 23
 
-    statement   go to state 189
+    statement   go to state 188
     expression  go to state 27
     term        go to state 28
     assignexpr  go to state 29
@@ -3496,26 +3488,26 @@ state 182
     returnstmt  go to state 47
 
 
-state 183
+state 182
 
-   16 expression: expression . PLUS expression
-   17           | expression . MINUS expression
-   18           | expression . MULT expression
-   19           | expression . DIV expression
-   20           | expression . MOD expression
-   21           | expression . GREATER_THAN expression
-   22           | expression . GREATER_OR_EQUAL expression
-   23           | expression . LESS_THAN expression
-   24           | expression . LESS_OR_EQUAL expression
-   26           | expression . EQUALS_EQUALS $@2 expression
-   28           | expression . NOT_EQUALS $@3 expression
-   30           | expression . AND $@4 M expression
-   32           | expression . OR $@5 M expression
+   15 expression: expression . PLUS expression
+   16           | expression . MINUS expression
+   17           | expression . MULT expression
+   18           | expression . DIV expression
+   19           | expression . MOD expression
+   20           | expression . GREATER_THAN expression
+   21           | expression . GREATER_OR_EQUAL expression
+   22           | expression . LESS_THAN expression
+   23           | expression . LESS_OR_EQUAL expression
+   25           | expression . EQUALS_EQUALS $@1 expression
+   27           | expression . NOT_EQUALS $@2 expression
+   29           | expression . AND $@3 M expression
+   31           | expression . OR $@4 M expression
   103 forprefix: forstart elist SEMICOLON M expression . SEMICOLON
 
     AND               shift, and go to state 72
     OR                shift, and go to state 73
-    SEMICOLON         shift, and go to state 190
+    SEMICOLON         shift, and go to state 189
     PLUS              shift, and go to state 75
     MINUS             shift, and go to state 76
     MULT              shift, and go to state 77
@@ -3529,78 +3521,86 @@ state 183
     LESS_OR_EQUAL     shift, and go to state 85
 
 
+state 183
+
+   71 indexedelem: LEFT_BRACKET expression COLON expression RIGHT_BRACKET .
+
+    $default  reduce using rule 71 (indexedelem)
+
+
 state 184
 
-   72 indexedelem: LEFT_BRACKET expression COLON expression RIGHT_BRACKET .
+   59 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS .
 
-    $default  reduce using rule 72 (indexedelem)
+    $default  reduce using rule 59 (call)
 
 
 state 185
 
-   60 call: LEFT_PARENTHESIS funcdef RIGHT_PARENTHESIS LEFT_PARENTHESIS elist RIGHT_PARENTHESIS .
+   63 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS elist RIGHT_PARENTHESIS .
 
-    $default  reduce using rule 60 (call)
+    $default  reduce using rule 63 (methodcall)
 
 
 state 186
 
-   64 methodcall: DOUBLE_DOT ID LEFT_PARENTHESIS elist RIGHT_PARENTHESIS .
+   81 funcdef: funcstart LEFT_PARENTHESIS $@6 idlist $@7 RIGHT_PARENTHESIS . $@8 funcbody
 
-    $default  reduce using rule 64 (methodcall)
+    $default  reduce using rule 80 ($@8)
+
+    $@8  go to state 190
 
 
 state 187
-
-   82 funcdef: funcstart LEFT_PARENTHESIS $@7 idlist $@8 RIGHT_PARENTHESIS . $@9 block
-
-    $default  reduce using rule 81 ($@9)
-
-    $@9  go to state 191
-
-
-state 188
 
    91 idlist: arg COMMA idlist .
 
     $default  reduce using rule 91 (idlist)
 
 
-state 189
+state 188
 
   105 forstmt: forprefix N elist RIGHT_PARENTHESIS N statement . N
 
     $default  reduce using rule 106 (N)
 
-    N  go to state 192
+    N  go to state 191
 
 
-state 190
+state 189
 
   103 forprefix: forstart elist SEMICOLON M expression SEMICOLON .
 
     $default  reduce using rule 103 (forprefix)
 
 
-state 191
+state 190
 
-   82 funcdef: funcstart LEFT_PARENTHESIS $@7 idlist $@8 RIGHT_PARENTHESIS $@9 . block
+   81 funcdef: funcstart LEFT_PARENTHESIS $@6 idlist $@7 RIGHT_PARENTHESIS $@8 . funcbody
 
     LEFT_BRACKET  shift, and go to state 17
 
-    block       go to state 193
+    block       go to state 192
     blockstart  go to state 36
+    funcbody    go to state 193
 
 
-state 192
+state 191
 
   105 forstmt: forprefix N elist RIGHT_PARENTHESIS N statement N .
 
     $default  reduce using rule 105 (forstmt)
 
 
+state 192
+
+   82 funcbody: block .
+
+    $default  reduce using rule 82 (funcbody)
+
+
 state 193
 
-   82 funcdef: funcstart LEFT_PARENTHESIS $@7 idlist $@8 RIGHT_PARENTHESIS $@9 block .
+   81 funcdef: funcstart LEFT_PARENTHESIS $@6 idlist $@7 RIGHT_PARENTHESIS $@8 funcbody .
 
-    $default  reduce using rule 82 (funcdef)
+    $default  reduce using rule 81 (funcdef)
