@@ -1,0 +1,8 @@
+a = 2;
+
+c = 4;
+
+function A(){
+	b = 2;
+	return b;
+}
