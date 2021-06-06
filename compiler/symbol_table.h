@@ -1,6 +1,8 @@
 #ifndef __SYM_TABLE__
 #define __SYM_TABLE__
 
+#include "stack.h"
+
 /*
 * Structs used in bison
 */
@@ -10,6 +12,23 @@
 #define HASH_MULTIPLIER 65599
 
 extern int scope;
+
+typedef enum scopespace_t {
+    programvar,
+    functionlocal,
+    formalarg
+}scopespace_t;
+
+typedef struct OffsetStack_t{
+    struct offset *next;
+    scopespace_t scspace_off;
+}OffsetStack;
+
+typedef struct func_jump_stack_t{
+    struct func_jump_stack *next;
+    unsigned quad;
+}func_jump_stack;
+
 
 enum Type{
     VAR,
@@ -47,6 +66,10 @@ typedef struct SymTableEntry {
         Function *funcValue;
     } value;
 
+    scopespace_t scspace;
+    unsigned offset;
+    unsigned scope;
+
     struct SymTableEntry *nextEntry;    // next entry
 
     struct SymTableEntry *nextInScope;  // next in linked list by scope
@@ -79,10 +102,18 @@ SymTableEntry* lookup_active(SymTable *t, char *name, int scope);
 SymTableEntry *lookup_temp(SymTable *t, int scope);
 
 // Stack
-CallStack *init_call_stack();
-void push(CallStack *s, SymTableEntry *e);
-void pop(CallStack *s);
+// CallStack *init_call_stack();
+// void push(CallStack *s, SymTableEntry *e);
+// void pop(CallStack *s);
+// SymTableEntry *top(CallStack *s);
 void printCallStack(CallStack *s, int line);
-int is_valid(CallStack *s, SymTableEntry *target, int curScope);
+int is_valid(Stack *s, SymTableEntry *target, int curScope);
+scopespace_t push_offset(OffsetStack *s, scopespace_t scspace);
+scopespace_t pop_and_top_offset(OffsetStack *s);
+OffsetStack * init_offset_stack();
+unsigned pop_funcJump(func_jump_stack *s);
+func_jump_stack *init_funcJump_stack();
+func_jump_stack *push_func_jump(func_jump_stack *jumpFunc, unsigned quad);
+
 
 #endif
