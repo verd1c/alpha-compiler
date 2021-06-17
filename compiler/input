@@ -1,0 +1,9 @@
+function test(a, b, c){
+    var1 = a + 5;
+    var2 = b - 5;
+    var3 = c + 20;
+    print(var1, var2, var3);
+    return;
+}
+
+test(1, 7, 52);

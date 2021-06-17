@@ -1,28 +1,45 @@
 ﻿  Parameter format not correct - "parser.c".
   Parameter format not correct - "parser.h".
   Parameter format not correct - "parser.output".
-  parser/parser.y:125.17-26: warning: type clash on default action: <exprValue> != <>
-  parser/parser.y:139.19-22: warning: type clash on default action: <exprValue> != <>
   conflicts: 1 shift/reduce
   intermediate.c
-C:\Users\Jason\source\repos\alpha\parser\intermediate.c(68,19): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(140,19): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(270,16): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(390,24): warning C4244: 'function': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(391,44): warning C4244: 'function': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(482,18): warning C4018: '<': signed/unsigned mismatch
   parser.c
-parser/parser.y(648,18): warning C4018: '<=': signed/unsigned mismatch
-parser/parser.y(655,20): warning C4477: 'printf' : format string '%-7d' requires an argument of type 'int', but variadic argument 1 has type 'double'
-parser/parser.y(671,20): warning C4477: 'printf' : format string '%-7d' requires an argument of type 'int', but variadic argument 1 has type 'double'
-parser/parser.y(687,20): warning C4477: 'printf' : format string '%-7d' requires an argument of type 'int', but variadic argument 1 has type 'double'
-parser/parser.y(709,17): warning C4013: 'exit' undefined; assuming extern returning int
+compiler/parser.c(436,24): warning C4273: 'malloc': inconsistent dll linkage
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\corecrt_malloc.h(97,15): message : see previous definition of 'malloc'
+compiler/parser.c(443,19): warning C4273: 'free': inconsistent dll linkage
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\corecrt_malloc.h(85,14): message : see previous definition of 'free'
+compiler/parser.y(301,108): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+compiler/parser.y(320,109): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+compiler/parser.y(966,110): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+compiler/parser.y(968,36): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'double'
+compiler/parser.y(989,32): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'double'
+compiler/parser.y(1133,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1140,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1140,97): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1141,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1179,83): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1180,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1182,104): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+compiler/parser.y(1189,78): warning C4244: '=': conversion from 'double' to 'llist_t', possible loss of data
+compiler/parser.y(1202,105): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1203,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1204,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1205,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1205,97): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1208,105): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+compiler/parser.y(1224,73): warning C4133: '=': incompatible types - from 'Expression *' to 'Stmt *'
+compiler/parser.y(792,51): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
   scanner.c
-parser/lex.l(72,23): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
-parser/lex.l(77,23): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
-parser/scanner.c(683,10): warning C4102: 'find_rule': unreferenced label
-parser/scanner.c(1226,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-parser/scanner.c(1388,2): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-parser/scanner.c(1577,41): warning C4996: 'fileno': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _fileno. See online help for details.
-  symbol_table.c
-  tools.c
-C:\Users\Jason\source\repos\alpha\parser\tools.c(10,11): warning C4101: 'iter': unreferenced local variable
-C:\Users\Jason\source\repos\alpha\parser\tools.c(10,18): warning C4101: 's': unreferenced local variable
-C:\Users\Jason\source\repos\alpha\parser\tools.c(11,18): warning C4101: 'i': unreferenced local variable
+lex.l(77,23): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+lex.l(82,23): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+scanner.c(683,10): warning C4102: 'find_rule': unreferenced label
+scanner.c(1231,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+scanner.c(1393,2): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+scanner.c(1582,41): warning C4996: 'fileno': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _fileno. See online help for details.
   Generating Code...
   alpha.vcxproj -> C:\Users\Jason\source\repos\alpha\x64\Debug\alpha.exe

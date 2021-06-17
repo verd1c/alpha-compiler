@@ -2,11 +2,14 @@ c:\users\jason\source\repos\alpha\x64\debug\vc142.pdb
 c:\users\jason\source\repos\alpha\x64\debug\vc142.idb
 c:\users\jason\source\repos\alpha\x64\debug\tools.obj
 c:\users\jason\source\repos\alpha\x64\debug\symbol_table.obj
+c:\users\jason\source\repos\alpha\x64\debug\stack.obj
 c:\users\jason\source\repos\alpha\x64\debug\scanner.obj
 c:\users\jason\source\repos\alpha\x64\debug\parser.obj
 c:\users\jason\source\repos\alpha\x64\debug\intermediate.obj
-c:\users\jason\source\repos\alpha\x64\debug\alpha.ilk
+c:\users\jason\source\repos\alpha\x64\debug\consts.obj
+c:\users\jason\source\repos\alpha\x64\debug\binary.obj
 c:\users\jason\source\repos\alpha\x64\debug\alpha.exe
+c:\users\jason\source\repos\alpha\x64\debug\alpha.ilk
 c:\users\jason\source\repos\alpha\x64\debug\alpha.pdb
 c:\users\jason\source\repos\alpha\x64\debug\alpha.tlog\cl.command.1.tlog
 c:\users\jason\source\repos\alpha\x64\debug\alpha.tlog\cl.read.1.tlog

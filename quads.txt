@@ -1,0 +1,109 @@
+ 1  : ASSIGN         f              1   
+ 2  : ASSIGN         ^0             f             
+ 3  : ASSIGN         e              ^0            
+ 4  : ASSIGN         ^1             e             
+ 5  : ASSIGN         d              ^1            
+ 6  : ASSIGN         ^2             d             
+ 7  : ASSIGN         c              ^2            
+ 8  : ASSIGN         ^3             c             
+ 9  : ASSIGN         b              ^3            
+ 10 : ASSIGN         ^4             b             
+ 11 : ASSIGN         a              ^4            
+ 12 : ASSIGN         ^5             a             
+ 13 : IF_LESS        a              b              19  
+ 14 : JUMP           15  
+ 15 : IF_GREATER     c              d              17  
+ 16 : JUMP           21  
+ 17 : IF_LESS        e              f              19  
+ 18 : JUMP           21  
+ 19 : ASSIGN         ^4             true  
+ 20 : JUMP           22  
+ 21 : ASSIGN         ^4             false 
+ 22 : ASSIGN         x              ^4            
+ 23 : ASSIGN         ^5             x             
+ 24 : IF_EQ          x              true   28  
+ 25 : JUMP           26  
+ 26 : IF_EQ          x              true   30  
+ 27 : JUMP           28  
+ 28 : IF_EQ          a              true   30  
+ 29 : JUMP           32  
+ 30 : ASSIGN         ^2             true  
+ 31 : JUMP           33  
+ 32 : ASSIGN         ^2             false 
+ 33 : ASSIGN         y              ^2            
+ 34 : ASSIGN         ^3             y             
+ 35 : IF_EQ          x              true   37  
+ 36 : JUMP           45  
+ 37 : FUNCSTART      $0            
+ 38 : RET            false 
+ 39 : FUNCEND        $0            
+ 40 : PARAM          2   
+ 41 : CALL           $0            
+ 42 : GETRETVAL      ^0            
+ 43 : IF_EQ          ^0             true   50  
+ 44 : JUMP           45  
+ 45 : FUNCSTART      $1            
+ 46 : RET            true  
+ 47 : FUNCEND        $1            
+ 48 : IF_EQ          $1             true   50  
+ 49 : JUMP           52  
+ 50 : ASSIGN         ^2             true  
+ 51 : JUMP           53  
+ 52 : ASSIGN         ^2             false 
+ 53 : ASSIGN         x              ^2            
+ 54 : ASSIGN         ^3             x             
+ 55 : IF_EQ          a              true   63  
+ 56 : JUMP           57  
+ 57 : IF_EQ          b              true   63  
+ 58 : JUMP           59  
+ 59 : ASSIGN         y              x             
+ 60 : ASSIGN         ^1             y             
+ 61 : IF_EQ          ^1             true   63  
+ 62 : JUMP           65  
+ 63 : ASSIGN         ^2             true  
+ 64 : JUMP           66  
+ 65 : ASSIGN         ^2             false 
+ 66 : IF_EQ          ^2             true   68  
+ 67 : JUMP           93  
+ 68 : ASSIGN         i              0   
+ 69 : ASSIGN         ^3             i             
+ 70 : IF_LESS        i              5    72  
+ 71 : JUMP           76  
+ 72 : IF_EQ          a              true   74  
+ 73 : JUMP           76  
+ 74 : ASSIGN         ^5             true  
+ 75 : JUMP           77  
+ 76 : ASSIGN         ^5             false 
+ 77 : IF_EQ          ^5             true   82  
+ 78 : JUMP           89  
+ 79 : ADD            i              i              1   
+ 80 : ASSIGN         ^6             i             
+ 81 : JUMP           70  
+ 82 : PARAM          i             
+ 83 : CALL           print         
+ 84 : GETRETVAL      ^7            
+ 85 : JUMP           79  
+ 86 : ADD            i              i              1   
+ 87 : ASSIGN         ^8             i             
+ 88 : JUMP           79  
+ 89 : PARAM          y             
+ 90 : CALL           print         
+ 91 : GETRETVAL      ^9            
+ 92 : JUMP           110 
+ 93 : IF_EQ          y              true   97  
+ 94 : JUMP           95  
+ 95 : ASSIGN         ^10            true  
+ 96 : JUMP           98  
+ 97 : ASSIGN         ^10            false 
+ 98 : IF_EQ          ^10            true   100 
+ 99 : JUMP           110 
+ 100: IF_EQ          y              true   104 
+ 101: JUMP           102 
+ 102: ASSIGN         ^11            true  
+ 103: JUMP           105 
+ 104: ASSIGN         ^11            false 
+ 105: PARAM          ^11           
+ 106: CALL           print         
+ 107: GETRETVAL      ^12           
+ 108: JUMP           110 
+ 109: JUMP           93  

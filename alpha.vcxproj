@@ -18,6 +18,29 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="compiler\binary.c" />
+    <ClCompile Include="compiler\consts.c" />
+    <ClCompile Include="compiler\intermediate.c" />
+    <ClCompile Include="compiler\parser.c" />
+    <ClCompile Include="compiler\scanner.c" />
+    <ClCompile Include="compiler\stack.c" />
+    <ClCompile Include="compiler\symbol_table.c" />
+    <ClCompile Include="compiler\tools.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="compiler\parser.y" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="compiler\binary.h" />
+    <ClInclude Include="compiler\consts.h" />
+    <ClInclude Include="compiler\intermediate.h" />
+    <ClInclude Include="compiler\lex.h" />
+    <ClInclude Include="compiler\parser.h" />
+    <ClInclude Include="compiler\stack.h" />
+    <ClInclude Include="compiler\symbol_table.h" />
+    <ClInclude Include="compiler\tools.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -122,10 +145,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PreBuildEvent>
-      <Command>del /f parser/parser.c
-del /f parser/parser.h
-del /f parser/parser.output
-bison -y -d --output=parser/parser.c parser/parser.y -v
+      <Command>del /f compiler/parser.c
+del /f compiler/parser.h
+del /f compiler/parser.output
+bison -y -d --output=compiler/parser.c compiler/parser.y -v
 </Command>
     </PreBuildEvent>
     <CustomBuildStep>
@@ -149,23 +172,6 @@ bison -y -d --output=parser/parser.c parser/parser.y -v
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="parser\intermediate.c" />
-    <ClCompile Include="parser\parser.c" />
-    <ClCompile Include="parser\scanner.c" />
-    <ClCompile Include="parser\symbol_table.c" />
-    <ClCompile Include="parser\tools.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="parser\intermediate.h" />
-    <ClInclude Include="parser\lex.h" />
-    <ClInclude Include="parser\parser.h" />
-    <ClInclude Include="parser\symbol_table.h" />
-    <ClInclude Include="parser\tools.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="parser\parser.y" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
