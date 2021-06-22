@@ -1,31 +1,37 @@
-a = b = c = d = e = f = 1;
+function f() {}
+tKey = [3];
 
-i = "helo world";
+t = [ 
+	{ print : "print libFunc" }, 
+	{ typeof : "typeof libFunc" }, 
+	{ f : "f userFunc" }, 
+	{ tKey : "tKey table" }, 
+	{ true : "Trueeeeee" }, 
+	{ "lala" : "lala string key" } 
+];
 
-g = print;
+print("must print >print libFunc<: ", t[print], "\n"); // print libFunc
+print("must print >tKey table<: ", t[tKey], "\n"); // tKey table
 
-function A(x, y, z){
-	o = 2.5;
-	km = 24;
-	hello = 2;
-}
+t2 = tKey;
+print("must print >tKey table<: ", t[t2], "\n"); // tKey table
 
-x = a < b or c > d and e < f;
+t2 = [3];
+print("must print nil or run time error: ", t[t2], "\n");
 
-y = not x and x or a;
 
-x = x and (function (){ return false;})(2) or (function(){return true;});
+print("must print Trueeeee: ", t[true], "\n"); // Trueeee
 
-if (a or b or (y = x)) {
-	for (local i = 0; i < 5 and a; ++i) {
-		print(i);
-		continue;	
-		++i;
-	}
-	print(y);
-}
-else
-	while (not y) {
-		print(not y);
-		break;
-	}
+func = f;
+print("must print >f userFunc<: ", t[f], "\n"); // f userFunc
+print("must print >f userFunc<: ", t[func], "\n"); // f userFunc
+
+func = [
+	{"()" : (function (t, msg){
+		print("Call ", t.class, "'s print\n");
+		print(msg);
+	})},
+	{"class": "Functor"}
+];
+
+func("LALA\n");

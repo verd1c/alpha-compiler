@@ -36,6 +36,12 @@
     <ClCompile Include="compiler\tools.c">
       <Filter>Source Files\compiler</Filter>
     </ClCompile>
+    <ClCompile Include="compiler\consts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compiler\binary.c">
+      <Filter>Source Files\compiler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="compiler\parser.y">
@@ -59,6 +65,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="compiler\lex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\consts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compiler\binary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

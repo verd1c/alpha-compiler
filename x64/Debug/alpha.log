@@ -1,60 +1,37 @@
 ﻿  Parameter format not correct - "parser.c".
   Parameter format not correct - "parser.h".
   Parameter format not correct - "parser.output".
-  compiler/parser.y:1030.17-19: warning: type clash on default action: <strValue> != <exprValue>
-  compiler/parser.y:1031.19-34: warning: type clash on default action: <strValue> != <exprValue>
   conflicts: 1 shift/reduce
   intermediate.c
-C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(91,19): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
-C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(202,16): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
-C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(322,24): warning C4244: 'function': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(323,44): warning C4244: 'function': conversion from 'double' to 'float', possible loss of data
-C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(369,33): warning C4028: formal parameter 1 different from declaration
-C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(369,45): warning C4029: declared formal parameter list different from definition
-C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(425,18): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(419,11): warning C4101: 'e': unreferenced local variable
+C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(140,19): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(276,16): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(396,24): warning C4244: 'function': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(397,44): warning C4244: 'function': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(488,18): warning C4018: '<': signed/unsigned mismatch
   parser.c
-C:\Users\Jason\source\repos\alpha\compiler\tools.h(6,1): warning C4005: 'TRUE': macro redefinition
-C:\Users\Jason\source\repos\alpha\compiler\parser.h(105): message : see previous definition of 'TRUE'
-C:\Users\Jason\source\repos\alpha\compiler\tools.h(7,1): warning C4005: 'FALSE': macro redefinition
-C:\Users\Jason\source\repos\alpha\compiler\parser.h(106): message : see previous definition of 'FALSE'
-compiler/parser.c(224,1): warning C4005: 'TRUE': macro redefinition
-C:\Users\Jason\source\repos\alpha\compiler\tools.h(6): message : see previous definition of 'TRUE'
-compiler/parser.c(225,1): warning C4005: 'FALSE': macro redefinition
-C:\Users\Jason\source\repos\alpha\compiler\tools.h(7): message : see previous definition of 'FALSE'
-compiler/parser.c(431,24): warning C4273: 'malloc': inconsistent dll linkage
+compiler/parser.c(436,24): warning C4273: 'malloc': inconsistent dll linkage
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\corecrt_malloc.h(97,15): message : see previous definition of 'malloc'
-compiler/parser.c(438,19): warning C4273: 'free': inconsistent dll linkage
+compiler/parser.c(443,19): warning C4273: 'free': inconsistent dll linkage
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\corecrt_malloc.h(85,14): message : see previous definition of 'free'
-compiler/parser.y(269,24): warning C4047: 'function': 'Expr *' differs in levels of indirection from 'int'
-compiler/parser.y(269,19): warning C4024: 'mk_nbe_vmasm': different types for formal and actual parameter 1
-compiler/parser.y(269,43): warning C4020: 'mk_nbe_vmasm': too many actual parameters
-compiler/parser.y(283,108): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
-compiler/parser.y(288,23): warning C4047: 'function': 'Expr *' differs in levels of indirection from 'int'
-compiler/parser.y(288,19): warning C4024: 'mk_nbe_vmasm': different types for formal and actual parameter 1
-compiler/parser.y(288,42): warning C4020: 'mk_nbe_vmasm': too many actual parameters
-compiler/parser.y(302,109): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
-compiler/parser.y(726,96): warning C4133: '=': incompatible types - from 'char *' to 'Expression *'
-compiler/parser.y(732,131): warning C4133: '=': incompatible types - from 'Expr *' to 'char *'
-compiler/parser.y(742,47): warning C4133: '=': incompatible types - from 'Expr *' to 'char *'
-compiler/parser.y(746,131): warning C4133: '=': incompatible types - from 'Expr *' to 'char *'
-compiler/parser.y(756,47): warning C4133: '=': incompatible types - from 'Expr *' to 'char *'
-compiler/parser.y(1062,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(1069,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(1069,97): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(1070,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(1108,83): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(1109,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(1111,104): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
-compiler/parser.y(1118,78): warning C4244: '=': conversion from 'double' to 'llist_t', possible loss of data
-compiler/parser.y(1131,105): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(1132,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(1133,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(1134,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(1134,97): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
-compiler/parser.y(1137,105): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
-compiler/parser.y(1153,73): warning C4133: '=': incompatible types - from 'Expression *' to 'Stmt *'
-compiler/parser.y(772,51): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+compiler/parser.y(301,108): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+compiler/parser.y(320,109): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+compiler/parser.y(977,110): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+compiler/parser.y(1130,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1137,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1137,97): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1138,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1176,83): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1177,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1179,104): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+compiler/parser.y(1186,78): warning C4244: '=': conversion from 'double' to 'llist_t', possible loss of data
+compiler/parser.y(1199,105): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1200,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1201,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1202,64): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1202,97): warning C4244: 'function': conversion from 'double' to 'unsigned int', possible loss of data
+compiler/parser.y(1205,105): warning C4244: 'function': conversion from 'double' to 'int', possible loss of data
+compiler/parser.y(1221,73): warning C4133: '=': incompatible types - from 'Expression *' to 'Stmt *'
+compiler/parser.y(786,51): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
   scanner.c
 lex.l(77,23): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
 lex.l(82,23): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
@@ -62,16 +39,5 @@ scanner.c(683,10): warning C4102: 'find_rule': unreferenced label
 scanner.c(1231,1): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 scanner.c(1393,2): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
 scanner.c(1582,41): warning C4996: 'fileno': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _fileno. See online help for details.
-  stack.c
-  symbol_table.c
-C:\Users\Jason\source\repos\alpha\compiler\symbol_table.c(560,24): warning C4133: '=': incompatible types - from 'offset *' to 'OffsetStack *'
-C:\Users\Jason\source\repos\alpha\compiler\symbol_table.c(562,20): warning C4133: '=': incompatible types - from 'OffsetStack *' to 'offset *'
-C:\Users\Jason\source\repos\alpha\compiler\symbol_table.c(578,28): warning C4133: '=': incompatible types - from 'offset *' to 'OffsetStack *'
-  tools.c
-C:\Users\Jason\source\repos\alpha\compiler\tools.c(10,11): warning C4101: 'iter': unreferenced local variable
-C:\Users\Jason\source\repos\alpha\compiler\tools.c(10,18): warning C4101: 's': unreferenced local variable
-C:\Users\Jason\source\repos\alpha\compiler\tools.c(11,18): warning C4101: 'i': unreferenced local variable
   Generating Code...
-C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(25): warning C4715: 'is_arith': not all control paths return a value
-C:\Users\Jason\source\repos\alpha\compiler\intermediate.c(476): warning C4715: 'currscopeoffset': not all control paths return a value
   alpha.vcxproj -> C:\Users\Jason\source\repos\alpha\x64\Debug\alpha.exe

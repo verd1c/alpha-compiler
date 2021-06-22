@@ -748,7 +748,7 @@ member      :   lvalue DOT ID
                 | lvalue LEFT_BRACE expression RIGHT_BRACE  
                     {
                         Expr *res;
-                        printf("Hallo in here for %s\n", $1->sym->value.varValue->name);
+                        //printf("Hallo in here for %s\n", $1->sym->value.varValue->name);
                         $1 = emit_if_table_item(symTable, scope, $1);
                         res = expr(TABLEITEM_E);
                         res->sym = $1->sym;
@@ -802,7 +802,7 @@ call        :   call LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
                                                     }else
                                                         insert(symTable, e->value.varValue->name, scope, yylineno, LOCAL_VAR);
                                                 }else if(!is_valid(_call_stack, e, scope)){
-                                                    if(e->value.varValue->scope != scope && e->value.varValue->scope != 0){
+                                                    if(e->value.varValue->scope != scope){
                                                         printf("input:%d: error: could not access variable %s\n", yylineno, e->value.varValue->name);
                                                         _valid_comp = 0;
                                                         YYABORT;
@@ -817,20 +817,15 @@ call        :   call LEFT_PARENTHESIS elist RIGHT_PARENTHESIS
                                             Expr *h = $1;
 
                                             if($2->elist->type == NIL_E){
-                                                $1 = member_expr(symTable, scope, $1, orig_name); 
-                                                emit_if_table_item(symTable, scope, $1);
-
-                                                $1->next = NULL;
-                                                $$ = make_call(symTable, scope, $1, $1);
+                                                 $1 = emit_if_table_item(symTable, scope, member_expr(symTable, scope, $1, orig_name));
+                                                 $1->next = NULL;
+                                                 $$ = make_call(symTable, scope, $1, $1);
                                             }else{
-                                               
-    
-                                                $1 = member_expr(symTable, scope, $1, orig_name);
-                                                emit_if_table_item(symTable, scope, $1);
-
+                                                //$1 = member_expr(symTable, scope, $1, orig_name);
+                                                emit_if_table_item(symTable, scope, member_expr(symTable, scope, $1, orig_name));
                                                 $1->next = $2->elist;
                                                 $2->elist = $1;
-                    
+
                                                 $$ = make_call(symTable, scope, $1, reverse_elist(&$2->elist));
                                             }
 
@@ -1212,12 +1207,12 @@ N           :       {
 
 returnstmt  :   RETURN SEMICOLON
                     {
-                        emit(RET_I, NULL, NULL, NULL, 0, yylineno);
+                        emit(RET_I, NULL, NULL, NULL, next_quad(), yylineno);
                     }
                 | RETURN expression SEMICOLON
                     {
                         mk_bool_vmasm($2);
-                        emit(RET_I, $2, NULL, NULL, 0, yylineno);
+                        emit(RET_I, $2, NULL, NULL, next_quad(), yylineno);
                         $$ = $2;
                     }
                 ;
